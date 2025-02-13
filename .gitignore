@@ -1,0 +1,10 @@
+.idea/
+.vscode/
+node_modules/
+*.map
+.DS_Store
+.sourcemaps
+dist/
+android/
+resources/android/**/*
+.env

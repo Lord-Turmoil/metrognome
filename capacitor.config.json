@@ -1,0 +1,10 @@
+{
+  "appId": "top.tony.metrognome",
+  "appName": "metrognome",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false
+    }
+  }
+}

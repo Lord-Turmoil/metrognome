@@ -1,0 +1,124 @@
+body {
+    background-image: linear-gradient(315deg, #fdcbf1 0%, #fdcbf1 1%, #e6dee9 100%);
+}
+
+hr {
+    background-image: linear-gradient(90deg, transparent 0%, #3f3f3f 50%, transparent 100%);
+}
+
+#play {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    background-size: 200% 200%;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(135deg, #FFF720 5%, #3CD500 45%, #FFB199 55%, #FF0844 95%);
+    transition: 0.5s;
+}
+
+#play:hover {
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+    transform: scale(1.1);
+}
+
+.play {
+    background-position: 100% 100%;
+}
+
+.stop {
+    background-position: 0% 0%;
+}
+
+.minus {
+    background-image: linear-gradient(135deg, #EE9AE5 10%, #5961F9 100%);
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    transition: 0.5s;
+}
+
+.minus:hover {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    transform: scale(1.1);
+}
+
+.plus {
+    background-image: linear-gradient(135deg, #FCCF31 10%, #F55555 100%);
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    transition: 0.5s;
+}
+
+.plus:hover {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    transform: scale(1.1);
+}
+
+#stress {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    background-size: 200% 200%;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(135deg, #FFF720 5%, #3CD500 45%, #FFB199 55%, #FF0844 95%);
+    transition: 0.5s;
+}
+
+#stress:hover {
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+    transform: scale(1.1);
+}
+
+.yes {
+    background-position: 0% 0%;
+}
+
+.no {
+    background-position: 100% 100%;
+}
+
+.dot {
+    background-size: 200% 200%;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(135deg, #a7a6cb 5%, #8989ba 45%, #FFF720 55%, #3CD500 95%);
+    background-position: 0% 0%;
+    transition: 0.1s;
+}
+
+#dot-list li {
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+}
+
+#dot-list .active {
+    transform: scale(1.1);
+    background-position: 100% 100%;
+}
+
+#sub-box .sub-row img {
+    filter: invert(40%);
+    transition: 0.5s;
+}
+
+#sub-box .sub-row img:hover {
+    filter: invert(70%);
+}
+
+#sub-box .sub-row .active img {
+    filter: invert(100%);
+    transform: scale(1.2);
+}
+
+#wave-list li {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    background-size: 300% 100%;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(135deg, #FFF720 5%, #3CD500 45%, #FFB199 55%, #FF0844 95%);
+    background-position: 100% 100%;
+    transition: 0.5s;
+}
+
+#wave-list li:hover {
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+    transform: scale(1.1);
+}
+
+#wave-list .active {
+    background-position: 0% 0%;
+}
+
+input {
+    background-color: transparent;
+}

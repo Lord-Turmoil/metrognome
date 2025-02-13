@@ -1,0 +1,47 @@
+@font-face {
+    font-family: 'Bauhaus';
+    src: url('../assets/fonts/Bauhaus93.eot');
+    src: url('../assets/fonts/Bauhaus93.eot?#iefix') format('embedded-opentype'),
+        url('../assets/fonts/Bauhaus93.woff2') format('woff2'),
+        url('../assets/fonts/Bauhaus93.woff') format('woff'),
+        url('../assets/fonts/Bauhaus93.ttf') format('truetype'),
+        url('../assets/fonts/Bauhaus93.svg#Bauhaus93') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+body * {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+.clearfix:before,
+.clearfix::after {
+    content: "";
+    display: table;
+}
+
+.clearfix::after {
+    clear: both;
+}
+
+.clearfix {
+    zoom: 1;
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    border: none;
+}
+
+* {
+    font-family: 'Bauhaus', sans-serif;
+}

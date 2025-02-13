@@ -1,0 +1,32 @@
+{
+  "name": "metrognome",
+  "version": "1.0.0",
+  "description": "Clean and simple metronome app",
+  "type": "module",
+  "keywords": [
+    "capacitor",
+    "mobile",
+    "metronome",
+    "music"
+  ],
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "watch": "vite build --watch",
+    "preview": "vite preview",
+    "sync": "npm run build && cap sync",
+    "open": "cap open android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.0.1",
+    "@capacitor/core": "^7.0.1",
+    "@capacitor/splash-screen": "latest"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^7.0.1",
+    "vite": "^5.4.2"
+  },
+  "author": "Tony S.",
+  "license": "MIT"
+}

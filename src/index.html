@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Metrognome</title>
+    <meta name="viewport"
+        content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="description" content="A simple online metronome">
+    <meta name="keywords" content="metronome, online, music, tool">
+    <meta name="author" content="Tony's Studio">
+    <script type="module"
+        src="https://unpkg.com/@ionic/pwa-elements@latest/dist/ionicpwaelements/ionicpwaelements.esm.js"></script>
+    <script nomodule
+        src="https://unpkg.com/@ionic/pwa-elements@latest/dist/ionicpwaelements/ionicpwaelements.js"></script>
+    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="stylesheet" href="./css/index.css" />
+    <link rel="stylesheet" href="./css/layout.css" />
+    <link rel="stylesheet" href="./css/decoration.css" />
+</head>
+
+<body>
+    <header>
+        <h1>Metrognome</h1>
+    </header>
+    <hr>
+    <div class="banner">
+        <marquee behavior="scroll" direction="left">
+            <p>Metrognome, just metronome &mdash; Made with 💖 by Tony's Studio</p>
+        </marquee>
+    </div>
+    <hr>
+    <div class="main">
+        <!-- BPM -->
+        <div class="section">
+            <h3>BPM</h3>
+            <input type="number" id="bpm" placeholder="30 ~ 240" value="60">
+            <div id="bpm-ctrl">
+                <ul>
+                    <li>
+                        <button class="minus"><img src="./assets/imgs/control/minus-5.png" alt="-5"></button>
+                    </li>
+                    <li>
+                        <button class="minus"><img src="./assets/imgs/control/minus-1.png" alt="-1"></button>
+                    </li>
+                    <li>&nbsp;</li>
+                    <li>
+                        <button class="plus"><img src="./assets/imgs/control/plus-1.png" alt="+1"></button>
+                    </li>
+                    <li>
+                        <button class="plus"><img src="./assets/imgs/control/plus-5.png" alt="+5"></button>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <ul id="dot-list">
+                    <li class="dot"></li>
+                    <li class="dot"></li>
+                    <li class="dot"></li>
+                    <li class="dot"></li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <!-- Play button -->
+        <div class="section">
+            <button id="play">Play</button>
+        </div>
+        <hr>
+        <!-- Beats -->
+        <div class="section">
+            <h3>Beats</h3>
+            <div id="beats-ctrl">
+                <button class="minus "><img src="./assets/imgs/control/minus.svg" alt="-"></button>
+                <input type="number" id="beats" placeholder="1 ~ 8" value="4">
+                <button class="plus"><img src="./assets/imgs/control/plus.svg" alt="+"></button>
+            </div>
+            <h3>Stress First</h3>
+            <button id="stress">Yes</button>
+        </div>
+        <hr>
+        <!-- Subdivisions -->
+        <div class="section">
+            <h3 class="text-3xl my-1">Subdivisions</h3>
+            <div id="sub-box">
+                <div class="sub-row">
+                    <div class="sub-item active"><img src="./assets/imgs/sub/4.png" alt="4"></div>
+                    <div class="sub-item"><img src="./assets/imgs/sub/8-8.png" alt="8-8"></div>
+                    <div class="sub-item"><img src="./assets/imgs/sub/8-16-16.png" alt="8-16-16"></div>
+                    <div class="sub-item"><img src="./assets/imgs/sub/16-16-8.png" alt="16-16-8"></div>
+                </div>
+                <div class="sub-row">
+                    <div class="sub-item"><img src="./assets/imgs/sub/16-16-16-16.png" alt="16-16-16-16"></div>
+                    <div class="sub-item"><img src="./assets/imgs/sub/8-8-8.png" alt="8-8-8"></div>
+                    <div class="sub-item"><img src="./assets/imgs/sub/8dot-16.png" alt="8dot-16"></div>
+                    <div class="sub-item"><img src="./assets/imgs/sub/16-8dot.png" alt="16-8dot"></div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <!-- Sound style -->
+        <div class="section">
+            <h3>Sound Style</h3>
+            <ul id="wave-list">
+                <li class="wave-item active"><img src="./assets/imgs/control/square-wave.svg" alt="Square"></li>
+                <li class="wave-item"><img src="./assets/imgs/control/sawtooth-wave.svg" alt="Sawtooth"></li>
+                <li class="wave-item"><img src="./assets/imgs/control/sine-wave.svg" alt="Sine"></li>
+                <li class="wave-item"><img src="./assets/imgs/control/triangle-wave.svg" alt="Triangle"></li>
+            </ul>
+        </div>
+    </div>
+    <hr>
+    <footer class="clearfix">
+        <div class="badges">
+            <div class="badge">
+                <a href="https://github.com/Lord-Turmoil/metrognome" target="_blank">
+                    <img src="https://img.shields.io/badge/metrognome-GitHub-purple?style=plastic&logo=github"
+                        alt="GitHub">
+                </a>
+            </div>
+        </div>
+        <div class="copyright">
+            <a href="https://www.tonys-studio.top" target="_blank"><span>Copyright &copy; Tony's Studio <span
+                        id="year">2023</span></span></a>
+        </div>
+    </footer>
+    <script src="./js/index.js" type="module"></script>
+</body>
+
+</html>
