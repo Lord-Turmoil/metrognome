@@ -18,6 +18,7 @@
     "open": "cap open android"
   },
   "dependencies": {
+    "@capacitor-community/keep-awake": "^7.0.0",
     "@capacitor/android": "^7.0.1",
     "@capacitor/core": "^7.0.1",
     "@capacitor/splash-screen": "latest"
@@ -28,5 +29,12 @@
     "vite": "^5.4.2"
   },
   "author": "Tony S.",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lord-Turmoil/metrognome"
+  },
+  "bugs": {
+    "url": "https://github.com/Lord-Turmoil/metrognome/issues"
+  }
 }

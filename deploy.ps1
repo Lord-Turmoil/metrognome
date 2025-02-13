@@ -44,10 +44,6 @@ if (-not $build) {
     exit 1
 }
 
-# Build project
-Write-Host "Building project"
-./build.ps1
-
 # Pack build folder into tar.gz
 Write-Host "Packing build folder into tar.gz"
 $randomString = -join ((65..90) + (97..122) | Get-Random -Count 10 | % {[char]$_})
