@@ -3,6 +3,7 @@ import { Metronome } from './modules/metronome.js';
 import { KeepAwake } from '@capacitor-community/keep-awake';
 import { Capacitor } from '@capacitor/core';
 import { LanguageManager } from './language/language.js';
+import { WEB_URL } from './private.js';
 
 let metronome;
 let language;
@@ -37,4 +38,8 @@ window.onload = () => {
 
     const platform = Capacitor.getPlatform();
     document.getElementById(`platform-${platform}`).style.display = "block";
+
+    document.getElementById("title").onclick = () => {
+        window.open(WEB_URL, "_blank");
+    };
 };

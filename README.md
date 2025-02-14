@@ -15,7 +15,7 @@ This project aims to provide a minimalist metronome for musicians without any un
 ## Try it now!
 
 - [x] [Web App](https://metro.tonys-studio.top/)
-- [x] [Android App](https://github.com/Lord-Turmoil/metrognome/releases/latest/download/metrognome-1.1.0.apk)
+- [x] [Android App](https://github.com/Lord-Turmoil/metrognome/releases/latest/download/metrognome-1.2.1.apk)
 - [ ] iOS App
 
 ## Development
@@ -29,4 +29,6 @@ Since this repository is public, sensitive information such as API keys should n
 ```javascript
 // meta file and download base url, do not end with '/'
 export const BASE_URL = "https://...";
+// web app url
+export const WEB_URL = "https://...";
 ```

@@ -31,21 +31,14 @@ html {
     text-align: center;
 }
 
-.header h1 {
+#title {
+    display: inline-block;
+    width: min-content;
     font-size: var(--size-xl);
 }
 
-#language {
-    position: absolute;
-    top: 50%;
-    right: var(--size-m);
-    transform: translate(0, -50%);
-    background-color: transparent;
-}
-
-#language img {
-    vertical-align: middle;
-    width: var(--size-m);
+#title:hover {
+    cursor: pointer;
 }
 
 .footer {
@@ -138,7 +131,6 @@ input {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: var(--size-xxs);
     margin-top: var(--size-m);
 }
 
@@ -146,13 +138,15 @@ input {
     width: var(--size-m);
     height: var(--size-m);
     border-radius: 50%;
+    margin: 0 calc(var(--size-xxs) * 0.5);
 }
 
 #play {
     width: calc(var(--size-l) * 3);
     height: calc(var(--size-l) * 3);
     border-radius: 50%;
-    font-size: var(--size-l)
+    font-size: var(--size-m);
+    white-space: nowrap;
 }
 
 #beats {
@@ -193,12 +187,12 @@ input {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: var(--size-s);
 }
 
 #sub-box .sub-row {
     display: flex;
     flex-direction: row;
+    margin: calc(var(--size-s) * 0.5) 0;
 }
 
 #sub-box .sub-row .sub-item {
@@ -216,12 +210,12 @@ input {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: var(--size-s);
 }
 
 #wave-list .wave-item {
     padding: var(--size-xs);
     border-radius: 50%;
+    margin: 0 calc(var(--size-s) * 0.5);
 }
 
 #wave-list li img {
@@ -244,17 +238,28 @@ input {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-top: var(--size-s);
+    flex-wrap: wrap;
 }
 
 .platform .download-list .download {
     white-space: nowrap;
+    margin-top: var(--size-s);
 }
 
 button.action {
     margin: 0px 5px;
     padding: 5px 10px;
     border-radius: 5px;
+}
+
+#language {
+    background-color: transparent;
+    margin-bottom: var(--size-s);
+}
+
+#language img {
+    vertical-align: middle;
+    height: var(--size-l);
 }
 
 .footer .badges {
