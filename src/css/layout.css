@@ -1,15 +1,56 @@
-header {
-    padding: 0.5em 0px;
+html {
+    font-size: 16px;
+    --size-xxl: 3rem;
+    --size-xl: 2rem;
+    --size-l: 1.8rem;
+    --size-m: 1.5rem;
+    --size-s: 1rem;
+    --size-xs: 0.8rem;
+    --size-xxs: 0.5rem;
+}
+
+#splash {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#splash img {
+    max-width: 50vw;
+    max-height: 50vh;
+}
+
+.header {
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+    padding: 0.5rem 0px;
     text-align: center;
 }
 
-header h1 {
-    font-size: 2.5em;
+.header h1 {
+    font-size: var(--size-xl);
 }
 
-footer {
-    margin-top: 1em;
-    margin-bottom: 2em;
+#language {
+    position: absolute;
+    top: 50%;
+    right: var(--size-m);
+    transform: translate(0, -50%);
+    background-color: transparent;
+}
+
+#language img {
+    vertical-align: middle;
+    width: var(--size-m);
+}
+
+.footer {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
     text-align: center;
 }
 
@@ -18,8 +59,12 @@ button {
 }
 
 .banner {
-    height: 2em;
-    line-height: 2em;
+    height: calc(var(--size-xs) * 2);
+    line-height: calc(var(--size-xs) * 2);
+}
+
+.banner p {
+    font-size: var(--size-xs);
 }
 
 .main {
@@ -36,19 +81,19 @@ hr {
 }
 
 .main .section {
-    padding: 20px 10px 20px 10px;
+    padding: var(--size-s) var(--size-xs);
 }
 
 .main .section h2 {
-    font-size: 2.5em;
+    font-size: var(--size-l)
 }
 
 .main .section h3 {
-    font-size: 1.8em;
+    font-size: var(--size-m);
 }
 
 .main .section h4 {
-    font-size: 1.5em;
+    font-size: calc(var(--size-m) * 0.8);
 }
 
 .main .section hr {
@@ -65,58 +110,54 @@ input {
 
 #bpm {
     width: 80%;
-    font-size: 3em;
+    font-size: var(--size-xxl)
 }
 
 #bpm-ctrl {
-    margin: 5px auto;
+    margin: var(--size-xs) auto;
 }
 
 #bpm-ctrl ul {
     display: flex;
     flex-direction: row;
-}
-
-#bpm-ctrl ul li {
-    flex: 1;
-    margin: 0px 1px;
+    justify-content: space-around;
 }
 
 #bpm-ctrl ul li button {
-    padding: 4px;
+    padding: var(--size-xxs);
     border-radius: 50%;
 }
 
 #bpm-ctrl ul li button img {
     vertical-align: middle;
-    width: 2.5em;
-    height: 2.5em;
+    width: var(--size-l);
+    height: var(--size-l);
 }
 
 #dot-list {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-top: 20px;
+    gap: var(--size-xxs);
+    margin-top: var(--size-m);
 }
 
 #dot-list li {
-    margin: 0px 5px;
-    width: 1.5em;
-    height: 1.5em;
+    width: var(--size-m);
+    height: var(--size-m);
     border-radius: 50%;
 }
 
 #play {
-    width: 3em;
-    height: 3em;
+    width: calc(var(--size-l) * 3);
+    height: calc(var(--size-l) * 3);
     border-radius: 50%;
-    font-size: 2em;
+    font-size: var(--size-l)
 }
 
 #beats {
     width: 40%;
-    font-size: 2em;
+    font-size: var(--size-xl)
 }
 
 #beats-ctrl {
@@ -124,42 +165,44 @@ input {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: 5px auto;
+    margin: var(--size-xs) auto;
 }
 
 #beats-ctrl button {
-    width: 1.5em;
-    height: 1.5em;
-    padding: 1px;
-    line-height: 1.5em;
+    padding: var(--size-xxs);
     border-radius: 50%;
-    font-size: 1.5em;
+}
+
+#beats-ctrl button img {
+    vertical-align: middle;
+    width: var(--size-l);
+    height: var(--size-l);
 }
 
 #stress {
-    width: 2.5em;
-    height: 2.5em;
+    width: calc(var(--size-m) * 2.5);
+    height: calc(var(--size-m) * 2.5);
+    margin-top: var(--size-xs);
     border-radius: 50%;
-    font-size: 1.5em;
+    font-size: var(--size-m);
 }
 
 #sub-box {
     width: 90%;
-    margin: 0 auto;
+    margin: var(--size-s) auto 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap: var(--size-s);
 }
 
 #sub-box .sub-row {
     display: flex;
     flex-direction: row;
-    justify-content: center;
 }
 
 #sub-box .sub-row .sub-item {
-    height: 2em;
-    margin: 10px 5px;
+    height: var(--size-m);
     flex: 1;
 }
 
@@ -168,17 +211,16 @@ input {
 }
 
 #wave-list {
-    margin: 10px;
     display: flex;
+    margin-top: var(--size-s);
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
+    gap: var(--size-s);
 }
 
-#wave-list li {
-    margin: 5px;
-    padding: 10px;
+#wave-list .wave-item {
+    padding: var(--size-xs);
     border-radius: 50%;
 }
 
@@ -188,9 +230,6 @@ input {
     vertical-align: middle;
 }
 
-#wave-list .wave-item {
-    margin: 0px 10px;
-}
 
 #network-disconnected p {
     margin-top: 10px;
@@ -205,7 +244,11 @@ input {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-top: 5px;
+    margin-top: var(--size-s);
+}
+
+.platform .download-list .download {
+    white-space: nowrap;
 }
 
 button.action {
@@ -214,17 +257,17 @@ button.action {
     border-radius: 5px;
 }
 
-footer .badges {
+.footer .badges {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-footer .badge {
+.footer .badge {
     margin: 0px 5px;
 }
 
-footer .copyright {
+.footer .copyright {
     font-size: 0.8em;
 }

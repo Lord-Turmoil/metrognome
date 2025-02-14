@@ -10,18 +10,23 @@ import { SubdivisionModule } from "./subdivision.js";
 import { WaveformModule } from "./waveform.js";
 import { VersionModule } from "./version.js";
 import { Speaker } from "../speaker.js";
+import { LanguageManager } from "../language/language.js";
 
 class Metronome {
-    constructor() {
+    /**
+     * @param {LanguageManager} language Language manager
+     */
+    constructor(language) {
         this.speaker = new Speaker();
 
         this.bpmModule = new BpmModule();
-        this.beatsModule = new BeatsModule();
+        this.beatsModule = new BeatsModule(language);
         this.subdivisionModule = new SubdivisionModule();
         this.waveformModule = new WaveformModule();
         this.versionModule = new VersionModule();
 
         this.player = new Player(this.speaker);
+        this.language = language;
 
         this.configuration = {};
         this.updateConfiguration();
@@ -46,13 +51,15 @@ class Metronome {
     }
 
     play() {
-        this.control.innerHTML = "Stop";
+        this.control.setAttribute("data-i18n", "play.stop");
+        this.language.update();
         this.control.className = "stop";
         this.player.play(this.configuration);
     }
 
     stop() {
-        this.control.innerHTML = "Play";
+        this.control.setAttribute("data-i18n", "play.play");
+        this.language.update();
         this.control.className = "play";
         this.player.stop();
         this.deactivateBeat(this.lastBeat);

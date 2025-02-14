@@ -1,3 +1,5 @@
+import { LanguageManager } from "../language/language";
+
 /**
  * @module beats
  * This module handles the beats of the metronome.
@@ -7,7 +9,12 @@ const MAX_BEATS = 8;
 const DEFAULT_BEATS = 4;
 
 class BeatsModule {
-    constructor() {
+    /**
+     * @param {LanguageManager} language Language manager.
+     */
+    constructor(language) {
+        this.language = language;
+
         this.beats = DEFAULT_BEATS;
         this.stressFirst = true;
 
@@ -59,12 +66,13 @@ class BeatsModule {
 
         this.stressFirst = stressFirst;
         if (this.stressFirst) {
-            this.stressButton.innerHTML = "Yes";
+            this.stressButton.setAttribute("data-i18n", "beats.stress.yes");
             this.stressButton.className = "yes"
         } else {
-            this.stressButton.innerHTML = "No";
+            this.stressButton.setAttribute("data-i18n", "beats.stress.no");
             this.stressButton.className = "no";
         }
+        this.language.update();
 
         this.notifyAll();
     }
