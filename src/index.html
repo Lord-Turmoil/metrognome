@@ -111,6 +111,39 @@
                 <li class="wave-item"><img src="./assets/imgs/control/triangle-wave.svg" alt="Triangle"></li>
             </ul>
         </div>
+        <hr>
+        <!-- Version -->
+        <div class="section">
+            <h4 style="font-weight: lighter;">Version <span id="version">1.1.0</span></h4>
+            <div id="network-connected" style="display: none;">
+                <div id="platform-web" class="platform web" style="display: none;">
+                    <div class="download-list">
+                        <button id="web-download-android" class="download action" style="display: none;">Download
+                            Android App</button>
+                        <button id="web-download-android-mirror" class="download action" style="display: none;">Download
+                            Android App (Mirror)</button>
+                    </div>
+                </div>
+                <div id="platform-android" class="platform android" style="display: none;">
+                    <div id="android-latest-version">
+                        <p style="margin-top: 10px;">You are using the latest version!</p>
+                    </div>
+                    <div id="android-update-available" style="display: none;">
+                        <p style="margin-top: 10px;">New version available!</p>
+                        <div class="download-list">
+                            <button id="android-download-android" class="download action"
+                                style="display: none;">Download</button>
+                            <button id="android-download-android-mirror" class="download action"
+                                style="display: none;">Download (Mirror)</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="platform-ios" class="platform" style="display: none;"></div>
+            </div>
+            <div id="network-disconnected" style="display: none;">
+                <p>Network unavailable :(</p>
+            </div>
+        </div>
     </div>
     <hr>
     <footer class="clearfix">

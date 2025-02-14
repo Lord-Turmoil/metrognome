@@ -5,6 +5,7 @@ node_modules/
 .DS_Store
 .sourcemaps
 dist/
+publish/
 android/
 resources/android/**/*
 .env

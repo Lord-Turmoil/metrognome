@@ -8,6 +8,7 @@ import { BeatsModule } from "./beats.js";
 import { Player } from "./player.js";
 import { SubdivisionModule } from "./subdivision.js";
 import { WaveformModule } from "./waveform.js";
+import { VersionModule } from "./version.js";
 import { Speaker } from "../speaker.js";
 
 class Metronome {
@@ -18,6 +19,7 @@ class Metronome {
         this.beatsModule = new BeatsModule();
         this.subdivisionModule = new SubdivisionModule();
         this.waveformModule = new WaveformModule();
+        this.versionModule = new VersionModule();
 
         this.player = new Player(this.speaker);
 
@@ -29,6 +31,8 @@ class Metronome {
         this.lastBeat = -1;
 
         this.initCallbacks();
+
+        this.versionModule.update();
     }
 
     updateConfiguration() {
@@ -72,7 +76,6 @@ class Metronome {
             this.beatList.getElementsByTagName("li")[index].classList.remove("active");
         }
     }
-
 
     initCallbacks() {
         this.bpmModule.addBpmChangeListener(() => this.onConfigurationChange());

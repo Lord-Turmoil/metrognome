@@ -1,6 +1,7 @@
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Metronome } from './modules/metronome.js';
 import { KeepAwake } from '@capacitor-community/keep-awake';
+import { Capacitor } from '@capacitor/core';
 
 let metronome;
 
@@ -14,7 +15,13 @@ window.onload = () => {
         document.getElementById("year").innerHTML = beginYear + (beginYear === currentYear ? "" : " - " + currentYear);
     })();
 
-    (async () => {
-        await KeepAwake.keepAwake();
-    })();
+    window.onclick = () => {
+        (async () => {
+            await KeepAwake.keepAwake();
+        })();
+        window.onclick = null;
+    };
+
+    const platform = Capacitor.getPlatform();
+    document.getElementById(`platform-${platform}`).style.display = "block";
 };

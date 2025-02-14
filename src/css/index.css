@@ -40,8 +40,10 @@ a {
 
 button {
     border: none;
+    cursor: pointer;
 }
 
 * {
     font-family: 'Bauhaus', sans-serif;
+    font-weight: lighter;
 }

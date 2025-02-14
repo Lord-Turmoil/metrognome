@@ -6,5 +6,9 @@
     "SplashScreen": {
       "launchAutoHide": false
     }
+  },
+  "server": {
+    "hostname": "tonys-studio.top",
+    "androidScheme": "https"
   }
 }
