@@ -3,6 +3,8 @@
  * This module handles the waveform type.
  */
 
+import { Storage } from "../storage";
+
 const WAVEFORM = [
     "square",
     "sawtooth",
@@ -16,13 +18,16 @@ const MAX_WAVEFORM_ID = WAVEFORM.length - 1;
 
 class WaveformModule {
     constructor() {
-        this.waveformId = 0;
+        this.waveformId = DEFAULT_WAVEFORM_ID;
 
         this.waveformChangeListeners = [];
 
         this.controlList = document.getElementById("wave-list").getElementsByClassName("wave-item");
 
         this.initCallbacks();
+
+        this.load();
+        this.setWaveformById(this.waveformId);
     }
 
     /**
@@ -34,10 +39,6 @@ class WaveformModule {
             waveformId = MIN_WAVEFORM_ID;
         } else if (waveformId > MAX_WAVEFORM_ID) {
             waveformId = MAX_WAVEFORM_ID;
-        }
-
-        if (this.waveformId === waveformId) {
-            return;
         }
 
         this.controlList[this.waveformId].classList.remove("active");
@@ -71,6 +72,15 @@ class WaveformModule {
                 };
             })(this, i);
         }
+        this.addWaveformChangeListener(() => this.save());
+    }
+
+    load() {
+        this.waveformId = Storage.loadInt("waveform", this.waveformId);
+    }
+
+    save() {
+        Storage.save("waveform", this.waveformId);
     }
 };
 

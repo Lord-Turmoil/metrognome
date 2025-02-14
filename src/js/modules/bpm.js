@@ -3,6 +3,8 @@
  * This module handles the BPM (Beats Per Minute) of the metronome.
  */
 
+import { Storage } from "../storage";
+
 const MIN_BPM = 1;
 const MAX_BPM = 240;
 const LIMITED_MIN_BPM = 30;
@@ -22,6 +24,7 @@ class BpmModule {
 
         this.initCallbacks();
 
+        this.load();
         this.setBpm(this.bpm);
     }
 
@@ -96,6 +99,15 @@ class BpmModule {
                 _this.setBpm(bpm);
             }
         })(this);
+        this.addBpmChangeListener(() => this.save());
+    }
+
+    load() {
+        this.bpm = Storage.loadInt("bpm", this.bpm);
+    }
+
+    save() {
+        Storage.save("bpm", this.bpm);
     }
 };
 

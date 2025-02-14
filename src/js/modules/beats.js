@@ -1,4 +1,5 @@
 import { LanguageManager } from "../language/language";
+import { Storage } from "../storage";
 
 /**
  * @module beats
@@ -26,6 +27,7 @@ class BeatsModule {
 
         this.initCallbacks();
 
+        this.load();
         this.setBeats(this.beats);
         this.setStressFirst(this.stressFirst);
     }
@@ -60,10 +62,6 @@ class BeatsModule {
      * @param {boolean} stressFirst Whether the first beat is stressed or not.
      */
     setStressFirst(stressFirst) {
-        if (this.stressFirst === stressFirst) {
-            return;
-        }
-
         this.stressFirst = stressFirst;
         if (this.stressFirst) {
             this.stressButton.setAttribute("data-i18n", "beats.stress.yes");
@@ -114,6 +112,17 @@ class BeatsModule {
                 _this.setStressFirst(!_this.stressFirst);
             }
         })(this);
+        this.addBeatsChangeListeners(() => this.save());
+    }
+
+    load() {
+        this.beats = Storage.loadInt("beats", this.beats);
+        this.stressFirst = Storage.loadBool("stressFirst", this.stressFirst);
+    }
+
+    save() {
+        Storage.save("beats", this.beats);
+        Storage.save("stressFirst", this.stressFirst);
     }
 };
 

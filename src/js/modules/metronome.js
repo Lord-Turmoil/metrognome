@@ -37,9 +37,13 @@ class Metronome {
 
         this.initCallbacks();
 
+        this.initBeats(this.beatsModule.getBeats());
         this.versionModule.update();
     }
 
+    /**
+     * The configuration will be passed to the player.
+     */
     updateConfiguration() {
         this.configuration = {
             bpm: this.bpmModule.getBpm(),
@@ -50,6 +54,9 @@ class Metronome {
         };
     }
 
+    /**
+     * Play the metronome.
+     */
     play() {
         this.control.setAttribute("data-i18n", "play.stop");
         this.language.update();
@@ -57,6 +64,9 @@ class Metronome {
         this.player.play(this.configuration);
     }
 
+    /**
+     * Stop the metronome.
+     */
     stop() {
         this.control.setAttribute("data-i18n", "play.play");
         this.language.update();
@@ -84,17 +94,21 @@ class Metronome {
         }
     }
 
+    initBeats(beats) {
+        this.beatList.innerHTML = "";
+        for (let i = 0; i < beats; i++) {
+            const beat = document.createElement("li");
+            beat.className = "dot";
+            this.beatList.appendChild(beat);
+        }
+        this.activateBeat(this.lastBeat);
+    }
+
     initCallbacks() {
         this.bpmModule.addBpmChangeListener(() => this.onConfigurationChange());
         this.beatsModule.addBeatsChangeListeners(() => this.onConfigurationChange());
         this.beatsModule.addBeatsChangeListeners((beats) => {
-            this.beatList.innerHTML = "";
-            for (let i = 0; i < beats; i++) {
-                const beat = document.createElement("li");
-                beat.className = "dot";
-                this.beatList.appendChild(beat);
-            }
-            this.activateBeat(this.lastBeat);
+            this.initBeats(beats);
         });
         this.subdivisionModule.addSubdivisionChangeListeners(() => this.onConfigurationChange());
         this.waveformModule.addWaveformChangeListener(() => this.onConfigurationChange());

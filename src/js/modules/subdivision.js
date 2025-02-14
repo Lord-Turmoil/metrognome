@@ -3,6 +3,8 @@
  * This module handles the subdivision of the metronome.
  */
 
+import { Storage } from "../storage";
+
 const SUBDIVISION = [
     [1],            // 4
     [1, 1],         // 8-8
@@ -28,6 +30,7 @@ class SubdivisionModule {
 
         this.initCallbacks();
 
+        this.load();
         this.setSubdivisionById(this.subdivisionId);
     }
 
@@ -40,10 +43,6 @@ class SubdivisionModule {
             subdivisionId = MIN_SUBDIVISION_ID;
         } else if (subdivisionId > MAX_SUBDIVISION_ID) {
             subdivisionId = MAX_SUBDIVISION_ID;
-        }
-
-        if (this.subdivisionId === subdivisionId) {
-            return;
         }
 
         this.controlList[this.subdivisionId].classList.remove("active");
@@ -80,6 +79,15 @@ class SubdivisionModule {
                 };
             })(this, i);
         }
+        this.addSubdivisionChangeListeners(() => this.save());
+    }
+
+    load() {
+        this.subdivisionId = Storage.loadInt("subdivision", this.subdivisionId);
+    }
+
+    save() {
+        Storage.save("subdivision", this.subdivisionId);
     }
 };
 
