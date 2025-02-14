@@ -15,7 +15,7 @@
     "watch": "vite build --watch",
     "sync": "npm run build && cap sync",
     "open": "cap open android",
-    "publish": "python publish.py"
+    "publish": "python scripts/publish.py"
   },
   "dependencies": {
     "@capacitor-community/keep-awake": "^7.0.0",
