@@ -1,3 +1,16 @@
+#counter-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#counter-wrapper img {
+    height: var(--size-l);
+    margin-right: var(--size-xxs);
+}
+
 #changelog {
     width: 80%;
     margin: var(--size-s) auto 0 auto;

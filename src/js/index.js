@@ -1,8 +1,11 @@
-import { Metronome } from './modules/metronome.js';
-import { KeepAwake } from '@capacitor-community/keep-awake';
+import { init } from 'leancloud-storage';
+
 import { Capacitor } from '@capacitor/core';
+import { KeepAwake } from '@capacitor-community/keep-awake';
+
+import { Metronome } from './metronome.js';
 import { LanguageManager } from './language/language.js';
-import { WEB_URL } from './private.js';
+import { LEAN_CLOUD_CONFIG, WEB_URL } from './private.js';
 
 let metronome;
 let language;
@@ -23,8 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 window.onload = () => {
+    init(LEAN_CLOUD_CONFIG);
+
     metronome = new Metronome(language);
-    
+
     const platform = Capacitor.getPlatform();
     document.getElementById(`platform-${platform}`).style.display = "block";
     if (platform !== "web") {
@@ -34,8 +39,12 @@ window.onload = () => {
     }
 
     window.onclick = async () => {
-        await KeepAwake.keepAwake();
-        window.onclick = null;
+        try {
+            await KeepAwake.keepAwake();
+            window.onclick = null;
+        } catch (error) {
+            // Ignore error
+        }
     };
 
     hideSplash();

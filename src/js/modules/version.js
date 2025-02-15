@@ -4,6 +4,7 @@
  */
 
 import { Capacitor } from "@capacitor/core";
+
 import { Api } from "../api";
 import { LanguageManager } from "../language/language";
 
@@ -19,9 +20,25 @@ class VersionModule {
         this.disconnectedContainer = document.getElementById("network-disconnected");
         this.version = document.getElementById("version").innerText;
 
+        this.downloadListeners = [];
+
         this.initCallbacks();
 
         this.update();
+    }
+
+    addDownloadListener(listener) {
+        this.downloadListeners.push(listener);
+    }
+
+    /**
+     * @param {string} platform App platform.
+     * @param {string} action install or update.
+     */
+    notifyAll(platform, action) {
+        this.downloadListeners.forEach(listener => {
+            listener(platform, action);
+        });
     }
 
     /**
@@ -74,7 +91,7 @@ class VersionModule {
     }
 
     setCallbacksWeb(meta) {
-        function setCallback(name, value) {
+        function setCallback(_this, name, value) {
             if (value === "") {
                 return;
             }
@@ -82,13 +99,20 @@ class VersionModule {
             if (element === null) {
                 return;
             }
-            element.onclick = () => {
-                window.open(value, "_blank");
-            };
+            (function (__this) {
+                element.onclick = () => {
+                    if (name.includes("android")) {
+                        __this.notifyAll("android", "install");
+                    } else if (name.includes("ios")) {
+                        __this.notifyAll("ios", "install");
+                    }
+                    window.open(value, "_blank");
+                };
+            })(_this);
             element.style.display = "inline-block";
         }
-        setCallback("web-download-android", meta.android.link);
-        setCallback("web-download-android-mirror", meta.android.mirror);
+        setCallback(this, "web-download-android", meta.android.link);
+        setCallback(this, "web-download-android-mirror", meta.android.mirror);
         this.showChangelog();
     }
 
@@ -121,7 +145,7 @@ class VersionModule {
     }
 
     setCallbacksMobile(meta) {
-        function setCallback(name, value) {
+        function setCallback(_this, name, value) {
             if (value === "") {
                 return;
             }
@@ -129,17 +153,20 @@ class VersionModule {
             if (element === null) {
                 return;
             }
-            element.onclick = () => {
-                window.open(value, "_blank");
-            };
+            (function (__this) {
+                element.onclick = () => {
+                    __this.notifyAll("android", "update");
+                    window.open(value, "_blank");
+                };
+            })(_this);
             element.style.display = "inline-block";
         }
 
         if (this.isHigherVersion(meta.version)) {
             document.getElementById("android-latest-version").style.display = "none";
             document.getElementById("android-update-available").style.display = "block";
-            setCallback("android-download-android", meta.android.link);
-            setCallback("android-download-android-mirror", meta.android.mirror);
+            setCallback(this, "android-download-android", meta.android.link);
+            setCallback(this, "android-download-android-mirror", meta.android.mirror);
             this.showChangelog();
         }
     }

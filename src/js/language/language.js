@@ -3,9 +3,9 @@
  * i18n support.
  */
 
-import { Storage } from "../storage";
 import { EN_DICT } from "./en";
 import { ZH_DICT } from "./zh";
+import { Storage } from "../storage";
 
 class LanguageManager {
     constructor() {

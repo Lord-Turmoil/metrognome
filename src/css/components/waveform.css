@@ -7,7 +7,11 @@
 }
 
 #wave-list .wave-item {
-    margin: var(--size-s) var(--size-xxs) 0 var(--size-xxs);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: var(--size-s) calc(var(--size-xxs) * 0.8) 0 calc(var(--size-xxs) * 0.8);
     padding: var(--size-xs);
     border-radius: 50%;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
@@ -27,7 +31,7 @@
     background-position: 0% 0%;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 480px) {
     #wave-list {
         justify-content: space-around;
     }
@@ -40,5 +44,4 @@
 #wave-list .wave-item img {
     width: var(--size-l);
     height: var(--size-l);
-    vertical-align: middle;
 }

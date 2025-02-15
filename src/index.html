@@ -21,13 +21,12 @@
     <link rel="stylesheet" href="./css/common.css">
     <link rel="stylesheet" href="./css/components/beats.css">
     <link rel="stylesheet" href="./css/components/bpm.css">
-    <link rel="stylesheet" href="./css/components/changelog.css">
     <link rel="stylesheet" href="./css/components/footer.css">
     <link rel="stylesheet" href="./css/components/header.css">
-    <link rel="stylesheet" href="./css/components/language.css">
     <link rel="stylesheet" href="./css/components/play.css">
     <link rel="stylesheet" href="./css/components/splash.css">
     <link rel="stylesheet" href="./css/components/subdivision.css">
+    <link rel="stylesheet" href="./css/components/version.css">
     <link rel="stylesheet" href="./css/components/waveform.css">
 </head>
 
@@ -123,6 +122,13 @@
             <div class="section">
                 <h3><span class="i18n" data-i18n="version.title"></span>&nbsp;<span id="version">1.2.3</span></h3>
                 <div id="network-connected" style="display: none;">
+                    <div id="counter-wrapper" display="block">
+                        <img src="assets/imgs/download.svg" alt="download">
+                        <div>
+                            <span class="i18n" data-i18n="version.counter.title"></span>
+                            <span id="counter"></span>
+                        </div>
+                    </div>
                     <div id="platform-web" class="platform web" style="display: none;">
                         <div class="download-list">
                             <button id="web-download-android" class="download action i18n" style="display: none;"

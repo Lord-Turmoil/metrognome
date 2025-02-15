@@ -11,6 +11,7 @@ const EN_DICT = {
     "sound.title": "Sound",
     "version.title": "Version",
     "version.changelog.title": "Changelog",
+    "version.counter.title": "Downloads",
     "version.web.download.android": "Download Android App",
     "version.web.download.android.mirror": "Download Android App (Mirror)",
     "version.android.latest": "You are using the latest version!",

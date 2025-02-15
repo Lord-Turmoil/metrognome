@@ -1,3 +1,13 @@
+#language {
+    background-color: transparent;
+    margin-bottom: var(--size-xs);
+}
+
+#language img {
+    vertical-align: middle;
+    height: var(--size-xl);
+}
+
 .footer {
     margin-top: 1rem;
     margin-bottom: 2rem;

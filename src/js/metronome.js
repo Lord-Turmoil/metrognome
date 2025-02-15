@@ -3,14 +3,15 @@
  * The player that manage all modules.
  */
 
-import { BpmModule } from "./bpm.js";
-import { BeatsModule } from "./beats.js";
-import { Player } from "./player.js";
-import { SubdivisionModule } from "./subdivision.js";
-import { WaveformModule } from "./waveform.js";
-import { VersionModule } from "./version.js";
-import { Speaker } from "../speaker.js";
-import { LanguageManager } from "../language/language.js";
+import { Speaker } from "./speaker.js";
+import { BpmModule } from "./modules/bpm.js";
+import { Player } from "./modules/player.js";
+import { BeatsModule } from "./modules/beats.js";
+import { VersionModule } from "./modules/version.js";
+import { CounterModule } from "./modules/counter.js";
+import { WaveformModule } from "./modules/waveform.js";
+import { LanguageManager } from "./language/language.js";
+import { SubdivisionModule } from "./modules/subdivision.js";
 
 class Metronome {
     /**
@@ -24,6 +25,7 @@ class Metronome {
         this.subdivisionModule = new SubdivisionModule();
         this.waveformModule = new WaveformModule();
         this.versionModule = new VersionModule(language);
+        this.counterModule = new CounterModule();
 
         this.player = new Player(this.speaker);
         this.language = language;
@@ -125,6 +127,9 @@ class Metronome {
                 }
             };
         })(this);
+        this.versionModule.addDownloadListener(async (platform, action) => {
+            await this.counterModule.increase(platform, action);
+        });
     }
 };
 

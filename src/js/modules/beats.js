@@ -1,10 +1,11 @@
-import { LanguageManager } from "../language/language";
-import { Storage } from "../storage";
-
 /**
  * @module beats
  * This module handles the beats of the metronome.
  */
+
+import { Storage } from "../storage";
+import { LanguageManager } from "../language/language";
+
 const MIN_BEATS = 1;
 const MAX_BEATS = 8;
 const DEFAULT_BEATS = 4;

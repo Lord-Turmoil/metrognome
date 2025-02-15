@@ -1,9 +1,0 @@
-#language {
-    background-color: transparent;
-    margin-bottom: var(--size-xs);
-}
-
-#language img {
-    vertical-align: middle;
-    height: var(--size-xl);
-}
