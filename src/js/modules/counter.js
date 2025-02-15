@@ -3,6 +3,7 @@
  * LeanCloud storage counter.
  */
 
+import { Capacitor } from "@capacitor/core";
 import { Query, Object } from "leancloud-storage";
 
 /*
@@ -17,7 +18,20 @@ Download
 */
 
 class CounterModule {
+    static createPlatformSpecificInstance() {
+        if (Capacitor.getPlatform() === "web") {
+            return new CounterModuleWeb();
+        } else {
+            return new CounterModuleMobile();
+        }
+    }
+
+    increase() {
+    }
+}
+class CounterModuleWeb extends CounterModule {
     constructor() {
+        super();
         this.counterWrapper = document.getElementById("counter-wrapper");
         this.counter = document.getElementById("counter");
         this.init();
@@ -128,4 +142,19 @@ class CounterModule {
     }
 }
 
-export { CounterModule };
+/**
+ * Do nothing on mobile.
+ */
+class CounterModuleMobile extends CounterModule {
+    constructor() {
+        super();
+        document.getElementById("counter-wrapper").style.display = "none";
+    }
+
+    increase() {
+        // do nothing
+    }
+}
+
+
+export { CounterModuleWeb as CounterModule };

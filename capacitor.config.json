@@ -8,7 +8,7 @@
     }
   },
   "server": {
-    "hostname": "tonys-studio.top",
+    "hostname": "metro.tonys-studio.top",
     "androidScheme": "https"
   }
 }

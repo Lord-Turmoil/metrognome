@@ -25,7 +25,7 @@ class Metronome {
         this.subdivisionModule = new SubdivisionModule();
         this.waveformModule = new WaveformModule();
         this.versionModule = new VersionModule(language);
-        this.counterModule = new CounterModule();
+        this.counterModule = CounterModule.createPlatformSpecificInstance();
 
         this.player = new Player(this.speaker);
         this.language = language;
