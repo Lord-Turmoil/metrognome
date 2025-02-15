@@ -8,6 +8,10 @@ class Storage {
         localStorage.setItem(key, value);
     }
 
+    static loadString(key, defaultValue) {
+        return localStorage.getItem(key) || defaultValue;
+    }
+
     static loadInt(key, defaultValue) {
         return parseInt(localStorage.getItem(key)) || defaultValue;
     }

@@ -3,6 +3,7 @@
  * i18n support.
  */
 
+import { Storage } from "../storage";
 import { EN_DICT } from "./en";
 import { ZH_DICT } from "./zh";
 
@@ -12,10 +13,12 @@ class LanguageManager {
             "en": EN_DICT,
             "zh": ZH_DICT
         }
-        this.language = "zh";
+        this.language = "en";
+        this.languageChangeListeners = [];
 
-        this.update();
         this.initCallbacks();
+
+        this.load();    // this will transitively invoke update()
     }
 
     /**
@@ -25,6 +28,7 @@ class LanguageManager {
     setLanguage(language) {
         if (language in this.dictionary) {
             this.language = language;
+            this.notifyAll();
         }
     }
 
@@ -35,6 +39,16 @@ class LanguageManager {
      */
     getText(key) {
         return this.dictionary[this.language][key];
+    }
+
+    addLanguageChangeListener(listener) {
+        this.languageChangeListeners.push(listener);
+    }
+
+    notifyAll() {
+        this.languageChangeListeners.forEach((listener) => {
+            listener(this.language);
+        });
     }
 
     /**
@@ -51,9 +65,19 @@ class LanguageManager {
         (function (_this) {
             document.getElementById("language").onclick = () => {
                 _this.setLanguage(_this.language === "en" ? "zh" : "en");
-                _this.update();
             };
         })(this);
+        this.addLanguageChangeListener(() => this.update());
+        this.addLanguageChangeListener(() => this.save());
+    }
+
+    load() {
+        // use setLanguage to avoid invalid language
+        this.setLanguage(Storage.loadString("language", "en"));
+    }
+
+    save() {
+        Storage.save("language", this.language);
     }
 }
 
