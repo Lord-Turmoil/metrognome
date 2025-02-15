@@ -18,8 +18,17 @@
     <link rel="icon" type="image/x-icon" href="./favicon.ico" />
     <link rel="manifest" href="./manifest.json" />
     <link rel="stylesheet" href="./css/index.css" />
-    <link rel="stylesheet" href="./css/layout.css" />
-    <link rel="stylesheet" href="./css/decoration.css" />
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/components/beats.css">
+    <link rel="stylesheet" href="./css/components/bpm.css">
+    <link rel="stylesheet" href="./css/components/changelog.css">
+    <link rel="stylesheet" href="./css/components/footer.css">
+    <link rel="stylesheet" href="./css/components/header.css">
+    <link rel="stylesheet" href="./css/components/language.css">
+    <link rel="stylesheet" href="./css/components/play.css">
+    <link rel="stylesheet" href="./css/components/splash.css">
+    <link rel="stylesheet" href="./css/components/subdivision.css">
+    <link rel="stylesheet" href="./css/components/waveform.css">
 </head>
 
 <body>
@@ -33,14 +42,13 @@
         </div>
         <hr>
         <div class="marquee-container">
-            <p class="marquee i18n" data-i18n="slogan">Metrognome, just metronome &mdash; Made with 💖 by Tony's Studio
-            </p>
+            <p class="marquee i18n" data-i18n="slogan"></p>
         </div>
         <hr>
         <div class="main">
             <!-- BPM -->
             <div class="section">
-                <h3 class="i18n" data-i18n="bpm.title">BPM</h3>
+                <h3 class="i18n" data-i18n="bpm.title"></h3>
                 <input type="number" id="bpm" placeholder="30 ~ 240" value="60">
                 <div id="bpm-ctrl">
                     <ul>
@@ -70,24 +78,24 @@
             <hr>
             <!-- Play button -->
             <div class="section">
-                <button id="play" class="i18n" data-i18n="play.play">Play</button>
+                <button id="play" class="i18n" data-i18n="play.play"></button>
             </div>
             <hr>
             <!-- Beats -->
             <div class="section">
-                <h3 class="i18n" data-i18n="beats.title">Beats</h3>
+                <h3 class="i18n" data-i18n="beats.title"></h3>
                 <div id="beats-ctrl">
                     <button class="minus "><img src="./assets/imgs/control/minus.svg" alt="-"></button>
                     <input type="number" id="beats" placeholder="1 ~ 8" value="4">
                     <button class="plus"><img src="./assets/imgs/control/plus.svg" alt="+"></button>
                 </div>
                 <h4 class="i18n" data-i18n="beats.stress">Stress First</h4>
-                <button id="stress" class="i18n" data-i18n="beats.stress.yes">Yes</button>
+                <button id="stress" class="i18n" data-i18n="beats.stress.yes"></button>
             </div>
             <hr>
             <!-- Subdivisions -->
             <div class="section">
-                <h3 class="i18n" data-i18n="sub.title">Subdivisions</h3>
+                <h3 class="i18n" data-i18n="sub.title"></h3>
                 <div id="sub-box">
                     <div class="sub-item"><img src="./assets/imgs/sub/4.png" alt="4"></div>
                     <div class="sub-item"><img src="./assets/imgs/sub/8-8.png" alt="8-8"></div>
@@ -102,7 +110,7 @@
             <hr>
             <!-- Sound style -->
             <div class="section">
-                <h3 class="i18n" data-i18n="sound.title">Sound Style</h3>
+                <h3 class="i18n" data-i18n="sound.title"></h3>
                 <ul id="wave-list">
                     <li class="wave-item"><img src="./assets/imgs/control/square-wave.svg" alt="Square"></li>
                     <li class="wave-item"><img src="./assets/imgs/control/sawtooth-wave.svg" alt="Sawtooth"></li>
@@ -113,7 +121,7 @@
             <hr>
             <!-- Version -->
             <div class="section">
-                <h4 style="font-weight: lighter;">Version <span id="version">1.2.1</span></h4>
+                <h3><span class="i18n" data-i18n="version.title"></span>&nbsp;<span id="version">1.2.1</span></h3>
                 <div id="network-connected" style="display: none;">
                     <div id="platform-web" class="platform web" style="display: none;">
                         <div class="download-list">
@@ -150,6 +158,10 @@
                         </div>
                     </div>
                     <div id="platform-ios" class="platform" style="display: none;"></div>
+                    <div id="changelog" style="display: none;">
+                        <h4 class="i18n" data-i18n="version.changelog.title"></h4>
+                        <ul></ul>
+                    </div>
                 </div>
                 <div id="network-disconnected" style="display: none;">
                     <p>Network unavailable :(</p>
@@ -164,20 +176,17 @@
             <div class="badges">
                 <div class="badge">
                     <a href="https://github.com/Lord-Turmoil/metrognome" target="_blank">
-                        <img src="https://img.shields.io/badge/metrognome-GitHub-purple?style=plastic&logo=github"
-                            alt="GitHub">
+                        <img src="assets/imgs/badge/badge-github.svg" alt="GitHub">
                     </a>
                 </div>
                 <div class="badge">
                     <a href="https://capacitorjs.com/" target="_blank">
-                        <img src="https://img.shields.io/badge/framework-Capacitor-119EFF?style=plastic&logo=capacitor"
-                            alt="Capacitor">
+                        <img src="assets/imgs/badge/badge-capacitor.svg" alt="Capacitor">
                     </a>
                 </div>
                 <div class="badge">
                     <a href="https://www.flaticon.com/free-icons/christmas" target="_blank">
-                        <img src="https://img.shields.io/badge/Favicon%20by%20Freepik-Flaticon-17D1C6?style=plastic"
-                            alt="Flaticon">
+                        <img src="assets/imgs/badge/badge-flaticon.svg" alt="Flaticon">
                     </a>
                 </div>
             </div>

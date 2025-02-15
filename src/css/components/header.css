@@ -1,0 +1,45 @@
+.header {
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+    padding: 0.5rem 0px;
+    text-align: center;
+}
+
+#title {
+    display: inline-block;
+    width: min-content;
+    font-size: var(--size-xl);
+}
+
+#title:hover {
+    cursor: pointer;
+}
+
+.marquee-container {
+    height: calc(var(--size-xs) * 2);
+    line-height: calc(var(--size-xs) * 2);
+    overflow: hidden;
+}
+
+.marquee-container .marquee {
+    width: max-content;
+    font-size: var(--size-xs);
+    animation: scroll 25.0s linear infinite;
+}
+
+@media (max-width: 768px) {
+    .marquee-container .marquee {
+        animation: scroll 15.0s linear infinite;
+    }
+}
+
+@keyframes scroll {
+    from {
+        transform: translateX(100vw);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}

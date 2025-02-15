@@ -1,0 +1,20 @@
+.footer {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.footer .badges {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer .badges .badge {
+    margin: 0px 5px;
+}
+
+.footer .copyright {
+    font-size: 0.8em;
+}

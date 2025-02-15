@@ -23,7 +23,7 @@ class Metronome {
         this.beatsModule = new BeatsModule(language);
         this.subdivisionModule = new SubdivisionModule();
         this.waveformModule = new WaveformModule();
-        this.versionModule = new VersionModule();
+        this.versionModule = new VersionModule(language);
 
         this.player = new Player(this.speaker);
         this.language = language;
@@ -38,7 +38,6 @@ class Metronome {
         this.initCallbacks();
 
         this.initBeats(this.beatsModule.getBeats());
-        this.versionModule.update();
     }
 
     /**

@@ -5,16 +5,23 @@
 
 import { Capacitor } from "@capacitor/core";
 import { Api } from "../api";
+import { LanguageManager } from "../language/language";
 
 class VersionModule {
-    constructor() {
+    /**
+     * @param {LanguageManager} language 
+     */
+    constructor(language) {
         this.api = new Api();
+        this.language = language;
 
         this.connectedContainer = document.getElementById("network-connected");
         this.disconnectedContainer = document.getElementById("network-disconnected");
         this.version = document.getElementById("version").innerText;
 
         this.initCallbacks();
+
+        this.update();
     }
 
     /**
@@ -46,6 +53,7 @@ class VersionModule {
         } else if (platform === "android" || platform === "ios") {
             this.setCallbacksMobile(meta);
         }
+        this.setChangelog(meta.changelog);
     }
 
     initCallbacks() {
@@ -54,6 +62,9 @@ class VersionModule {
         });
     }
 
+    showChangelog() {
+        document.getElementById("changelog").style.display = "block";
+    }
 
     setCallbacksWeb(meta) {
         function setCallback(name, value) {
@@ -71,6 +82,7 @@ class VersionModule {
         }
         setCallback("web-download-android", meta.android.link);
         setCallback("web-download-android-mirror", meta.android.mirror);
+        this.showChangelog();
     }
 
     isHigherVersion(version) {
@@ -82,6 +94,24 @@ class VersionModule {
             }
         }
         return false;
+    }
+
+    setChangelog(changelog) {
+        console.log(changelog);
+        const ul = document.getElementById("changelog").getElementsByTagName("ul")[0];
+        ul.innerHTML = "";
+        for (var i = 0; i < changelog.length; i++) {
+            const entry = changelog[i];
+            const li = document.createElement("li");
+            li.classList.add("i18n");
+            li.setAttribute("data-i18n", `changelog-${i}`);
+            ul.appendChild(li);
+            this.language.addText(`changelog-${i}`, {
+                "en": entry[0],
+                "zh": entry[1]
+            });
+        }
+        this.language.update();
     }
 
     setCallbacksMobile(meta) {
@@ -99,13 +129,12 @@ class VersionModule {
             element.style.display = "inline-block";
         }
 
-        console.log(this.version, meta.version);
-
         if (this.isHigherVersion(meta.version)) {
             document.getElementById("android-latest-version").style.display = "none";
             document.getElementById("android-update-available").style.display = "block";
             setCallback("android-download-android", meta.android.link);
             setCallback("android-download-android-mirror", meta.android.mirror);
+            this.showChangelog();
         }
     }
 };

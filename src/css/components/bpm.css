@@ -1,0 +1,33 @@
+#bpm {
+    width: 80%;
+    font-size: var(--size-xxl)
+}
+
+#bpm-ctrl {
+    margin: 0 auto;
+}
+
+#bpm-ctrl ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+#bpm-ctrl ul li {
+    margin: var(--size-xs) calc(var(--size-xxs)*0.5) 0 calc(var(--size-xxs)*0.5);
+}
+
+#bpm-ctrl ul li button {
+    padding: var(--size-xxs);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#bpm-ctrl ul li button img {
+    width: var(--size-l);
+    height: var(--size-l);
+}

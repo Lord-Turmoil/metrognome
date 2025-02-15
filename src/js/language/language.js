@@ -38,7 +38,20 @@ class LanguageManager {
      * @returns {string} The text.
      */
     getText(key) {
-        return this.dictionary[this.language][key];
+        return this.dictionary[this.language][key] || "MISSING";
+    }
+
+    /**
+     * Add custom text to the dictionary.
+     * @param {string} key The key of the text.
+     * @param {object} entry An object containing the text in different languages.
+     */
+    addText(key, entry) {
+        for (const language in entry) {
+            if (language in this.dictionary) {
+                this.dictionary[language][key] = entry[language];
+            }
+        }
     }
 
     addLanguageChangeListener(listener) {

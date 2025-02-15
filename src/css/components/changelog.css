@@ -1,0 +1,15 @@
+#changelog {
+    width: 80%;
+    margin: var(--size-s) auto 0 auto;
+}
+
+#changelog ul {
+    width: 95%;
+    margin-left: auto;
+    text-align: left;
+}
+
+#changelog ul li {
+    list-style-type: disc;
+    margin-top: var(--size-xxs);
+}

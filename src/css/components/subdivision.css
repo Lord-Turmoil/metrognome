@@ -1,0 +1,35 @@
+#sub-box {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#sub-box .sub-item {
+    width: 25%;
+    height: var(--size-l);
+    margin: var(--size-s) auto 0 auto;
+}
+
+@media (max-width: 375px) {
+    #sub-box .sub-item {
+        width: 50%;
+    }
+}
+
+#sub-box .sub-item img {
+    height: 100%;
+    filter: invert(40%);
+    transition: 0.5s;
+}
+
+#sub-box .sub-item.active img {
+    filter: invert(100%);
+    transform: scale(1.2);
+}
+
+#sub-box .sub-item img:hover {
+    filter: invert(70%);
+}

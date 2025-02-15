@@ -9,6 +9,8 @@ const ZH_DICT = {
     "beats.stress.no": "否",
     "sub.title": "节奏型",
     "sound.title": "声音",
+    "version.title": "版本",
+    "version.changelog.title": "更新日志",
     "version.web.download.android": "下载 Android 应用",
     "version.web.download.android.mirror": "下载 Android 应用 (镜像)",
     "version.android.latest": "当前已是最新版本！",

@@ -9,6 +9,8 @@ const EN_DICT = {
     "beats.stress.no": "No",
     "sub.title": "Subdivision",
     "sound.title": "Sound",
+    "version.title": "Version",
+    "version.changelog.title": "Changelog",
     "version.web.download.android": "Download Android App",
     "version.web.download.android.mirror": "Download Android App (Mirror)",
     "version.android.latest": "You are using the latest version!",
