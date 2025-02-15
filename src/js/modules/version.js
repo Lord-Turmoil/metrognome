@@ -43,10 +43,14 @@ class VersionModule {
     }
 
     async update() {
+        console.log("Checking for updates");
         const meta = await this.getMeta();
         if (meta === undefined) {
+            console.log("Error getting meta information");
             return;
         }
+        console.log(`Current version: ${this.version}`);
+        console.log(`Latest version: ${meta.version}`);
         const platform = Capacitor.getPlatform();
         if (platform === "web") {
             this.setCallbacksWeb(meta);
@@ -60,6 +64,9 @@ class VersionModule {
         this.api.addConnectivityListener(connected => {
             this.setConnected(connected);
         });
+        document.getElementById("version").onclick = () => {
+            this.update();
+        }
     }
 
     showChangelog() {
@@ -97,7 +104,6 @@ class VersionModule {
     }
 
     setChangelog(changelog) {
-        console.log(changelog);
         const ul = document.getElementById("changelog").getElementsByTagName("ul")[0];
         ul.innerHTML = "";
         for (var i = 0; i < changelog.length; i++) {

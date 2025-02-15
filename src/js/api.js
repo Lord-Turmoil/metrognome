@@ -38,7 +38,7 @@ class Api {
     }
 
     async request(url) {
-        const response = await fetch(url)
+        const response = await fetch(url, { cache: "no-store" })
             .then(response => {
                 if (!response.ok) {
                     return { status: RESPONSE_SERVER_ERROR, error: response.statusText };
