@@ -47,6 +47,7 @@ jobs:
       - name: Build Project
         run: |
           npm run build
+          python scripts/post_build.py
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
