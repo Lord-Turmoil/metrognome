@@ -52,7 +52,7 @@ class BeatsModule {
 
     /**
      * Get the current beats.
-     * @returns {boolean} The current beats.
+     * @returns {number} The current beats.
      */
     getBeats() {
         return this.beats;
@@ -125,6 +125,6 @@ class BeatsModule {
         Storage.save("beats", this.beats);
         Storage.save("stressFirst", this.stressFirst);
     }
-};
+}
 
 export { BeatsModule };

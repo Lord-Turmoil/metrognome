@@ -131,6 +131,6 @@ class Metronome {
             await this.counterModule.increase(platform, action);
         });
     }
-};
+}
 
 export { Metronome };

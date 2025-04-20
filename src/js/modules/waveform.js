@@ -65,7 +65,7 @@ class WaveformModule {
     }
 
     initCallbacks() {
-        for (var i = 0; i < this.controlList.length; i++) {
+        for (let i = 0; i < this.controlList.length; i++) {
             (function (_this, _i) {
                 _this.controlList[_i].onclick = function () {
                     _this.setWaveformById(_i);
@@ -82,6 +82,6 @@ class WaveformModule {
     save() {
         Storage.save("waveform", this.waveformId);
     }
-};
+}
 
 export { WaveformModule };

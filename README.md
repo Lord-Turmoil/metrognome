@@ -2,7 +2,7 @@
 
 # Metrognome
 
-Copyright &copy; Tony's Studio 2022 - 2025
+Copyright &copy; Tony's Studio 2022 - 2025 
 
 -----
 
@@ -24,11 +24,17 @@ Metrognome is developed with [Capacitor](https://capacitorjs.com/) using native 
 
 ### Sensitive Information
 
-Since this repository is public, sensitive information such as API keys should not be committed. Therefore, all these information is placed in `src/js/private.js` which is ignored. To build the project locally, you need to create this file and add the following content:
+Since this repository is public, sensitive information such as API keys should not be committed. Therefore, all information is placed in `src/js/private.js` which is ignored. To build the project locally, you need to create this file and add the following content:
 
 ```javascript
 // meta file and download base url, do not end with '/'
 export const BASE_URL = "https://...";
 // web app url
 export const WEB_URL = "https://...";
+// lean cloud config
+export const LEAN_CLOUD_CONFIG = {
+    appId: "...",
+    appKey: "...",
+    serverURL: "https://..."
+};
 ```

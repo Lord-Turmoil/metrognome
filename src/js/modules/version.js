@@ -130,7 +130,7 @@ class VersionModule {
     setChangelog(changelog) {
         const ul = document.getElementById("changelog").getElementsByTagName("ul")[0];
         ul.innerHTML = "";
-        for (var i = 0; i < changelog.length; i++) {
+        for (let i = 0; i < changelog.length; i++) {
             const entry = changelog[i];
             const li = document.createElement("li");
             li.classList.add("i18n");
@@ -170,6 +170,6 @@ class VersionModule {
             this.showChangelog();
         }
     }
-};
+}
 
 export { VersionModule };

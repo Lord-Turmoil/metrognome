@@ -1,12 +1,11 @@
 .idea/
 .vscode/
+
+android/
+resources/android/**/*
+
 node_modules/
 dist/
 publish/
-android/
-resources/android/**/*
-*.map
-.DS_Store
-.sourcemaps
-package-lock.json
+
 .env

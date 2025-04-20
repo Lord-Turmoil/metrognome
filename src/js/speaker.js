@@ -37,6 +37,6 @@ class Speaker {
         oscillator.start(this.audioCtx.currentTime);
         oscillator.stop(this.audioCtx.currentTime + 0.04);
     }
-};
+}
 
 export { Speaker };

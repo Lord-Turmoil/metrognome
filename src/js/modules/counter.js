@@ -3,8 +3,8 @@
  * LeanCloud storage counter.
  */
 
-import { Capacitor } from "@capacitor/core";
-import { Query, Object } from "leancloud-storage";
+import {Capacitor} from "@capacitor/core";
+import {Object, Query} from "leancloud-storage";
 
 /*
 Data model:
@@ -29,6 +29,7 @@ class CounterModule {
     increase() {
     }
 }
+
 class CounterModuleWeb extends CounterModule {
     constructor() {
         super();
@@ -79,7 +80,7 @@ class CounterModuleWeb extends CounterModule {
         }).catch(error => {
             console.error("Error querying counter", error);
         });
-        this.counter.innerHTML = parseInt(this.counter.innerHTML) + 1;
+        this.counter.innerHTML = (parseInt(this.counter.innerHTML) + 1).toString();
     }
 
     /**
@@ -129,8 +130,7 @@ class CounterModuleWeb extends CounterModule {
         results.forEach(result => {
             const platform = result.get("platform");
             const action = result.get("action");
-            const count = result.get("count");
-            download[platform][action] = count;
+            download[platform][action] = result.get("count");
         });
 
         download.android.total = download.android.install + download.android.update;
@@ -157,4 +157,4 @@ class CounterModuleMobile extends CounterModule {
 }
 
 
-export { CounterModuleWeb as CounterModule };
+export {CounterModuleWeb as CounterModule};

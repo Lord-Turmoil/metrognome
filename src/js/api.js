@@ -68,7 +68,7 @@ class Api {
      * @throws {Error} If the request fails.
      */
     async getMeta() {
-        var response = await this.request(`${this.baseUrl}/meta.json`);
+        let response = await this.request(`${this.baseUrl}/meta.json`);
         if (!Api.isOk(response)) {
             return Promise.resolve(response);
         }
@@ -79,6 +79,6 @@ class Api {
         }
         return Promise.resolve(response);
     }
-};
+}
 
 export { Api };

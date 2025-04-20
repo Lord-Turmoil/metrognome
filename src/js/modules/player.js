@@ -125,6 +125,6 @@ class Player {
         clearInterval(this.intervalHandle);
         this.intervalHandle = null;
     }
-};
+}
 
 export { Player };

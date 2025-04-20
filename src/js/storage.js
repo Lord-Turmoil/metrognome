@@ -26,6 +26,6 @@ class Storage {
         }
         return defaultValue;
     }
-};
+}
 
 export { Storage };

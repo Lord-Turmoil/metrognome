@@ -10,7 +10,7 @@
     "music"
   ],
   "scripts": {
-    "start": "vite",
+    "dev": "vite",
     "build": "vite build",
     "watch": "vite build --watch",
     "sync": "npm run build && cap sync",
@@ -27,7 +27,7 @@
   "devDependencies": {
     "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "^7.0.1",
-    "vite": "^5.4.2"
+    "vite": "^6.3.2"
   },
   "author": "Tony S.",
   "license": "MIT",

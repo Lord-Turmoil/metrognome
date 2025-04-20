@@ -15,7 +15,7 @@
 }
 
 #bpm-ctrl ul li {
-    margin: var(--size-xs) calc(var(--size-xxs)*0.5) 0 calc(var(--size-xxs)*0.5);
+    margin: var(--size-xs) calc(var(--size-xxs) * 0.5) 0 calc(var(--size-xxs) * 0.5);
 }
 
 #bpm-ctrl ul li button {

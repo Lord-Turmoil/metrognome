@@ -77,7 +77,7 @@ class BpmModule {
     }
 
     notifyAll() {
-        this.bpmChangeListeners.forEach(listener => listener(bpm));
+        this.bpmChangeListeners.forEach(listener => listener(this.bpm));
     }
 
     initCallbacks() {
@@ -109,6 +109,6 @@ class BpmModule {
     save() {
         Storage.save("bpm", this.bpm);
     }
-};
+}
 
 export { BpmModule };

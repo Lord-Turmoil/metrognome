@@ -72,7 +72,7 @@ class SubdivisionModule {
     }
 
     initCallbacks() {
-        for (var i = 0; i < this.controlList.length; i++) {
+        for (let i = 0; i < this.controlList.length; i++) {
             (function (_this, _i) {
                 _this.controlList[_i].onclick = function () {
                     _this.setSubdivisionById(_i);
@@ -89,6 +89,6 @@ class SubdivisionModule {
     save() {
         Storage.save("subdivision", this.subdivisionId);
     }
-};
+}
 
 export { SubdivisionModule };
