@@ -3,14 +3,14 @@
  * Checks for updates and displays the current version.
  */
 
-import { Capacitor } from "@capacitor/core";
+import {Capacitor} from "@capacitor/core";
 
-import { Api } from "../api";
-import { LanguageManager } from "../language/language";
+import {Api} from "../api";
+import {LanguageManager} from "../language/language";
 
 class VersionModule {
     /**
-     * @param {LanguageManager} language 
+     * @param {LanguageManager} language
      */
     constructor(language) {
         this.api = new Api();
@@ -111,6 +111,7 @@ class VersionModule {
             })(_this);
             element.style.display = "inline-block";
         }
+
         setCallback(this, "web-download-android", meta.android.link);
         setCallback(this, "web-download-android-mirror", meta.android.mirror);
         this.showChangelog();
@@ -172,4 +173,4 @@ class VersionModule {
     }
 }
 
-export { VersionModule };
+export {VersionModule};

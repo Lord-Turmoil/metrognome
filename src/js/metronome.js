@@ -3,15 +3,16 @@
  * The player that manage all modules.
  */
 
-import { Speaker } from "./speaker.js";
-import { BpmModule } from "./modules/bpm.js";
-import { Player } from "./modules/player.js";
-import { BeatsModule } from "./modules/beats.js";
-import { VersionModule } from "./modules/version.js";
-import { CounterModule } from "./modules/counter.js";
-import { WaveformModule } from "./modules/waveform.js";
-import { LanguageManager } from "./language/language.js";
-import { SubdivisionModule } from "./modules/subdivision.js";
+import {Speaker} from "./speaker.js";
+import {BpmModule} from "./modules/bpm.js";
+import {TapModule} from "./modules/tap.js";
+import {Player} from "./modules/player.js";
+import {BeatsModule} from "./modules/beats.js";
+import {VersionModule} from "./modules/version.js";
+import {CounterModule} from "./modules/counter.js";
+import {WaveformModule} from "./modules/waveform.js";
+import {LanguageManager} from "./language/language.js";
+import {SubdivisionModule} from "./modules/subdivision.js";
 
 class Metronome {
     /**
@@ -21,6 +22,7 @@ class Metronome {
         this.speaker = new Speaker();
 
         this.bpmModule = new BpmModule();
+        this.tapModule = new TapModule(this.speaker);
         this.beatsModule = new BeatsModule(language);
         this.subdivisionModule = new SubdivisionModule();
         this.waveformModule = new WaveformModule();
@@ -33,7 +35,13 @@ class Metronome {
         this.configuration = {};
         this.updateConfiguration();
 
-        this.control = document.getElementById("play");
+        this.speaker.setWaveform(this.waveformModule.getWaveform());
+
+        this.playButton = document.getElementById("play");
+        this.tapButton = document.getElementById("tap");
+        this.switchButton = document.getElementById("switch");
+        this.currentMode = "play";
+
         this.beatList = document.getElementById("dot-list");
         this.lastBeat = -1;
 
@@ -50,8 +58,7 @@ class Metronome {
             bpm: this.bpmModule.getBpm(),
             beats: this.beatsModule.getBeats(),
             stressFirst: this.beatsModule.getStressFirst(),
-            subdivision: this.subdivisionModule.getSubdivision(),
-            waveform: this.waveformModule.getWaveform()
+            subdivision: this.subdivisionModule.getSubdivision()
         };
     }
 
@@ -59,9 +66,10 @@ class Metronome {
      * Play the metronome.
      */
     play() {
-        this.control.setAttribute("data-i18n", "play.stop");
+        this.playButton.setAttribute("data-i18n", "play.stop");
         this.language.update();
-        this.control.className = "stop";
+        this.playButton.classList.remove("stopped");
+        this.playButton.classList.add("playing");
         this.player.play(this.configuration);
     }
 
@@ -69,9 +77,10 @@ class Metronome {
      * Stop the metronome.
      */
     stop() {
-        this.control.setAttribute("data-i18n", "play.play");
+        this.playButton.setAttribute("data-i18n", "play.play");
         this.language.update();
-        this.control.className = "play";
+        this.playButton.classList.remove("playing");
+        this.playButton.classList.add("stopped");
         this.player.stop();
         this.deactivateBeat(this.lastBeat);
     }
@@ -105,6 +114,32 @@ class Metronome {
         this.activateBeat(this.lastBeat);
     }
 
+    startTap() {
+        this.tapModule.beginTap(this.bpmModule.getBpm());
+    }
+
+    stopTap() {
+    }
+
+    tap() {
+        this.bpmModule.setBpm(this.tapModule.tap());
+    }
+
+    switchMode() {
+        if (this.currentMode === "play") {
+            this.playButton.style.display = "none";
+            this.tapButton.style.display = "block";
+            this.stop();
+            this.startTap();
+            this.currentMode = "tap";
+        } else {
+            this.playButton.style.display = "block";
+            this.tapButton.style.display = "none";
+            this.stopTap();
+            this.currentMode = "play";
+        }
+    }
+
     initCallbacks() {
         this.bpmModule.addBpmChangeListener(() => this.onConfigurationChange());
         this.beatsModule.addBeatsChangeListeners(() => this.onConfigurationChange());
@@ -112,6 +147,7 @@ class Metronome {
             this.initBeats(beats);
         });
         this.subdivisionModule.addSubdivisionChangeListeners(() => this.onConfigurationChange());
+        this.waveformModule.addWaveformChangeListener(() => this.speaker.setWaveform(this.waveformModule.getWaveform()));
         this.waveformModule.addWaveformChangeListener(() => this.onConfigurationChange());
         this.player.addBeatChangeListener((beat) => {
             this.deactivateBeat(this.lastBeat);
@@ -119,13 +155,19 @@ class Metronome {
             this.activateBeat(beat);
         });
         (function (_this) {
-            _this.control.onclick = () => {
+            _this.playButton.onclick = () => {
                 if (_this.player.isPlaying()) {
                     _this.stop();
                 } else {
                     _this.play();
                 }
             };
+            _this.tapButton.onclick = () => {
+                _this.tap();
+            }
+            _this.switchButton.onclick = () => {
+                _this.switchMode();
+            }
         })(this);
         this.versionModule.addDownloadListener(async (platform, action) => {
             await this.counterModule.increase(platform, action);
@@ -133,4 +175,4 @@ class Metronome {
     }
 }
 
-export { Metronome };
+export {Metronome};

@@ -2,23 +2,24 @@
 <html lang="en" dir="ltr">
 
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Metrognome</title>
     <meta name="viewport"
-        content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
+          content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="msapplication-tap-highlight" content="no"/>
     <meta name="description" content="A simple online metronome">
     <meta name="keywords" content="metronome, online, music, tool">
     <meta name="author" content="Tony's Studio">
     <script type="module"
-        src="https://unpkg.com/@ionic/pwa-elements@latest/dist/ionicpwaelements/ionicpwaelements.esm.js"></script>
+            src="https://unpkg.com/@ionic/pwa-elements@latest/dist/ionicpwaelements/ionicpwaelements.esm.js"></script>
     <script nomodule
-        src="https://unpkg.com/@ionic/pwa-elements@latest/dist/ionicpwaelements/ionicpwaelements.js"></script>
-    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
-    <link rel="manifest" href="./manifest.json" />
-    <link rel="stylesheet" href="./css/index.css" />
+            src="https://unpkg.com/@ionic/pwa-elements@latest/dist/ionicpwaelements/ionicpwaelements.js"></script>
+    <link rel="icon" type="image/x-icon" href="./favicon.ico"/>
+    <link rel="manifest" href="./manifest.json"/>
+    <link rel="stylesheet" href="./css/index.css"/>
     <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/color.css">
     <link rel="stylesheet" href="./css/components/beats.css">
     <link rel="stylesheet" href="./css/components/bpm.css">
     <link rel="stylesheet" href="./css/components/footer.css">
@@ -31,178 +32,192 @@
 </head>
 
 <body>
-    <div id="splash">
-        <img src="assets/imgs/logo.png" alt="logo">
-        <h1>Metrognome</h1>
+<div id="splash">
+    <img src="assets/imgs/logo.png" alt="logo">
+    <h1>Metrognome</h1>
+</div>
+<div id="content" style="display: none;">
+    <div class="header">
+        <h1 id="title">Metrognome</h1>
     </div>
-    <div id="content" style="display: none;">
-        <div class="header">
-            <h1 id="title">Metrognome</h1>
-        </div>
-        <hr>
-        <div class="marquee-container">
-            <p class="marquee i18n" data-i18n="slogan"></p>
-        </div>
-        <hr>
-        <div class="main">
-            <!-- BPM -->
-            <div class="section">
-                <h3 class="i18n" data-i18n="bpm.title"></h3>
-                <input type="number" id="bpm" placeholder="30 ~ 240" value="60">
-                <div id="bpm-ctrl">
-                    <ul>
-                        <li>
-                            <button class="minus"><img src="./assets/imgs/control/minus-5.png" alt="-5"></button>
-                        </li>
-                        <li>
-                            <button class="minus"><img src="./assets/imgs/control/minus-1.png" alt="-1"></button>
-                        </li>
-                        <li>
-                            <button class="plus"><img src="./assets/imgs/control/plus-1.png" alt="+1"></button>
-                        </li>
-                        <li>
-                            <button class="plus"><img src="./assets/imgs/control/plus-5.png" alt="+5"></button>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <ul id="dot-list">
-                        <li class="dot"></li>
-                        <li class="dot"></li>
-                        <li class="dot"></li>
-                        <li class="dot"></li>
-                    </ul>
-                </div>
-            </div>
-            <hr>
-            <!-- Play button -->
-            <div class="section">
-                <button id="play" class="i18n" data-i18n="play.play"></button>
-            </div>
-            <hr>
-            <!-- Beats -->
-            <div class="section">
-                <h3 class="i18n" data-i18n="beats.title"></h3>
-                <div id="beats-ctrl">
-                    <button class="minus "><img src="./assets/imgs/control/minus.svg" alt="-"></button>
-                    <input type="number" id="beats" placeholder="1 ~ 8" value="4">
-                    <button class="plus"><img src="./assets/imgs/control/plus.svg" alt="+"></button>
-                </div>
-                <h4 class="i18n" data-i18n="beats.stress">Stress First</h4>
-                <button id="stress" class="i18n" data-i18n="beats.stress.yes"></button>
-            </div>
-            <hr>
-            <!-- Subdivisions -->
-            <div class="section">
-                <h3 class="i18n" data-i18n="sub.title"></h3>
-                <div id="sub-box">
-                    <div class="sub-item"><img src="./assets/imgs/sub/4.png" alt="4"></div>
-                    <div class="sub-item"><img src="./assets/imgs/sub/8-8.png" alt="8-8"></div>
-                    <div class="sub-item"><img src="./assets/imgs/sub/8-16-16.png" alt="8-16-16"></div>
-                    <div class="sub-item"><img src="./assets/imgs/sub/16-16-8.png" alt="16-16-8"></div>
-                    <div class="sub-item"><img src="./assets/imgs/sub/16-16-16-16.png" alt="16-16-16-16"></div>
-                    <div class="sub-item"><img src="./assets/imgs/sub/8-8-8.png" alt="8-8-8"></div>
-                    <div class="sub-item"><img src="./assets/imgs/sub/8dot-16.png" alt="8dot-16"></div>
-                    <div class="sub-item"><img src="./assets/imgs/sub/16-8dot.png" alt="16-8dot"></div>
-                </div>
-            </div>
-            <hr>
-            <!-- Sound style -->
-            <div class="section">
-                <h3 class="i18n" data-i18n="sound.title"></h3>
-                <ul id="wave-list">
-                    <li class="wave-item"><img src="./assets/imgs/control/square-wave.svg" alt="Square"></li>
-                    <li class="wave-item"><img src="./assets/imgs/control/sawtooth-wave.svg" alt="Sawtooth"></li>
-                    <li class="wave-item"><img src="./assets/imgs/control/sine-wave.svg" alt="Sine"></li>
-                    <li class="wave-item"><img src="./assets/imgs/control/triangle-wave.svg" alt="Triangle"></li>
+    <hr>
+    <div class="marquee-container">
+        <p class="marquee i18n" data-i18n="slogan"></p>
+    </div>
+    <hr>
+    <div class="main">
+        <!-- BPM -->
+        <div class="section">
+            <h3 class="i18n" data-i18n="bpm.title"></h3>
+            <input type="number" id="bpm" placeholder="30 ~ 240" value="60">
+            <div id="bpm-ctrl">
+                <ul>
+                    <li>
+                        <button class="small-control purple-grad"><img src="./assets/imgs/control/minus-5.png" alt="-5">
+                        </button>
+                    </li>
+                    <li>
+                        <button class="small-control purple-grad"><img src="./assets/imgs/control/minus-1.png" alt="-1">
+                        </button>
+                    </li>
+                    <li>
+                        <button class="small-control orange-grad"><img src="./assets/imgs/control/plus-1.png" alt="+1">
+                        </button>
+                    </li>
+                    <li>
+                        <button class="small-control orange-grad"><img src="./assets/imgs/control/plus-5.png" alt="+5">
+                        </button>
+                    </li>
                 </ul>
             </div>
-            <hr>
-            <!-- Version -->
-            <div class="section">
-                <h3><span class="i18n" data-i18n="version.title"></span>&nbsp;<span id="version">1.2.4</span></h3>
-                <div id="network-connected" style="display: none;">
-                    <div id="counter-wrapper" display="block">
-                        <img src="assets/imgs/download.svg" alt="download">
-                        <div>
-                            <span class="i18n" data-i18n="version.counter.title"></span>
-                            <span id="counter"></span>
-                        </div>
-                    </div>
-                    <div id="platform-web" class="platform web" style="display: none;">
-                        <div class="download-list">
-                            <button id="web-download-android" class="download action i18n" style="display: none;"
-                                data-i18n="version.web.download.android">
-                                Download Android App
-                            </button>
-                            <button id="web-download-android-mirror" class="download action i18n" style="display: none;"
-                                data-i18n="version.web.download.android.mirror">
-                                Download Android App (Mirror)
-                            </button>
-                        </div>
-                    </div>
-                    <div id="platform-android" class="platform android" style="display: none;">
-                        <div id="android-latest-version">
-                            <p style="margin-top: 10px;" class="i18n" data-i18n="version.android.latest">
-                                You are using the latest version!
-                            </p>
-                        </div>
-                        <div id="android-update-available" style="display: none;">
-                            <p style="margin-top: 10px;" class="i18n" data-i18n="version.android.update">
-                                New version available!
-                            </p>
-                            <div class="download-list">
-                                <button id="android-download-android" class="download action i18n"
-                                    style="display: none;" data-i18n="version.android.download">
-                                    Download
-                                </button>
-                                <button id="android-download-android-mirror" class="download action i18n"
-                                    style="display: none;" data-i18n="version.android.download.mirror">
-                                    Download (Mirror)
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="platform-ios" class="platform" style="display: none;"></div>
-                    <div id="changelog" style="display: none;">
-                        <h4 class="i18n" data-i18n="version.changelog.title"></h4>
-                        <ul></ul>
-                    </div>
-                </div>
-                <div id="network-disconnected" style="display: none;">
-                    <p>Network unavailable :(</p>
+            <div>
+                <ul id="dot-list">
+                    <li class="dot"></li>
+                    <li class="dot"></li>
+                    <li class="dot"></li>
+                    <li class="dot"></li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <!-- Play button -->
+        <div class="section">
+            <div class="play-wrapper">
+                <div class="switch decoy"></div>
+                <button id="play" class="green-red-grad action-button play i18n" data-i18n="play.play"></button>
+                <button id="tap" class="blue-grad action-button play i18n" data-i18n="tap.tap"
+                        style="display: none"></button>
+                <div id="switch" class="switch real orange-grad"><img src="./assets/imgs/control/rotate.svg" alt="change">
                 </div>
             </div>
         </div>
         <hr>
-        <div class="footer clearfix">
-            <button id="language">
-                <img src="assets/imgs/language.svg" alt="language">
-            </button>
-            <div class="badges">
-                <div class="badge">
-                    <a href="https://github.com/Lord-Turmoil/metrognome" target="_blank">
-                        <img src="assets/imgs/badge/badge-github.svg" alt="GitHub">
-                    </a>
+        <!-- Beats -->
+        <div class="section">
+            <h3 class="i18n" data-i18n="beats.title"></h3>
+            <div id="beats-ctrl">
+                <button class="small-control purple-grad"><img src="./assets/imgs/control/minus.svg" alt="-"></button>
+                <input type="number" id="beats" placeholder="1 ~ 8" value="4">
+                <button class="small-control orange-grad"><img src="./assets/imgs/control/plus.svg" alt="+"></button>
+            </div>
+            <h4 class="i18n" data-i18n="beats.stress">Stress First</h4>
+            <button id="stress" class="green-red-grad i18n" data-i18n="beats.stress.yes"></button>
+        </div>
+        <hr>
+        <!-- Subdivisions -->
+        <div class="section">
+            <h3 class="i18n" data-i18n="sub.title"></h3>
+            <div id="sub-box">
+                <div class="sub-item"><img src="./assets/imgs/sub/4.png" alt="4"></div>
+                <div class="sub-item"><img src="./assets/imgs/sub/8-8.png" alt="8-8"></div>
+                <div class="sub-item"><img src="./assets/imgs/sub/8-16-16.png" alt="8-16-16"></div>
+                <div class="sub-item"><img src="./assets/imgs/sub/16-16-8.png" alt="16-16-8"></div>
+                <div class="sub-item"><img src="./assets/imgs/sub/16-16-16-16.png" alt="16-16-16-16"></div>
+                <div class="sub-item"><img src="./assets/imgs/sub/8-8-8.png" alt="8-8-8"></div>
+                <div class="sub-item"><img src="./assets/imgs/sub/8dot-16.png" alt="8dot-16"></div>
+                <div class="sub-item"><img src="./assets/imgs/sub/16-8dot.png" alt="16-8dot"></div>
+            </div>
+        </div>
+        <hr>
+        <!-- Sound style -->
+        <div class="section">
+            <h3 class="i18n" data-i18n="sound.title"></h3>
+            <ul id="wave-list">
+                <li class="wave-item green-red-grad"><img src="./assets/imgs/control/square-wave.svg" alt="Square"></li>
+                <li class="wave-item green-red-grad"><img src="./assets/imgs/control/sawtooth-wave.svg" alt="Sawtooth">
+                </li>
+                <li class="wave-item green-red-grad"><img src="./assets/imgs/control/sine-wave.svg" alt="Sine"></li>
+                <li class="wave-item green-red-grad"><img src="./assets/imgs/control/triangle-wave.svg" alt="Triangle">
+                </li>
+            </ul>
+        </div>
+        <hr>
+        <!-- Version -->
+        <div class="section">
+            <h3><span class="i18n" data-i18n="version.title"></span>&nbsp;<span id="version">1.2.4</span></h3>
+            <div id="network-connected" style="display: none;">
+                <div id="counter-wrapper" style="display: block">
+                    <img src="assets/imgs/download.svg" alt="download">
+                    <div>
+                        <span class="i18n" data-i18n="version.counter.title"></span>
+                        <span id="counter"></span>
+                    </div>
                 </div>
-                <div class="badge">
-                    <a href="https://capacitorjs.com/" target="_blank">
-                        <img src="assets/imgs/badge/badge-capacitor.svg" alt="Capacitor">
-                    </a>
+                <div id="platform-web" class="platform web" style="display: none;">
+                    <div class="download-list">
+                        <button id="web-download-android" class="download action yello-grad i18n" style="display: none;"
+                                data-i18n="version.web.download.android">
+                            Download Android App
+                        </button>
+                        <button id="web-download-android-mirror" class="download action yello-grad i18n"
+                                style="display: none;"
+                                data-i18n="version.web.download.android.mirror">
+                            Download Android App (Mirror)
+                        </button>
+                    </div>
                 </div>
-                <div class="badge">
-                    <a href="https://www.flaticon.com/free-icons/christmas" target="_blank">
-                        <img src="assets/imgs/badge/badge-flaticon.svg" alt="Flaticon">
-                    </a>
+                <div id="platform-android" class="platform android" style="display: none;">
+                    <div id="android-latest-version">
+                        <p style="margin-top: 10px;" class="i18n" data-i18n="version.android.latest">
+                            You are using the latest version!
+                        </p>
+                    </div>
+                    <div id="android-update-available" style="display: none;">
+                        <p style="margin-top: 10px;" class="i18n" data-i18n="version.android.update">
+                            New version available!
+                        </p>
+                        <div class="download-list">
+                            <button id="android-download-android" class="download action yello-grad i18n"
+                                    style="display: none;" data-i18n="version.android.download">
+                                Download
+                            </button>
+                            <button id="android-download-android-mirror" class="download action yello-grad i18n"
+                                    style="display: none;" data-i18n="version.android.download.mirror">
+                                Download (Mirror)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="platform-ios" class="platform" style="display: none;"></div>
+                <div id="changelog" style="display: none;">
+                    <h4 class="i18n" data-i18n="version.changelog.title"></h4>
+                    <ul></ul>
                 </div>
             </div>
-            <div class="copyright">
-                <a href="https://www.tonys-studio.top" target="_blank"><span>Copyright &copy; Tony's Studio <span
-                            id="year">2023</span></span></a>
+            <div id="network-disconnected" style="display: none;">
+                <p>Network unavailable :(</p>
             </div>
         </div>
     </div>
-    <script src="./js/index.js" type="module"></script>
+    <hr>
+    <div class="footer clearfix">
+        <button id="language">
+            <img src="assets/imgs/language.svg" alt="language">
+        </button>
+        <div class="badges">
+            <div class="badge">
+                <a href="https://github.com/Lord-Turmoil/metrognome" target="_blank">
+                    <img src="assets/imgs/badge/badge-github.svg" alt="GitHub">
+                </a>
+            </div>
+            <div class="badge">
+                <a href="https://capacitorjs.com/" target="_blank">
+                    <img src="assets/imgs/badge/badge-capacitor.svg" alt="Capacitor">
+                </a>
+            </div>
+            <div class="badge">
+                <a href="https://www.flaticon.com/free-icons/christmas" target="_blank">
+                    <img src="assets/imgs/badge/badge-flaticon.svg" alt="Flaticon">
+                </a>
+            </div>
+        </div>
+        <div class="copyright">
+            <a href="https://www.tonys-studio.top" target="_blank"><span>Copyright &copy; Tony's Studio <span
+                    id="year">2023</span></span></a>
+        </div>
+    </div>
+</div>
+<script src="./js/index.js" type="module"></script>
 </body>
 
 </html>

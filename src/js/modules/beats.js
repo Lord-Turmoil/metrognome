@@ -3,8 +3,8 @@
  * This module handles the beats of the metronome.
  */
 
-import { Storage } from "../storage";
-import { LanguageManager } from "../language/language";
+import {Storage} from "../storage";
+import {LanguageManager} from "../language/language";
 
 const MIN_BEATS = 1;
 const MAX_BEATS = 8;
@@ -66,10 +66,12 @@ class BeatsModule {
         this.stressFirst = stressFirst;
         if (this.stressFirst) {
             this.stressButton.setAttribute("data-i18n", "beats.stress.yes");
-            this.stressButton.className = "yes"
+            this.stressButton.classList.remove("no");
+            this.stressButton.classList.add("yes");
         } else {
             this.stressButton.setAttribute("data-i18n", "beats.stress.no");
-            this.stressButton.className = "no";
+            this.stressButton.classList.remove("yes");
+            this.stressButton.classList.add("no");
         }
         this.language.update();
 
@@ -127,4 +129,4 @@ class BeatsModule {
     }
 }
 
-export { BeatsModule };
+export {BeatsModule};

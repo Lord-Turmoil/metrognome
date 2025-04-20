@@ -3,7 +3,7 @@
  * This module handles the subdivision of the metronome.
  */
 
-import { Storage } from "../storage";
+import {Storage} from "../storage";
 
 const SUBDIVISION = [
     [1],            // 4
@@ -91,4 +91,4 @@ class SubdivisionModule {
     }
 }
 
-export { SubdivisionModule };
+export {SubdivisionModule};

@@ -3,6 +3,7 @@ const EN_DICT = {
     "bpm.title": "BPM",
     "play.play": "Play",
     "play.stop": "Stop",
+    "tap.tap": "Tap",
     "beats.title": "Beats",
     "beats.stress": "Stress first beat",
     "beats.stress.yes": "Yes",
@@ -20,4 +21,4 @@ const EN_DICT = {
     "version.android.download.mirror": "Download (Mirror)"
 };
 
-export { EN_DICT };
+export {EN_DICT};

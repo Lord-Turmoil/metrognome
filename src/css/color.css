@@ -1,0 +1,25 @@
+.orange-grad {
+    background-image: linear-gradient(135deg, #FCCF31 10%, #F55555 100%);
+}
+
+.purple-grad {
+    background-image: linear-gradient(135deg, #EE9AE5 10%, #5961F9 100%);
+}
+
+.yello-grad {
+    background-image: linear-gradient(135deg, #FDEB71 10%, #F8D800 100%);
+}
+
+.blue-grad {
+    background-image: linear-gradient(135deg, #2AFADF 10%, #4C83FF 100%);
+}
+
+.green-red-grad {
+    background-size: 200% 200%;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(135deg, #FFF720 5%, #3CD500 45%, #FFB199 55%, #FF0844 95%);
+}
+
+.green-grad {
+    background-image: linear-gradient(135deg, #FFF720 5%, #3CD500 95%);
+}

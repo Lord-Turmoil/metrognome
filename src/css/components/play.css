@@ -1,26 +1,71 @@
-#play {
+.play-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.action-button {
     width: calc(var(--size-l) * 3);
     height: calc(var(--size-l) * 3);
     border-radius: 50%;
     font-size: var(--size-m);
     white-space: nowrap;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    background-size: 200% 200%;
-    background-repeat: no-repeat;
-    background-image: linear-gradient(135deg, #FFF720 5%, #3CD500 45%, #FFB199 55%, #FF0844 95%);
     transition: 0.5s;
 }
 
-#play:hover {
+.action-button:hover {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     transform: scale(1.1);
 }
 
-.stop {
-    background-position: 100% 100%;
-}
-
-.play {
+.action-button.play.stopped {
     background-position: 0 0;
 }
 
+.action-button.play.playing {
+    background-position: 100% 100%;
+}
+
+.switch {
+    width: var(--size-xxl);
+    height: var(--size-xxl);
+    border-radius: 50%;
+}
+
+.switch.real {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.switch.real:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transform: scale(1.1);
+}
+
+.switch {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.switch.real img {
+    width: 65%;
+}
+
+@media (max-width: 300px) {
+    .play-wrapper {
+        flex-direction: column;
+    }
+
+    .action-button {
+        margin: 10px 0;
+    }
+
+    .switch.decoy {
+        display: none;
+    }
+}

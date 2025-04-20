@@ -18,7 +18,7 @@ input {
 
 button.action {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    background-image: linear-gradient(135deg, #FDEB71 10%, #F8D800 100%);
+
     transition: 0.5s;
 }
 
@@ -32,7 +32,6 @@ button.action:hover {
     margin: 0 auto;
     text-align: center;
 }
-
 
 .main .section {
     padding: var(--size-s) var(--size-xs);
@@ -58,25 +57,12 @@ button.action:hover {
 }
 
 
-.minus {
-    background-image: linear-gradient(135deg, #EE9AE5 10%, #5961F9 100%);
+.small-control {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
     transition: 0.5s;
 }
 
-.minus:hover {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    transform: scale(1.1);
-}
-
-
-.plus {
-    background-image: linear-gradient(135deg, #FCCF31 10%, #F55555 100%);
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-    transition: 0.5s;
-}
-
-.plus:hover {
+.small-control:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     transform: scale(1.1);
 }

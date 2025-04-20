@@ -3,7 +3,7 @@
  * This module handles the waveform type.
  */
 
-import { Storage } from "../storage";
+import {Storage} from "../storage";
 
 const WAVEFORM = [
     "square",
@@ -84,4 +84,4 @@ class WaveformModule {
     }
 }
 
-export { WaveformModule };
+export {WaveformModule};

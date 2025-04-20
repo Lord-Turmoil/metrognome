@@ -3,7 +3,7 @@
  * The player that plays the metronome.
  */
 
-import { Speaker } from "../speaker";
+import {Speaker} from "../speaker";
 
 const TICK_FREQ = 1600;
 const TOK_FREQ = 800;
@@ -65,7 +65,6 @@ class Player {
         this.beats = config.beats;
         this.stressFirst = config.stressFirst;
         this.subdivision = config.subdivision;
-        this.speaker.setWaveform(config.waveform);
         const delay = 60000.0 / (config.bpm * config.subdivision.length);
 
         this.currentBeat = 0;
@@ -127,4 +126,4 @@ class Player {
     }
 }
 
-export { Player };
+export {Player};

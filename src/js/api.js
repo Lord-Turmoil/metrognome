@@ -3,7 +3,7 @@
  * All the API calls to the server.
  */
 
-import { BASE_URL } from "./private";
+import {BASE_URL} from "./private";
 
 const RESPONSE_OK = 200;
 const RESPONSE_NETWORK_ERROR = 0;
@@ -38,14 +38,14 @@ class Api {
     }
 
     async request(url) {
-        const response = await fetch(url, { cache: "no-store" })
+        const response = await fetch(url, {cache: "no-store"})
             .then(response => {
                 if (!response.ok) {
-                    return { status: RESPONSE_SERVER_ERROR, error: response.statusText };
+                    return {status: RESPONSE_SERVER_ERROR, error: response.statusText};
                 }
-                return { status: RESPONSE_OK, "data": response.json() };
+                return {status: RESPONSE_OK, "data": response.json()};
             }).catch(error => {
-                return { status: RESPONSE_NETWORK_ERROR, error: error };
+                return {status: RESPONSE_NETWORK_ERROR, error: error};
             });
         if (Api.isOk(response)) {
             response.data = await response.data;
@@ -59,7 +59,9 @@ class Api {
     }
 
     notifyAll() {
-        this.connectivityListeners.forEach(listener => { listener(this.connected); });
+        this.connectivityListeners.forEach(listener => {
+            listener(this.connected);
+        });
     }
 
     /**
@@ -81,4 +83,4 @@ class Api {
     }
 }
 
-export { Api };
+export {Api};

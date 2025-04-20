@@ -3,6 +3,7 @@ const ZH_DICT = {
     "bpm.title": "速度",
     "play.play": "开始",
     "play.stop": "停止",
+    "tap.tap": "点击",
     "beats.title": "节拍",
     "beats.stress": "重音",
     "beats.stress.yes": "是",
@@ -20,4 +21,4 @@ const ZH_DICT = {
     "version.android.download.mirror": "下载（镜像）"
 };
 
-export { ZH_DICT };
+export {ZH_DICT};

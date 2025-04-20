@@ -25,7 +25,7 @@ class Speaker {
 
     /**
      * Play the sound with the given frequency.
-     * @param {number} frequency 
+     * @param {number} frequency
      */
     play(frequency) {
         let oscillator = this.audioCtx.createOscillator();
@@ -39,4 +39,4 @@ class Speaker {
     }
 }
 
-export { Speaker };
+export {Speaker};

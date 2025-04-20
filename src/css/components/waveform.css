@@ -15,11 +15,9 @@
     padding: var(--size-xs);
     border-radius: 50%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    background-size: 300% 100%;
-    background-repeat: no-repeat;
-    background-image: linear-gradient(135deg, #FFF720 5%, #3CD500 45%, #FFB199 55%, #FF0844 95%);
     background-position: 100% 100%;
     transition: 0.5s;
+    cursor: pointer;
 }
 
 #wave-list .wave-item:hover {

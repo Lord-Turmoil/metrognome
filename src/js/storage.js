@@ -28,4 +28,4 @@ class Storage {
     }
 }
 
-export { Storage };
+export {Storage};

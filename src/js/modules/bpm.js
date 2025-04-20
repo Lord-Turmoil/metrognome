@@ -3,7 +3,7 @@
  * This module handles the BPM (Beats Per Minute) of the metronome.
  */
 
-import { Storage } from "../storage";
+import {Storage} from "../storage";
 
 const MIN_BPM = 1;
 const MAX_BPM = 240;
@@ -111,4 +111,4 @@ class BpmModule {
     }
 }
 
-export { BpmModule };
+export {BpmModule};

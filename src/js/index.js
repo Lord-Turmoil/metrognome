@@ -1,11 +1,11 @@
-import { init } from 'leancloud-storage';
+import {init} from 'leancloud-storage';
 
-import { Capacitor } from '@capacitor/core';
-import { KeepAwake } from '@capacitor-community/keep-awake';
+import {Capacitor} from '@capacitor/core';
+import {KeepAwake} from '@capacitor-community/keep-awake';
 
-import { Metronome } from './metronome.js';
-import { LanguageManager } from './language/language.js';
-import { LEAN_CLOUD_CONFIG, WEB_URL } from './private.js';
+import {Metronome} from './metronome.js';
+import {LanguageManager} from './language/language.js';
+import {LEAN_CLOUD_CONFIG, WEB_URL} from './private.js';
 
 let metronome;
 let language;
