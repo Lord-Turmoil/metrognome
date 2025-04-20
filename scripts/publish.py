@@ -48,8 +48,16 @@ META = {
         "mirror": "",
     },
 }
+if os.path.exists(os.path.join(RELEASE_FOLDER, "meta.json")):
+    with open(os.path.join(RELEASE_FOLDER, "meta.json"), "r") as file:
+        content = file.read()
+    old_version = json.loads(content)["version"]
+    new_content = content.replace(old_version, VERSION)
+    META = json.loads(new_content)
+    META["date"] = TIMESTAMP
+
 with open(os.path.join(RELEASE_FOLDER, "meta.json"), "w") as file:
-    json.dump(META, file, indent=4)
+    json.dump(META, file, indent=4, ensure_ascii=False)
 
 # update global meta file
 META = {

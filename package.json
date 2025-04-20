@@ -1,6 +1,6 @@
 {
   "name": "metrognome",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "Clean and simple metronome app",
   "type": "module",
   "keywords": [
@@ -16,7 +16,8 @@
     "sync": "npm run build && cap sync",
     "open": "cap open android",
     "version": "python scripts/bump_version.py",
-    "publish": "npm run build && python scripts/publish.py"
+    "publish": "python scripts/publish.py",
+    "deploy": "npm run build && pwsh deploy.ps1"
   },
   "dependencies": {
     "@capacitor-community/keep-awake": "^7.0.0",
