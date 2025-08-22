@@ -40,8 +40,8 @@ jobs:
 
       - name: Build Project
         env:
-          VITE_BASE_URL=${{ vars.VITE_BASE_URL }}
-          VITE_WEB_URL=${{ vars.VITE_WEB_URL }}
+          VITE_BASE_URL: ${{ vars.VITE_BASE_URL }}
+          VITE_WEB_URL: ${{ vars.VITE_WEB_URL }}
         run: |
           npm run build
           python scripts/post_build.py

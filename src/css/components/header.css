@@ -6,12 +6,14 @@
 }
 
 .Header__badge {
+    position: relative;
     display: inline-block;
     padding: 2px 8px;
     border-radius: 1000px;
     font-size: var(--size-xs);
     transform: translate(-10%, -50%);
     text-transform: capitalize;
+    z-index: -1;
 }
 
 .Header__badge.web {
@@ -45,6 +47,8 @@
 
 .Header__slogan .marquee {
     width: max-content;
+    height: calc(var(--size-xs) * 3);
+    line-height: calc(var(--size-xs) * 2);
     font-size: var(--size-xs);
     animation: scroll 25.0s linear infinite;
 }
