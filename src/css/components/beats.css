@@ -1,34 +1,9 @@
-#dot-list {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-#dot-list .dot {
-    width: var(--size-m);
-    height: var(--size-m);
-    border-radius: 50%;
-    margin: var(--size-m) calc(var(--size-xxs) * 0.5) 0 calc(var(--size-xxs) * 0.5);
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-    background-size: 200% 200%;
-    background-repeat: no-repeat;
-    background-image: linear-gradient(135deg, #a7a6cb 5%, #8989ba 45%, #FFF720 55%, #3CD500 95%);
-    background-position: 0 0;
-    transition: 0.1s;
-}
-
-#dot-list .dot.active {
-    transform: scale(1.1);
-    background-position: 100% 100%;
-}
-
 #beats {
     width: 40%;
     font-size: var(--size-xl)
 }
 
-#beats-ctrl {
+.Beat__controls {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -36,16 +11,12 @@
     margin: var(--size-xs) auto;
 }
 
-#beats-ctrl button {
+.Beat__controls button {
     padding: var(--size-xxs);
     border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
-#beats-ctrl button img {
+.Beat__controls button img {
     width: var(--size-l);
     height: var(--size-l);
 }
@@ -56,23 +27,14 @@
     margin-top: var(--size-xs);
     border-radius: 50%;
     font-size: var(--size-m);
-}
-
-#stress {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     transition: 0.5s;
 }
 
-#stress:hover {
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-    transform: scale(1.1);
-}
-
-.yes {
+#stress.yes {
     background-position: 0 0;
 }
 
-.no {
+#stress.no {
     background-position: 100% 100%;
 }
 

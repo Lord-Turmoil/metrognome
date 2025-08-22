@@ -1,10 +1,16 @@
 import { defineConfig } from 'vite';
+import htmlMinifier from 'vite-plugin-html-minifier';
 
 export default defineConfig({
-  root: './src',
-  build: {
-    outDir: '../dist',
-    minify: false,
-    emptyOutDir: true,
-  }
+    root: '.',
+    build: {
+        outDir: './dist',
+        minify: true,
+        emptyOutDir: true,
+    },
+    plugins: [
+        htmlMinifier({
+            minify: true,
+        }),
+    ],
 });

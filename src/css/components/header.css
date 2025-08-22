@@ -1,9 +1,29 @@
-.header {
-    width: 90%;
-    margin: 0 auto;
+.Header {
     position: relative;
-    padding: 0.5rem 0;
+    width: 100%;
+    margin: 10px 0;
     text-align: center;
+}
+
+.Header__badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 1000px;
+    font-size: var(--size-xs);
+    transform: translate(-10%, -50%);
+    text-transform: capitalize;
+}
+
+.Header__badge.web {
+    background-image: linear-gradient(135deg, #FFF720 5%, #3CD500 95%);
+}
+
+.Header__badge.android {
+    background-image: linear-gradient(135deg, #FCCF31 10%, #F55555 100%);
+}
+
+.Header__badge.ios {
+    background-image: linear-gradient(135deg, #EE9AE5 10%, #5961F9 100%);
 }
 
 #title {
@@ -16,20 +36,21 @@
     cursor: pointer;
 }
 
-.marquee-container {
+.Header__slogan {
+    margin-top: 8px;
     height: calc(var(--size-xs) * 2);
     line-height: calc(var(--size-xs) * 2);
     overflow: hidden;
 }
 
-.marquee-container .marquee {
+.Header__slogan .marquee {
     width: max-content;
     font-size: var(--size-xs);
     animation: scroll 25.0s linear infinite;
 }
 
 @media (max-width: 768px) {
-    .marquee-container .marquee {
+    .Header__slogan .marquee {
         animation: scroll 15.0s linear infinite;
     }
 }

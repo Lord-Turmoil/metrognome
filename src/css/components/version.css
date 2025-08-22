@@ -1,28 +1,18 @@
-#counter-wrapper {
+.VersionWeb__downloads, .VersionAndroid__downloads {
     display: flex;
     flex-direction: row;
-    align-items: end;
+    align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    margin: 12px 0;
 }
 
-#counter-wrapper img {
+.VersionWeb__downloads button, .VersionAndroid__downloads button {
     height: var(--size-l);
-    margin-right: var(--size-xxs);
+    padding: 2px 12px;
+    border-radius: 1000px;
 }
 
-#changelog {
-    width: 80%;
-    margin: var(--size-s) auto 0 auto;
-}
-
-#changelog ul {
-    width: 95%;
-    margin-left: auto;
-    text-align: left;
-}
-
-#changelog ul li {
-    list-style-type: disc;
-    margin-top: var(--size-xxs);
+.VersionWeb__changelog .messages, .VersionAndroid__changelog .messages {
+    margin: 8px 0;
 }

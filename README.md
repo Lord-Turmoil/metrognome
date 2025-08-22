@@ -22,19 +22,9 @@ This project aims to provide a minimalist metronome for musicians without any un
 
 Metrognome is developed with [Capacitor](https://capacitorjs.com/) using native HTML, CSS, and JavaScript. See the official [Capacitor documentation](https://capacitorjs.com/docs) for more information.
 
-### Sensitive Information
+Before build, you need to create `.env` or `.env.production` file to set certain environment variables. It should include `VITE_BASE_URL` and `VITE_WEB_URL`:
 
-Since this repository is public, sensitive information such as API keys should not be committed. Therefore, all information is placed in `src/js/private.js` which is ignored. To build the project locally, you need to create this file and add the following content:
-
-```javascript
-// meta file and download base url, do not end with '/'
-export const BASE_URL = "https://...";
-// web app url
-export const WEB_URL = "https://...";
-// lean cloud config
-export const LEAN_CLOUD_CONFIG = {
-    appId: "...",
-    appKey: "...",
-    serverURL: "https://..."
-};
+```
+VITE_BASE_URL=https://static/meta/file/endpoint
+VITE_WEB_URL=https://metrognome.top
 ```

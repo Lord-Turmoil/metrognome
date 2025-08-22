@@ -1,33 +1,51 @@
-#bpm {
-    width: 80%;
-    font-size: var(--size-xxl)
-}
-
-#bpm-ctrl {
+.BPM__controls {
     margin: 0 auto;
 }
 
-#bpm-ctrl ul {
+.BPM__controls .controls {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     flex-wrap: wrap;
 }
 
-#bpm-ctrl ul li {
+.BPM__controls .controls .item {
     margin: var(--size-xs) calc(var(--size-xxs) * 0.5) 0 calc(var(--size-xxs) * 0.5);
 }
 
-#bpm-ctrl ul li button {
+.BPM__controls .controls .item button {
     padding: var(--size-xxs);
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    border-radius: 50%
 }
 
-#bpm-ctrl ul li button img {
+.BPM__controls .controls .item button img {
     width: var(--size-l);
     height: var(--size-l);
+}
+
+.BPM__dots .list {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.BPM__dots .list .dot {
+    width: var(--size-m);
+    height: var(--size-m);
+    margin: var(--size-m) calc(var(--size-xxs) * 0.5) 0 calc(var(--size-xxs) * 0.5);
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    background-position: 0 0;
+    transition: 0.1s;
+}
+
+.BPM__dots .list .dot.active {
+    transform: scale(1.1);
+    background-position: 100% 100%;
+}
+
+#bpm {
+    width: 80%;
+    font-size: var(--size-xxl)
 }

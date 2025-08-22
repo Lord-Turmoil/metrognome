@@ -1,71 +1,52 @@
-.play-wrapper {
+.Play {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
 }
 
-.action-button {
+.Play__button {
     width: calc(var(--size-l) * 3);
     height: calc(var(--size-l) * 3);
     border-radius: 50%;
     font-size: var(--size-m);
     white-space: nowrap;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     transition: 0.5s;
 }
 
-.action-button:hover {
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-    transform: scale(1.1);
-}
-
-.action-button.play.stopped {
+.Play__button.stopped {
     background-position: 0 0;
 }
 
-.action-button.play.playing {
+.Play__button.playing {
     background-position: 100% 100%;
 }
 
-.switch {
+.Play__switch {
     width: var(--size-xxl);
     height: var(--size-xxl);
     border-radius: 50%;
 }
 
-.switch.real {
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+.Play__switch.real {
     transition: 0.5s;
     cursor: pointer;
 }
 
-.switch.real:hover {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    transform: scale(1.1);
-}
-
-.switch {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.switch.real img {
+.Play__switch.real img {
     width: 65%;
 }
 
 @media (max-width: 300px) {
-    .play-wrapper {
+    .Play {
         flex-direction: column;
     }
 
-    .action-button {
+    .Play__button {
         margin: 10px 0;
     }
 
-    .switch.decoy {
+    .Play__switch.decoy {
         display: none;
     }
 }

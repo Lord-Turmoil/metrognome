@@ -20,6 +20,12 @@
     background-image: linear-gradient(135deg, #FFF720 5%, #3CD500 45%, #FFB199 55%, #FF0844 95%);
 }
 
+.grey-green-grad {
+    background-size: 200% 200%;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(135deg, #a7a6cb 5%, #8989ba 45%, #FFF720 55%, #3CD500 95%);
+}
+
 .green-grad {
     background-image: linear-gradient(135deg, #FFF720 5%, #3CD500 95%);
 }
