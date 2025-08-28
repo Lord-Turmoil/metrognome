@@ -21,6 +21,12 @@
         "moduleResolution": "Node",
         "resolveJsonModule": true,
         "noEmit": true,
-        "outDir": "build"
-    }
+        "outDir": "build",
+        "baseUrl": ".",
+        "paths": {
+            "~/*": [
+                "src/scripts/*"
+            ]
+        }
+    },
 }

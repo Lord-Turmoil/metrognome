@@ -1,9 +1,9 @@
-import bus from '../extensions/event';
-import { Module } from '../extensions/module';
-import Storage from '../extensions/storage';
-import EN_DICT from './en';
-import RU_DICT from './ru';
-import ZH_DICT from './zh';
+import EN_DICT from '~/language/en';
+import RU_DICT from '~/language/ru';
+import ZH_DICT from '~/language/zh';
+import bus from '~/extensions/event';
+import Storage from '~/extensions/storage';
+import { Module } from '~/extensions/module';
 
 class LanguageManager extends Module {
     private readonly dictionary: Map<string, Map<string, string>> = new Map([

@@ -1,6 +1,6 @@
-import bus, { PlayEvent } from '../extensions/event';
-import { Module } from '../extensions/module';
-import { Speaker, Waveform } from '../extensions/speaker';
+import { Module } from '~/extensions/module';
+import bus, { PlayEvent } from '~/extensions/event';
+import { Speaker, Waveform } from '~/extensions/speaker';
 
 const TICK_FREQ = 1600;
 const TOK_FREQ = 800;

@@ -1,5 +1,6 @@
 import mitt from 'mitt';
-import { Waveform } from './speaker';
+
+import { Waveform } from '~/extensions/speaker';
 
 type Events = {
     'change-language': void;

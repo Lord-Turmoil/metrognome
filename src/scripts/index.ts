@@ -1,17 +1,19 @@
-import { KeepAwake } from '@capacitor-community/keep-awake';
 import { Capacitor } from '@capacitor/core';
+import { KeepAwake } from '@capacitor-community/keep-awake';
 
-import { App } from './extensions/module';
-import { Speaker } from './extensions/speaker';
-import LanguageManager from './language/language';
-import Metrognome from './metrognome';
-import BeatsModule from './modules/beats';
-import BpmModule from './modules/bpm';
-import DotModule from './modules/dot';
-import Player from './modules/player';
-import SoundModule from './modules/sound';
-import SubdivisionModule from './modules/subdivision';
-import TapModule from './modules/tap';
+import Metrognome from '~/metrognome';
+import LanguageManager from '~/language/language';
+
+import BpmModule from '~/modules/bpm';
+import DotModule from '~/modules/dot';
+import Player from '~/modules/player';
+import TapModule from '~/modules/tap';
+import BeatsModule from '~/modules/beats';
+import SoundModule from '~/modules/sound';
+import SubdivisionModule from '~/modules/subdivision';
+
+import { App } from '~/extensions/module';
+import { Speaker } from '~/extensions/speaker';
 
 function hideSplash(): void {
     const splash = document.getElementById('splash');
@@ -53,11 +55,11 @@ function launch(): App {
 
 function attachPlatformModule(app: App, platform: string): void {
     if (platform === 'web') {
-        import('./platform/web').then((module) => {
+        import('~/platform/web').then((module) => {
             app.load(new module.default());
         });
     } else if (platform === 'android') {
-        import('./platform/android').then((module) => {
+        import('~/platform/android').then((module) => {
             app.load(new module.default());
         });
     }

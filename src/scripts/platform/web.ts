@@ -1,6 +1,6 @@
-import { PlatformModule } from '../extensions/module';
-import { VersionMeta } from '../models';
-import { displayVersion, fetchMeta, updateChangelog } from './base';
+import { VersionMeta } from '~/models';
+import { PlatformModule } from '~/extensions/module';
+import { displayVersion, fetchMeta, updateChangelog } from '~/platform/base';
 
 class WebModule extends PlatformModule {
     protected async attach(): Promise<void> {

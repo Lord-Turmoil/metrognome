@@ -1,6 +1,6 @@
-import bus from '../extensions/event';
-import { Module } from '../extensions/module';
-import Storage from '../extensions/storage';
+import bus from '~/extensions/event';
+import Storage from '~/extensions/storage';
+import { Module } from '~/extensions/module';
 
 const SUBDIVISION = [
     [1], // 4

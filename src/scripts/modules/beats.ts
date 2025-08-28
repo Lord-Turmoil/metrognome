@@ -1,6 +1,6 @@
-import bus, { ChangeBeatsEvent } from '../extensions/event';
-import { Module } from '../extensions/module';
-import Storage from '../extensions/storage';
+import Storage from '~/extensions/storage';
+import { Module } from '~/extensions/module';
+import bus, { ChangeBeatsEvent } from '~/extensions/event';
 
 const MIN_BEATS = 1;
 const MAX_BEATS = 8;

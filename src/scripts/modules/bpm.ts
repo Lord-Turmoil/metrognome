@@ -1,6 +1,6 @@
-import bus, { ChangeBpmEvent } from '../extensions/event';
-import { Module } from '../extensions/module';
-import Storage from '../extensions/storage';
+import Storage from '~/extensions/storage';
+import { Module } from '~/extensions/module';
+import bus, { ChangeBpmEvent } from '~/extensions/event';
 
 const MIN_BPM = 1;
 const MAX_BPM = 320;

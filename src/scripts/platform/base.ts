@@ -1,6 +1,6 @@
-import Api from '../extensions/api';
-import bus from '../extensions/event';
-import { AppMeta, VersionMeta } from '../models';
+import Api from '~/extensions/api';
+import bus from '~/extensions/event';
+import { AppMeta, VersionMeta } from '~/models';
 
 export interface MetaResponse {
     error: boolean;

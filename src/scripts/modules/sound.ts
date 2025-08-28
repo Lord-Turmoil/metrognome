@@ -1,7 +1,7 @@
-import bus from '../extensions/event';
-import { Module } from '../extensions/module';
-import { Waveform } from '../extensions/speaker';
-import Storage from '../extensions/storage';
+import bus from '~/extensions/event';
+import Storage from '~/extensions/storage';
+import { Module } from '~/extensions/module';
+import { Waveform } from '~/extensions/speaker';
 
 const WAVEFORM: Waveform[] = ['square', 'sawtooth', 'sine', 'triangle'];
 

@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import htmlMinifier from 'vite-plugin-html-minifier';
+import * as path from 'path';
 
 export default defineConfig({
     root: '.',
@@ -13,4 +14,7 @@ export default defineConfig({
             minify: true,
         }),
     ],
+    resolve: {
+        alias: [{ find: '~', replacement: path.resolve(__dirname, 'src', 'scripts') }]
+    }
 });

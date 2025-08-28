@@ -1,6 +1,6 @@
-import bus, { Mode } from '../extensions/event';
-import { Module } from '../extensions/module';
-import { Speaker } from '../extensions/speaker';
+import { Module } from '~/extensions/module';
+import bus, { Mode } from '~/extensions/event';
+import { Speaker } from '~/extensions/speaker';
 
 // standard la frequency
 const TAP_FREQ = 2000;

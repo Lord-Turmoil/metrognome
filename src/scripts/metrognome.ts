@@ -1,5 +1,5 @@
-import bus, { Mode } from './extensions/event';
-import { App } from './extensions/module';
+import { App } from '~/extensions/module';
+import bus, { Mode } from '~/extensions/event';
 
 class Metrognome extends App {
     private mode: Mode = 'play';

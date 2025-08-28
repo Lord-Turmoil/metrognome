@@ -1,5 +1,5 @@
-import bus from '../extensions/event';
-import { Module } from '../extensions/module';
+import bus from '~/extensions/event';
+import { Module } from '~/extensions/module';
 
 class DotModule extends Module {
     private dotList: HTMLUListElement = undefined!;
