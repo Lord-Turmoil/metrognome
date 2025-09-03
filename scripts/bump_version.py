@@ -4,7 +4,7 @@ import sys
 AFFECTED_FILES = [
     "package.json",
     "README.md",
-    "src/index.html",
+    "src/scripts/models.ts"
 ]
 
 # get new version
