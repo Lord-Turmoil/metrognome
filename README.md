@@ -22,11 +22,12 @@ This project aims to provide a minimalist metronome for musicians without any un
 
 Metrognome is developed with [Capacitor](https://capacitorjs.com/) using native HTML, CSS, and JavaScript. See the official [Capacitor documentation](https://capacitorjs.com/docs) for more information.
 
-Before build, you need to create `.env` or `.env.production` file to set certain environment variables. It should include `VITE_BASE_URL` and `VITE_WEB_URL`:
+Before build, you need to create `.env` or `.env.production` file to set certain environment variables. It should include `VITE_BASE_URL` and `VITE_WEB_URL`. And if you use [Microsoft Clarity](https://clarity.microsoft.com/) for analytics, you can also add `VITE_CLARITY_KEY` here.
 
 ```
 VITE_BASE_URL=https://static/meta/file/endpoint
 VITE_WEB_URL=https://metrognome.top
+VITE_CLARITY_KEY=your-clarity-key (optional)
 ```
 
 ### Web

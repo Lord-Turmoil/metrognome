@@ -15,6 +15,6 @@ export default defineConfig({
         }),
     ],
     resolve: {
-        alias: [{ find: '~', replacement: path.resolve(__dirname, 'src', 'scripts') }]
-    }
+        alias: [{ find: '~', replacement: path.resolve(__dirname, 'src', 'scripts') }],
+    },
 });

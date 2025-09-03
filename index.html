@@ -2,20 +2,22 @@
 <html lang="en" dir="ltr">
 
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8" />
     <title>Metrognome</title>
     <meta name="viewport"
-          content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <meta name="format-detection" content="telephone=no"/>
-    <meta name="msapplication-tap-highlight" content="no"/>
+        content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
     <meta name="description" content="A simple online metronome">
     <meta name="keywords" content="metronome, online, music, tool">
     <meta name="author" content="Tony's Studio">
-    <script type="module" src="./src/vendor/ionicpwaelements.esm.js"></script>
-    <script type="module" src="./src/vendor/ionicpwaelements.js"></script>
-    <link rel="icon" type="image/x-icon" href="./src/assets/favicon.ico"/>
-    <link rel="manifest" href="./src/manifest.json"/>
-    <link rel="stylesheet" href="./src/css/index.css"/>
+    <script type="module"
+        src="https://tonys-studio-1308383348.cos.ap-beijing.myqcloud.com/apps/metrognome/static/ionicpwaelements.esm.js"></script>
+    <script type="module"
+        src="https://tonys-studio-1308383348.cos.ap-beijing.myqcloud.com/apps/metrognome/static/ionicpwaelements.js"></script>
+    <link rel="icon" type="image/x-icon" href="./src/assets/favicon.ico" />
+    <link rel="manifest" href="./src/manifest.json" />
+    <link rel="stylesheet" href="./src/css/index.css" />
     <link rel="stylesheet" href="./src/css/color.css">
     <link rel="stylesheet" href="./src/css/components/beats.css">
     <link rel="stylesheet" href="./src/css/components/bpm.css">
@@ -30,242 +32,226 @@
 
 <body>
 
-<div id="splash">
-    <img src="./src/assets/imgs/logo.png" alt="logo">
-    <h1>Metrognome</h1>
-</div>
-
-<main id="app" style="display: none">
-    <!-- Header -->
-    <div class="Header">
-        <h1 id="title">Metrognome</h1>
-        <span id="badge" class="Header__badge"></span>
-        <div class="Header__slogan">
-            <p class="marquee i18n" data-i18n="slogan"></p>
-        </div>
+    <div id="splash">
+        <img src="./src/assets/imgs/logo.png" alt="logo">
+        <h1>Metrognome</h1>
     </div>
 
-    <hr class="divider">
-
-    <div class="Main">
-        <!-- BPM -->
-        <div class="Section">
-            <div class="BPM">
-                <h2 class="i18n" data-i18n="bpm.title"></h2>
-                <input type="number" id="bpm" placeholder="30 ~ 240" value="60">
-                <div id="bpm-ctrl" class="BPM__controls">
-                    <ul class="controls">
-                        <li class="item">
-                            <button id="bpm-decrease-5" class="flex-center shadow-light purple-grad"><img
-                                    src="./src/assets/imgs/control/minus-5.png"
-                                    alt="-5">
-                            </button>
-                        </li>
-                        <li class="item">
-                            <button id="bpm-decrease-1"
-                                    class="flex-center shadow-light purple-grad"><img
-                                    src="./src/assets/imgs/control/minus-1.png"
-                                    alt="-1">
-                            </button>
-                        </li>
-                        <li class="item">
-                            <button id="bpm-increase-1"
-                                    class="flex-center shadow-light orange-grad"><img
-                                    src="./src/assets/imgs/control/plus-1.png"
-                                    alt="+1">
-                            </button>
-                        </li>
-                        <li class="item">
-                            <button id="bpm-increase-5"
-                                    class="flex-center shadow-light orange-grad"><img
-                                    src="./src/assets/imgs/control/plus-5.png"
-                                    alt="+5">
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-                <div class="BPM__dots">
-                    <ul id="dot-list" class="list">
-                        <li class="dot grey-green-grad"></li>
-                        <li class="dot grey-green-grad"></li>
-                        <li class="dot grey-green-grad"></li>
-                        <li class="dot grey-green-grad"></li>
-                    </ul>
-                </div>
+    <main id="app" style="display: none">
+        <!-- Header -->
+        <div class="Header">
+            <h1 id="title">Metrognome</h1>
+            <span id="badge" class="Header__badge"></span>
+            <div class="Header__slogan">
+                <p class="marquee i18n" data-i18n="slogan"></p>
             </div>
         </div>
 
-        <!-- Play button -->
         <hr class="divider">
-        <div class="Section">
-            <div class="Play">
-                <div class="Play__switch flex-center decoy"></div>
-                <button id="play" class="Play__button shadow-light green-red-grad">
-                    <span id="play-play" class="i18n" data-i18n="play.play"></span>
-                    <span id="play-stop" class="i18n" data-i18n="play.stop"></span>
-                </button>
-                <button id="tap" class="Play__button shadow-light blue-grad play i18n" data-i18n="tap.tap"
+
+        <div class="Main">
+            <!-- BPM -->
+            <div class="Section">
+                <div class="BPM">
+                    <h2 class="i18n" data-i18n="bpm.title"></h2>
+                    <input type="number" id="bpm" placeholder="30 ~ 240" value="60">
+                    <div id="bpm-ctrl" class="BPM__controls">
+                        <ul class="controls">
+                            <li class="item">
+                                <button id="bpm-decrease-5" class="flex-center shadow-light purple-grad"><img
+                                        src="./src/assets/imgs/control/minus-5.png" alt="-5">
+                                </button>
+                            </li>
+                            <li class="item">
+                                <button id="bpm-decrease-1" class="flex-center shadow-light purple-grad"><img
+                                        src="./src/assets/imgs/control/minus-1.png" alt="-1">
+                                </button>
+                            </li>
+                            <li class="item">
+                                <button id="bpm-increase-1" class="flex-center shadow-light orange-grad"><img
+                                        src="./src/assets/imgs/control/plus-1.png" alt="+1">
+                                </button>
+                            </li>
+                            <li class="item">
+                                <button id="bpm-increase-5" class="flex-center shadow-light orange-grad"><img
+                                        src="./src/assets/imgs/control/plus-5.png" alt="+5">
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="BPM__dots">
+                        <ul id="dot-list" class="list">
+                            <li class="dot grey-green-grad"></li>
+                            <li class="dot grey-green-grad"></li>
+                            <li class="dot grey-green-grad"></li>
+                            <li class="dot grey-green-grad"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Play button -->
+            <hr class="divider">
+            <div class="Section">
+                <div class="Play">
+                    <div class="Play__switch flex-center decoy"></div>
+                    <button id="play" class="Play__button shadow-light green-red-grad">
+                        <span id="play-play" class="i18n" data-i18n="play.play"></span>
+                        <span id="play-stop" class="i18n" data-i18n="play.stop"></span>
+                    </button>
+                    <button id="tap" class="Play__button shadow-light blue-grad play i18n" data-i18n="tap.tap"
                         style="display: none"></button>
-                <div id="switch" class="Play__switch shadow-light flex-center real orange-grad">
-                    <img src="./src/assets/imgs/control/rotate.svg"
-                         alt="change">
-                </div>
-            </div>
-        </div>
-
-        <!-- Beats -->
-        <hr class="divider">
-        <div class="Section">
-            <div class="Beat">
-                <h2 class="i18n" data-i18n="beats.title"></h2>
-                <div id="beats-ctrl" class="Beat__controls">
-                    <button id="beats-decrease-1" class="flex-center shadow-light purple-grad"><img
-                            src="./src/assets/imgs/control/minus.svg"
-                            alt="-">
-                    </button>
-                    <input type="number" id="beats" placeholder="1 ~ 8" value="4">
-                    <button id="beats-increase-1" class="flex-center shadow-light orange-grad"><img
-                            src="./src/assets/imgs/control/plus.svg"
-                            alt="+">
-                    </button>
-                </div>
-                <h3 class="i18n" data-i18n="beats.stress"></h3>
-                <button id="stress" class="shadow-light green-red-grad">
-                    <span id="stress-yes" class="i18n" data-i18n="beats.stress.yes"></span>
-                    <span id="stress-no" class="i18n" data-i18n="beats.stress.no"></span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Subdivisions -->
-        <hr class="divider">
-        <div class="Section">
-            <div class="Subdivision">
-                <h2 class="i18n" data-i18n="sub.title"></h2>
-                <div id="sub-list" class="Subdivision__list">
-                    <div class="item"><img src="./src/assets/imgs/sub/4.png" alt="4"></div>
-                    <div class="item"><img src="./src/assets/imgs/sub/8-8.png" alt="8-8"></div>
-                    <div class="item"><img src="./src/assets/imgs/sub/8-16-16.png" alt="8-16-16">
-                    </div>
-                    <div class="item"><img src="./src/assets/imgs/sub/16-16-8.png" alt="16-16-8">
-                    </div>
-                    <div class="item"><img src="./src/assets/imgs/sub/16-16-16-16.png"
-                                           alt="16-16-16-16">
-                    </div>
-                    <div class="item"><img src="./src/assets/imgs/sub/8-8-8.png" alt="8-8-8"></div>
-                    <div class="item"><img src="./src/assets/imgs/sub/8dot-16.png" alt="8dot-16">
-                    </div>
-                    <div class="item"><img src="./src/assets/imgs/sub/16-8dot.png" alt="16-8dot">
+                    <div id="switch" class="Play__switch shadow-light flex-center real orange-grad">
+                        <img src="./src/assets/imgs/control/rotate.svg" alt="change">
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Sound style -->
-        <hr class="divider">
-        <div class="Section">
-            <div class="Sound">
-                <h2 class="i18n" data-i18n="sound.title"></h2>
-                <ul id="wave-list" class="Sound__list">
-                    <li class="item shadow-light flex-center green-red-grad"><img
-                            src="./src/assets/imgs/control/square-wave.svg" alt="Square"></li>
-                    <li class="item shadow-light flex-center green-red-grad"><img
-                            src="./src/assets/imgs/control/sawtooth-wave.svg"
-                            alt="Sawtooth">
-                    </li>
-                    <li class="item shadow-light flex-center green-red-grad"><img
-                            src="./src/assets/imgs/control/sine-wave.svg"
-                            alt="Sine">
-                    </li>
-                    <li class="item shadow-light flex-center green-red-grad"><img
-                            src="./src/assets/imgs/control/triangle-wave.svg"
-                            alt="Triangle">
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Version -->
-        <hr class="divider">
-        <div id="version-wrapper" class="Version expandable">
-            <div id="version-web" class="Section" style="display: none">
-                <div class="VersionWeb">
-                    <h2><span class="i18n" data-i18n="version.title"></span>&nbsp;<span class="version-text"></span>
-                    </h2>
-                    <div class="VersionWeb__downloads">
-                        <button id="web-download-android"
-                                class="shadow-light yello-grad i18n"
-                                data-i18n="version.web.download.android">
-                            Download Android App
+            <!-- Beats -->
+            <hr class="divider">
+            <div class="Section">
+                <div class="Beat">
+                    <h2 class="i18n" data-i18n="beats.title"></h2>
+                    <div id="beats-ctrl" class="Beat__controls">
+                        <button id="beats-decrease-1" class="flex-center shadow-light purple-grad"><img
+                                src="./src/assets/imgs/control/minus.svg" alt="-">
+                        </button>
+                        <input type="number" id="beats" placeholder="1 ~ 8" value="4">
+                        <button id="beats-increase-1" class="flex-center shadow-light orange-grad"><img
+                                src="./src/assets/imgs/control/plus.svg" alt="+">
                         </button>
                     </div>
-                    <div class="VersionWeb__changelog">
-                        <h3 class="i18n" data-i18n="version.changelog.title"></h3>
-                        <ul class="changelog web messages"></ul>
+                    <h3 class="i18n" data-i18n="beats.stress"></h3>
+                    <button id="stress" class="shadow-light green-red-grad">
+                        <span id="stress-yes" class="i18n" data-i18n="beats.stress.yes"></span>
+                        <span id="stress-no" class="i18n" data-i18n="beats.stress.no"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Subdivisions -->
+            <hr class="divider">
+            <div class="Section">
+                <div class="Subdivision">
+                    <h2 class="i18n" data-i18n="sub.title"></h2>
+                    <div id="sub-list" class="Subdivision__list">
+                        <div class="item"><img src="./src/assets/imgs/sub/4.png" alt="4"></div>
+                        <div class="item"><img src="./src/assets/imgs/sub/8-8.png" alt="8-8"></div>
+                        <div class="item"><img src="./src/assets/imgs/sub/8-16-16.png" alt="8-16-16">
+                        </div>
+                        <div class="item"><img src="./src/assets/imgs/sub/16-16-8.png" alt="16-16-8">
+                        </div>
+                        <div class="item"><img src="./src/assets/imgs/sub/16-16-16-16.png" alt="16-16-16-16">
+                        </div>
+                        <div class="item"><img src="./src/assets/imgs/sub/8-8-8.png" alt="8-8-8"></div>
+                        <div class="item"><img src="./src/assets/imgs/sub/8dot-16.png" alt="8dot-16">
+                        </div>
+                        <div class="item"><img src="./src/assets/imgs/sub/16-8dot.png" alt="16-8dot">
+                        </div>
                     </div>
                 </div>
             </div>
-            <div id="version-android" class="Section" style="display: none">
-                <div class="VersionAndroid">
-                    <h2><span class="i18n" data-i18n="version.title"></span>&nbsp;<span
-                            class="version-text-current"></span>
-                    </h2>
-                    <div id="android-latest" class="VersionAndroid__latest" style="display: none">
-                        <p class="i18n" data-i18n="version.android.latest"></p>
-                    </div>
-                    <div id="android-update" class="VersionAndroid__update" style="display: none">
-                        <p>
-                            <span class="i18n" data-i18n="version.android.update"></span>:
-                            <span class="version-text-latest"></span>
-                        </p>
-                        <div class="VersionAndroid__downloads">
-                            <button id="android-download-update"
-                                    class="shadow-light yello-grad i18n"
-                                    data-i18n="version.android.download.update">
+
+            <!-- Sound style -->
+            <hr class="divider">
+            <div class="Section">
+                <div class="Sound">
+                    <h2 class="i18n" data-i18n="sound.title"></h2>
+                    <ul id="wave-list" class="Sound__list">
+                        <li class="item shadow-light flex-center green-red-grad"><img
+                                src="./src/assets/imgs/control/square-wave.svg" alt="Square"></li>
+                        <li class="item shadow-light flex-center green-red-grad"><img
+                                src="./src/assets/imgs/control/sawtooth-wave.svg" alt="Sawtooth">
+                        </li>
+                        <li class="item shadow-light flex-center green-red-grad"><img
+                                src="./src/assets/imgs/control/sine-wave.svg" alt="Sine">
+                        </li>
+                        <li class="item shadow-light flex-center green-red-grad"><img
+                                src="./src/assets/imgs/control/triangle-wave.svg" alt="Triangle">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Version -->
+            <hr class="divider">
+            <div id="version-wrapper" class="Version expandable">
+                <div id="version-web" class="Section" style="display: none">
+                    <div class="VersionWeb">
+                        <h2><span class="i18n" data-i18n="version.title"></span>&nbsp;<span class="version-text"></span>
+                        </h2>
+                        <div class="VersionWeb__downloads">
+                            <button id="web-download-android" class="shadow-light yello-grad i18n"
+                                data-i18n="version.web.download.android">
+                                Download Android App
                             </button>
                         </div>
                         <div class="VersionWeb__changelog">
                             <h3 class="i18n" data-i18n="version.changelog.title"></h3>
-                            <ul class="changelog android messages"></ul>
+                            <ul class="changelog web messages"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="version-android" class="Section" style="display: none">
+                    <div class="VersionAndroid">
+                        <h2><span class="i18n" data-i18n="version.title"></span>&nbsp;<span
+                                class="version-text-current"></span>
+                        </h2>
+                        <div id="android-latest" class="VersionAndroid__latest" style="display: none">
+                            <p class="i18n" data-i18n="version.android.latest"></p>
+                        </div>
+                        <div id="android-update" class="VersionAndroid__update" style="display: none">
+                            <p>
+                                <span class="i18n" data-i18n="version.android.update"></span>:
+                                <span class="version-text-latest"></span>
+                            </p>
+                            <div class="VersionAndroid__downloads">
+                                <button id="android-download-update" class="shadow-light yello-grad i18n"
+                                    data-i18n="version.android.download.update">
+                                </button>
+                            </div>
+                            <div class="VersionWeb__changelog">
+                                <h3 class="i18n" data-i18n="version.changelog.title"></h3>
+                                <ul class="changelog android messages"></ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <hr class="divider">
+        <hr class="divider">
 
-    <div class="Footer clearfix">
-        <div class="Footer__language">
-            <button id="language">
-                <img src="./src/assets/imgs/language.svg" alt="language">
-            </button>
-        </div>
-        <div class="Footer__badges">
-            <div class="badge">
-                <a href="https://github.com/Lord-Turmoil/metrognome" target="_blank">
-                    <img src="./src/assets/imgs/badge/badge-github.svg" alt="GitHub">
-                </a>
+        <div class="Footer clearfix">
+            <div class="Footer__language">
+                <button id="language">
+                    <img src="./src/assets/imgs/language.svg" alt="language">
+                </button>
             </div>
-            <div class="badge">
-                <a href="https://capacitorjs.com/" target="_blank">
-                    <img src="./src/assets/imgs/badge/badge-capacitor.svg" alt="Capacitor">
-                </a>
+            <div class="Footer__badges">
+                <div class="badge">
+                    <a href="https://github.com/Lord-Turmoil/metrognome" target="_blank">
+                        <img src="./src/assets/imgs/badge/badge-github.svg" alt="GitHub">
+                    </a>
+                </div>
+                <div class="badge">
+                    <a href="https://capacitorjs.com/" target="_blank">
+                        <img src="./src/assets/imgs/badge/badge-capacitor.svg" alt="Capacitor">
+                    </a>
+                </div>
+                <div class="badge">
+                    <a href="https://www.flaticon.com/free-icons/christmas" target="_blank">
+                        <img src="./src/assets/imgs/badge/badge-flaticon.svg" alt="Flaticon">
+                    </a>
+                </div>
             </div>
-            <div class="badge">
-                <a href="https://www.flaticon.com/free-icons/christmas" target="_blank">
-                    <img src="./src/assets/imgs/badge/badge-flaticon.svg" alt="Flaticon">
-                </a>
+            <div class="Footer__copyright">
+                <a href="https://www.tonys-studio.top" target="_blank"><span>Copyright &copy; Tony's Studio <span
+                            id="year">2023</span></span></a>
             </div>
         </div>
-        <div class="Footer__copyright">
-            <a href="https://www.tonys-studio.top" target="_blank"><span>Copyright &copy; Tony's Studio <span
-                    id="year">2023</span></span></a>
-        </div>
-    </div>
-</main>
-<script src="src/scripts/index.ts" type="module"></script>
+    </main>
+    <script src="src/scripts/index.ts" type="module"></script>
 
 </body>
 
