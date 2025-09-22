@@ -13,9 +13,13 @@ const ZH_DICT = {
     'version.title': '版本',
     'version.changelog.title': '更新日志',
     'version.web.download.android': '下载 Android 应用',
+    'version.web.download.ios': '下载 iOS 应用',
     'version.android.download.update': '下载更新',
-    'version.android.latest': '当前是最新版本🎉',
+    'version.android.latest': '当前是最新版本 🎉',
     'version.android.update': '有新版本可用',
+    'version.ios.download.update': '下载更新',
+    'version.ios.latest': '当前是最新版本 🎉',
+    'version.ios.update': '有新版本可用',
 };
 
 export default ZH_DICT;

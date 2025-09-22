@@ -1,5 +1,6 @@
 import { Capacitor } from '@capacitor/core';
 import { KeepAwake } from '@capacitor-community/keep-awake';
+import { SafeAreaController } from '@aashu-dubey/capacitor-statusbar-safe-area';
 
 import Metrognome from '~/metrognome';
 import LanguageManager from '~/language/language';
@@ -62,11 +63,17 @@ function attachPlatformModule(app: App, platform: string): void {
         import('~/platform/android').then((module) => {
             app.load(new module.default());
         });
+    } else if (platform === 'ios') {
+        import('~/platform/ios').then((module) => {
+            app.load(new module.default());
+        });
     }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const platform = Capacitor.getPlatform();
+    SafeAreaController.injectCSSVariables();
+    
+    const platform = 'ios'; // capacitor.getPlatform();
     displayBadge(platform);
 
     const app = launch();

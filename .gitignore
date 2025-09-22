@@ -4,6 +4,7 @@
 
 android/
 resources/android/**/*
+ios/
 
 node_modules/
 dist/

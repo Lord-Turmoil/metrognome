@@ -1,18 +1,24 @@
-.VersionWeb__downloads, .VersionAndroid__downloads {
+.VersionWeb__downloads,
+.VersionAndroid__downloads,
+.VersioniOS__downloads {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
-    margin: 12px 0;
+    margin-bottom: 24px;
 }
 
-.VersionWeb__downloads button, .VersionAndroid__downloads button {
+.VersionWeb__downloads button,
+.VersionAndroid__downloads button,
+.VersioniOS__downloads button {
     height: var(--size-l);
     padding: 2px 12px;
+    margin-top: var(--size-s);
     border-radius: 1000px;
 }
 
-.VersionWeb__changelog .messages, .VersionAndroid__changelog .messages {
+.VersionWeb__changelog .messages,
+.VersionAndroid__changelog .messages,
+.VersioniOS__changelog .messages {
     margin: 8px 0;
 }

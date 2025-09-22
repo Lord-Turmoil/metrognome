@@ -14,14 +14,15 @@
         "build": "vite build",
         "format": "prettier --config .prettierrc *.ts src/**/*.ts --write",
         "sync": "npm run build && cap sync",
-        "open": "cap open android",
         "version": "python scripts/bump_version.py",
         "deploy": "npm run build && pwsh deploy.ps1"
     },
     "dependencies": {
+        "@aashu-dubey/capacitor-statusbar-safe-area": "^4.0.0",
         "@capacitor-community/keep-awake": "^7.1.0",
         "@capacitor/android": "^7.0.1",
         "@capacitor/core": "^7.0.1",
+        "@capacitor/ios": "^7.4.3",
         "leancloud-storage": "^4.15.2",
         "mitt": "^3.0.1"
     },
