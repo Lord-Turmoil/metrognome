@@ -1,6 +1,6 @@
 {
   "appId": "top.tony.metrognome",
-  "appName": "metrognome",
+  "appName": "Metrognome",
   "webDir": "dist",
   "plugins": {
     "SplashScreen": {
@@ -8,7 +8,7 @@
     }
   },
   "server": {
-    "hostname": "metro.tonys-studio.top",
+    "hostname": "metrognome.top",
     "androidScheme": "https"
   }
 }

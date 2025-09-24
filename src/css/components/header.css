@@ -12,7 +12,6 @@
     border-radius: 1000px;
     font-size: var(--size-xs);
     transform: translate(-10%, -50%);
-    text-transform: capitalize;
     z-index: -1;
 }
 
@@ -32,10 +31,6 @@
     display: inline-block;
     width: min-content;
     font-size: var(--size-xl);
-}
-
-#title:hover {
-    cursor: pointer;
 }
 
 .Header__slogan {

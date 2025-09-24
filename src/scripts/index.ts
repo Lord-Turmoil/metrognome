@@ -36,8 +36,13 @@ function updateCopyright(): void {
 }
 
 function displayBadge(platform: string): void {
+    const PLATFORM_TO_BADGE = {
+        web: 'Web',
+        android: 'Android',
+        ios: 'iOS',
+    };
     const badge = document.getElementById('badge') as HTMLSpanElement;
-    badge.innerText = platform;
+    badge.innerText = PLATFORM_TO_BADGE[platform] || 'Other';
     badge.classList.add(platform);
 }
 
@@ -72,8 +77,8 @@ function attachPlatformModule(app: App, platform: string): void {
 
 document.addEventListener('DOMContentLoaded', () => {
     SafeAreaController.injectCSSVariables();
-    
-    const platform = 'ios'; // capacitor.getPlatform();
+
+    const platform = Capacitor.getPlatform();
     displayBadge(platform);
 
     const app = launch();
@@ -95,6 +100,12 @@ document.addEventListener('DOMContentLoaded', () => {
             y = l.getElementsByTagName(r)[0];
             y.parentNode.insertBefore(t, y);
         })(window, document, 'clarity', 'script', key);
+    }
+
+    if (platform !== 'web') {
+        document.getElementById('title').addEventListener('click', () => {
+            window.open(import.meta.env.VITE_WEB_URL, '_blank');
+        });
     }
 });
 

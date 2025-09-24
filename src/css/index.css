@@ -73,6 +73,7 @@ input {
 button {
     border: none;
     cursor: pointer;
+    color: black;
 }
 
 .flex-center {

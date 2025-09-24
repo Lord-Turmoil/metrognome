@@ -14,9 +14,10 @@
     margin: 0 5px;
 }
 
-.Footer__copyright {
+.Footer__copyright a{
     margin-top: 8px;
-    font-size: 0.8em;
+    font-size: var(--size-xs);
+    color: #6a329f;
 }
 
 .Footer__language button {
@@ -28,4 +29,3 @@
     vertical-align: middle;
     height: var(--size-xl);
 }
-
