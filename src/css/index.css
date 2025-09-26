@@ -26,7 +26,6 @@
 
 .zh * {
     font-family: 'Comic Sans MS', 'Comic Sans MS Fallback', 'STHupo', sans-serif;
-    font-weight: lighter;
 }
 
 html {
@@ -89,6 +88,7 @@ body {
 
 #app {
     padding-top: var(--status-bar-height);
+    padding-bottom: var(--safe-area-inset-bottom);
 }
 
 .Main {

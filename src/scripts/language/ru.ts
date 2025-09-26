@@ -17,9 +17,6 @@ const RU_DICT = {
     'version.android.download.update': 'Скачать обновление',
     'version.android.latest': 'Вы используете последнюю версию 🎉',
     'version.android.update': 'Доступна новая версия',
-    'version.ios.download.update': 'Скачать обновление',
-    'version.ios.latest': 'Вы используете последнюю версию 🎉',
-    'version.ios.update': 'Доступна новая версия',
 };
 
 export default RU_DICT;

@@ -1,5 +1,5 @@
 .Footer {
-    margin: 1rem 0;
+    margin-top: 1rem;
     text-align: center;
 }
 
@@ -14,7 +14,7 @@
     margin: 0 5px;
 }
 
-.Footer__copyright a{
+.Footer__copyright a {
     margin-top: 8px;
     font-size: var(--size-xs);
     color: #6a329f;

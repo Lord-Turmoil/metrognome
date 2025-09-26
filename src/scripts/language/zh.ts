@@ -17,9 +17,6 @@ const ZH_DICT = {
     'version.android.download.update': '下载更新',
     'version.android.latest': '当前是最新版本 🎉',
     'version.android.update': '有新版本可用',
-    'version.ios.download.update': '下载更新',
-    'version.ios.latest': '当前是最新版本 🎉',
-    'version.ios.update': '有新版本可用',
 };
 
 export default ZH_DICT;

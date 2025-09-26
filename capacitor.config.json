@@ -1,5 +1,5 @@
 {
-  "appId": "top.tony.metrognome",
+  "appId": "com.zhengyaoliu.metrognome",
   "appName": "Metrognome",
   "webDir": "dist",
   "plugins": {
@@ -8,7 +8,7 @@
     }
   },
   "server": {
-    "hostname": "metrognome.top",
+    "hostname": "com.zhengyaoliu.metrognome",
     "androidScheme": "https"
   }
 }
