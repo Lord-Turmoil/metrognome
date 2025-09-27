@@ -16,18 +16,6 @@
     padding: 0;
 }
 
-.en * {
-    font-family: 'Comic Sans MS', 'Comic Sans MS Fallback', sans-serif;
-}
-
-.ru * {
-    font-family: 'Comic Sans MS', 'Comic Sans MS Fallback', sans-serif;
-}
-
-.zh * {
-    font-family: 'Comic Sans MS', 'Comic Sans MS Fallback', 'STHupo', sans-serif;
-}
-
 html {
     font-size: 16px;
 
@@ -84,6 +72,19 @@ button {
 
 body {
     background-image: linear-gradient(315deg, #fdcbf1 0%, #fdcbf1 1%, #e6dee9 100%);
+    font-family: 'Comic Sans MS', 'Comic Sans MS Fallback', sans-serif;
+}
+
+body.en * {
+    font-family: 'Comic Sans MS', 'Comic Sans MS Fallback', sans-serif;
+}
+
+body.ru * {
+    font-family: 'Comic Sans MS', 'Comic Sans MS Fallback', sans-serif;
+}
+
+body.zh * {
+    font-family: 'Comic Sans MS', 'Comic Sans MS Fallback', 'STHupo', sans-serif;
 }
 
 #app {
