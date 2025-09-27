@@ -89,6 +89,7 @@ body.zh * {
 
 #app {
     padding-bottom: 16px;
+    min-height: 100vh;
 }
 
 #app.ios {
