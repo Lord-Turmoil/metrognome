@@ -3,7 +3,6 @@
 .DS_Store
 
 android/
-resources/android/**/*
 ios/
 
 node_modules/

@@ -88,6 +88,10 @@ body.zh * {
 }
 
 #app {
+    padding-bottom: 16px;
+}
+
+#app.ios {
     padding-top: var(--status-bar-height);
     padding-bottom: var(--safe-area-inset-bottom);
 }
