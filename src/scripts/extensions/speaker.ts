@@ -8,15 +8,12 @@ declare global {
 export type Waveform = 'sine' | 'square' | 'sawtooth' | 'triangle';
 
 export class Speaker {
-    private readonly audioCtx: AudioContext;
-    private readonly volume: GainNode;
+    private audioCtx: AudioContext;
+    private volume: GainNode;
     private waveform: Waveform;
 
     constructor() {
-        this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        this.volume = this.audioCtx.createGain();
-        this.volume.connect(this.audioCtx.destination);
-
+        this.createAudioContext();
         this.waveform = 'square'; // default waveform
     }
 
@@ -25,6 +22,10 @@ export class Speaker {
     }
 
     play(frequency: number): void {
+        // On iOS, the AudioContext will most likely to be interrupted
+        // when the App goes to background.
+        this.resumeAudioContext();
+
         let oscillator = this.audioCtx.createOscillator();
         oscillator.connect(this.volume);
 
@@ -33,5 +34,28 @@ export class Speaker {
 
         oscillator.start(this.audioCtx.currentTime);
         oscillator.stop(this.audioCtx.currentTime + 0.04);
+    }
+
+    private createAudioContext(): void {
+        this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        this.volume = this.audioCtx.createGain();
+        this.volume.connect(this.audioCtx.destination);
+    }
+
+    private resumeAudioContext(): void {
+        if (this.audioCtx.state === 'running') {
+            return;
+        }
+
+        if (this.audioCtx.state === 'interrupted') {
+            console.log('Resuming interrupted AudioContext');
+            this.audioCtx.resume();
+        } else if (this.audioCtx.state === 'suspended') {
+            console.log('Resuming suspended AudioContext');
+            this.audioCtx.resume();
+        } else if (this.audioCtx.state === 'closed') {
+            console.log('Recreating closed AudioContext');
+            this.createAudioContext();
+        }
     }
 }
