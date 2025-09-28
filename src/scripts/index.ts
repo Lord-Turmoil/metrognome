@@ -79,9 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     SafeAreaController.injectCSSVariables();
 
     const platform = Capacitor.getPlatform();
-    if (platform === 'ios') {
-        document.getElementById('app').classList.add('ios');
-    }
+    document.getElementById('app').classList.add(platform);
 
     displayBadge(platform);
 

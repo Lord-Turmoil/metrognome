@@ -88,13 +88,14 @@ body.zh * {
 }
 
 #app {
-    padding-bottom: 16px;
+    padding-top: var(--status-bar-height);
+    padding-bottom: var(--safe-area-inset-bottom);
     min-height: 100vh;
 }
 
-#app.ios {
-    padding-top: var(--status-bar-height);
-    padding-bottom: var(--safe-area-inset-bottom);
+#app.web {
+    padding-top: 16px;
+    padding-bottom: 16px;
 }
 
 .Main {
