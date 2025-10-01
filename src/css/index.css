@@ -75,16 +75,16 @@ body {
     font-family: 'Comic Sans MS', 'Comic Sans MS Fallback', sans-serif;
 }
 
-body.en * {
+#app.en * {
     font-family: 'Comic Sans MS', 'Comic Sans MS Fallback', sans-serif;
 }
 
-body.ru * {
+#app.ru * {
     font-family: 'Comic Sans MS', 'Comic Sans MS Fallback', sans-serif;
 }
 
-body.zh * {
-    font-family: 'Comic Sans MS', 'Comic Sans MS Fallback', 'STHupo', sans-serif;
+#app.zh * {
+    font-family: sans-serif;
 }
 
 #app {

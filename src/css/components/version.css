@@ -17,8 +17,11 @@
     border-radius: 1000px;
 }
 
-.VersionWeb__changelog .messages,
-.VersionAndroid__changelog .messages,
-.VersioniOS__changelog .messages {
+.changelog.messages {
     margin: 8px 0;
+}
+
+.changelog.messages li {
+    list-style: disc;
+    list-style-position: inside;
 }

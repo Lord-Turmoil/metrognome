@@ -11,11 +11,11 @@
 }
 
 .Footer__badges .badge {
-    margin: 0 5px;
+    margin-bottom: 4px;
 }
 
 .Footer__copyright a {
-    margin-top: 8px;
+    margin-bottom: 8px;
     font-size: var(--size-xs);
     color: #6a329f;
 }

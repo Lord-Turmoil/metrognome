@@ -1,6 +1,4 @@
 import { PlatformModule } from '~/extensions/module';
-import { CURRENT_VERSION, VersionMeta } from '~/models';
-import { displayVersion, fetchMeta, isNewerVersion, updateChangelog } from '~/platform/base';
 
 class IosModule extends PlatformModule {
     protected async attach(): Promise<void> {

@@ -11,4 +11,4 @@ publish/
 
 .env
 .env.production
-.tar.gz
+*.tar.gz

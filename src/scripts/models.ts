@@ -13,4 +13,4 @@ export interface VersionMeta {
     android?: string;
 }
 
-export const CURRENT_VERSION = '1.3.1';
+export const CURRENT_VERSION = '1.4.6';

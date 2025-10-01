@@ -26,6 +26,15 @@ class WebModule extends PlatformModule {
         document.getElementById('web-download-android').onclick = () => {
             window.open(versionMeta.android, '_blank');
         };
+
+        const appStoreUrl = import.meta.env.VITE_APP_STORE_URL;
+        if (appStoreUrl) {
+            document.getElementById('web-download-ios').onclick = () => {
+                window.open(appStoreUrl, '_blank');
+            };
+        } else {
+            document.getElementById('web-download-ios').style.display = 'none';
+        }
     }
 }
 

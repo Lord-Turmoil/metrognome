@@ -8,7 +8,7 @@
     }
   },
   "server": {
-    "hostname": "com.zhengyaoliu.metrognome",
+    "hostname": "metrognome.zhengyaoliu.com",
     "androidScheme": "https"
   }
 }
