@@ -49,7 +49,7 @@ export class Speaker {
 
         if (this.audioCtx.state === 'interrupted') {
             console.log('Resuming interrupted AudioContext');
-            this.audioCtx.resume();
+            this.createAudioContext();
         } else if (this.audioCtx.state === 'suspended') {
             console.log('Resuming suspended AudioContext');
             this.audioCtx.resume();
