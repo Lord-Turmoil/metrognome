@@ -1,4 +1,4 @@
-<img src="src/assets/imgs/logo.png" alt="Metrognome Logo" width="100" height="100" align="right">
+<img src="public/imgs/logo.png" alt="Metrognome Logo" width="100" height="100" align="right">
 
 # Metrognome
 
@@ -16,7 +16,13 @@ This project aims to provide a minimalist metronome for musicians without any un
 
 - [x] [Web App](https://metro.tonys-studio.top/)
 - [x] [Android App](https://github.com/Lord-Turmoil/metrognome/releases/latest/download/metrognome-1.3.1.apk)
-- [ ] iOS App
+- [x] [iOS App](https://apps.apple.com/app/id6753041104)
+
+<div style="text-align: center;">
+    <img src="assets/readme-1.jpg" alt="Metrognome Screenshot 1" width="150">
+    <img src="assets/readme-2.jpg" alt="Metrognome Screenshot 2" width="150">
+    <img src="assets/readme-3.jpg" alt="Metrognome Screenshot 3" width="150">
+</div>
 
 ## Development
 
