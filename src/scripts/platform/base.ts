@@ -5,6 +5,10 @@ import { ApiErrorResponse } from '~/extensions/api';
 import { getElementByIdOrThrow, querySelectorOrThrow } from '~/extensions/dom';
 import { PLATFORM_DOM_CONFIG, PLATFORM_ELEMENT_IDS, SupportedPlatform } from '~/platform/config';
 
+export type MetaDisplayPlatform = Extract<SupportedPlatform, 'web' | 'android'>;
+
+const DISCONNECTED_PLACEHOLDER_TEXT = 'Disconnected: update information unavailable.';
+
 export type MetaFailureReason =
     | 'app-meta-network-error'
     | 'app-meta-server-error'
@@ -88,6 +92,31 @@ export async function fetchMeta(): Promise<MetaResponse> {
 export function displayVersion(platform: SupportedPlatform): void {
     getElementByIdOrThrow<HTMLElement>(PLATFORM_DOM_CONFIG[platform].versionSectionId).style.display = 'block';
     getElementByIdOrThrow<HTMLElement>(PLATFORM_ELEMENT_IDS.versionWrapper).classList.add('expand');
+}
+
+export function showDisconnectedPlaceholder(platform: MetaDisplayPlatform): void {
+    displayVersion(platform);
+
+    const section = getElementByIdOrThrow<HTMLElement>(PLATFORM_DOM_CONFIG[platform].versionSectionId);
+    const selector = '[data-meta-placeholder="disconnected"]';
+
+    let placeholder = section.querySelector<HTMLElement>(selector);
+    if (!placeholder) {
+        placeholder = document.createElement('p');
+        placeholder.classList.add('Version__placeholder');
+        placeholder.setAttribute('data-meta-placeholder', 'disconnected');
+        section.appendChild(placeholder);
+    }
+    placeholder.textContent = DISCONNECTED_PLACEHOLDER_TEXT;
+
+    if (platform === 'web') {
+        document.getElementById(PLATFORM_ELEMENT_IDS.web.downloadAndroid)?.setAttribute('disabled', 'true');
+        document.getElementById(PLATFORM_ELEMENT_IDS.web.downloadIos)?.setAttribute('disabled', 'true');
+    } else {
+        document.getElementById(PLATFORM_ELEMENT_IDS.android.updateBanner)?.setAttribute('style', 'display: none');
+        document.getElementById(PLATFORM_ELEMENT_IDS.android.latestBanner)?.setAttribute('style', 'display: none');
+        document.getElementById(PLATFORM_ELEMENT_IDS.android.downloadUpdate)?.setAttribute('disabled', 'true');
+    }
 }
 
 export function updateChangelog(platform: SupportedPlatform, versionMeta: VersionMeta): void {
