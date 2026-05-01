@@ -78,10 +78,10 @@ class Metrognome extends App {
     private toggleMode(): void {
         if (this.mode === 'play') {
             document.getElementById('play')!.style.display = 'none';
-            document.getElementById('tap')!.style.display = 'block';
+            document.getElementById('tap')!.style.removeProperty('display');
             this.mode = 'tap';
         } /* (this.mode === 'tap') */ else {
-            document.getElementById('play')!.style.display = 'block';
+            document.getElementById('play')!.style.removeProperty('display');
             document.getElementById('tap')!.style.display = 'none';
             this.mode = 'play';
         }
