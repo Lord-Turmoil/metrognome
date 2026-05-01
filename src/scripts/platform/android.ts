@@ -6,6 +6,7 @@ class AndroidModule extends PlatformModule {
     protected async attach(): Promise<void> {
         const meta = await fetchMeta();
         if (!meta.ok) {
+            console.warn(`[platform:android] Skip version update UI because ${meta.reason}`);
             return;
         }
 
@@ -36,6 +37,11 @@ class AndroidModule extends PlatformModule {
     }
 
     private updateDownloadLink(versionMeta: VersionMeta): void {
+        if (!versionMeta.android) {
+            console.warn('[platform:android] Missing Android download URL in version metadata');
+            return;
+        }
+
         document.getElementById('android-download-update')!.onclick = () => {
             window.open(versionMeta.android, '_blank');
         };
