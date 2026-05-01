@@ -1,10 +1,11 @@
 import { PlatformModule } from '~/extensions/module';
 import { getElementByIdOrThrow } from '~/extensions/dom';
+import { PLATFORM_ELEMENT_IDS } from '~/platform/config';
 
 class IosModule extends PlatformModule {
     protected async attach(): Promise<void> {
-        getElementByIdOrThrow<HTMLElement>('version-wrapper').style.display = 'none';
-        getElementByIdOrThrow<HTMLHeadingElement>('title').onclick = () => {
+        getElementByIdOrThrow<HTMLElement>(PLATFORM_ELEMENT_IDS.versionWrapper).style.display = 'none';
+        getElementByIdOrThrow<HTMLHeadingElement>(PLATFORM_ELEMENT_IDS.title).onclick = () => {
             window.open(import.meta.env.VITE_WEB_URL || '#', '_blank');
         };
     }

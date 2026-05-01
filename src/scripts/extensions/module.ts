@@ -12,7 +12,13 @@ export class Module {
 
 export class PlatformModule extends Module {
     mount(): void {
-        this.attach().then(() => {});
+        this.attach().catch((error: unknown) => {
+            this.onAttachError(error);
+        });
+    }
+
+    protected onAttachError(error: unknown): void {
+        console.error(`[platform] Failed to attach ${this.constructor.name}`, error);
     }
 
     protected async attach(): Promise<void> {}

@@ -14,7 +14,10 @@ import SoundModule from '~/modules/sound';
 import SubdivisionModule from '~/modules/subdivision';
 
 import { App } from '~/extensions/module';
+import type { Module } from '~/extensions/module';
 import { Speaker } from '~/extensions/speaker';
+import { SupportedPlatform, PLATFORM_ELEMENT_IDS } from '~/platform/config';
+import { getElementByIdOrThrow } from '~/extensions/dom';
 
 function hideSplash(): void {
     const splash = document.getElementById('splash');
@@ -36,7 +39,7 @@ function updateCopyright(): void {
 }
 
 function displayBadge(platform: string): void {
-    const PLATFORM_TO_BADGE = {
+    const PLATFORM_TO_BADGE: Record<string, string> = {
         web: 'Web',
         android: 'Android',
         ios: 'iOS',
@@ -59,27 +62,36 @@ function launch(): App {
         .load(new SoundModule());
 }
 
+type PlatformModuleImport = {
+    default: new () => Module;
+};
+
+const PLATFORM_LOADERS: Record<SupportedPlatform, () => Promise<PlatformModuleImport>> = {
+    web: () => import('~/platform/web'),
+    android: () => import('~/platform/android'),
+    ios: () => import('~/platform/ios'),
+};
+
 function attachPlatformModule(app: App, platform: string): void {
-    if (platform === 'web') {
-        import('~/platform/web').then((module) => {
-            app.load(new module.default());
-        });
-    } else if (platform === 'android') {
-        import('~/platform/android').then((module) => {
-            app.load(new module.default());
-        });
-    } else if (platform === 'ios') {
-        import('~/platform/ios').then((module) => {
-            app.load(new module.default());
-        });
+    const loader = PLATFORM_LOADERS[platform as SupportedPlatform];
+    if (!loader) {
+        return;
     }
+
+    loader()
+        .then((module) => {
+            app.load(new module.default());
+        })
+        .catch((error: unknown) => {
+            console.error(`[platform] Failed to load module for ${platform}`, error);
+        });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     SafeAreaController.injectCSSVariables();
 
     const platform = Capacitor.getPlatform();
-    document.getElementById('app').classList.add(platform);
+    getElementByIdOrThrow<HTMLElement>('app').classList.add(platform);
 
     displayBadge(platform);
 
@@ -91,23 +103,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if (platform === 'web') {
         const key = import.meta.env.VITE_CLARITY_KEY;
         if (key) {
-            (function (c, l, a, r, i, t, y) {
+            (function (c: Record<string, any>, l: Document, a: string, r: string, i: string) {
                 c[a] =
                     c[a] ||
                     function () {
                         (c[a].q = c[a].q || []).push(arguments);
                     };
-                t = l.createElement(r);
-                t.async = 1;
+                const t = l.createElement(r) as HTMLScriptElement;
+                t.async = true;
                 t.src = 'https://www.clarity.ms/tag/' + i;
-                y = l.getElementsByTagName(r)[0];
-                y.parentNode.insertBefore(t, y);
-            })(window, document, 'clarity', 'script', key);
+                const y = l.getElementsByTagName(r)[0];
+                y.parentNode?.insertBefore(t, y);
+            })(window as unknown as Record<string, any>, document, 'clarity', 'script', key);
         }
     }
 
     if (platform !== 'web') {
-        document.getElementById('title').addEventListener('click', () => {
+        getElementByIdOrThrow<HTMLElement>(PLATFORM_ELEMENT_IDS.title).addEventListener('click', () => {
             window.open(import.meta.env.VITE_WEB_URL, '_blank');
         });
     }
