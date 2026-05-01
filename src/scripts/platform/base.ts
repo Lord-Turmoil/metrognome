@@ -1,11 +1,16 @@
 import Api from '~/extensions/api';
 import bus from '~/extensions/event';
 import { AppMeta, VersionMeta, parseAppMeta, parseVersionMeta } from '~/models';
+import { ApiErrorResponse } from '~/extensions/api';
 
 export type MetaFailureReason =
-    | 'app-meta-fetch-failed'
+    | 'app-meta-network-error'
+    | 'app-meta-server-error'
+    | 'app-meta-invalid-json'
     | 'app-meta-invalid'
-    | 'version-meta-fetch-failed'
+    | 'version-meta-network-error'
+    | 'version-meta-server-error'
+    | 'version-meta-invalid-json'
     | 'version-meta-invalid';
 
 export type MetaResponse =
@@ -17,30 +22,62 @@ export type MetaResponse =
     | {
           ok: false;
           reason: MetaFailureReason;
+          httpStatus?: number;
       };
+
+function mapFailureReason(prefix: 'app-meta' | 'version-meta', response: ApiErrorResponse): MetaFailureReason {
+    if (response.status === 'network-error') {
+        return `${prefix}-network-error`;
+    }
+    if (response.status === 'invalid-json') {
+        return `${prefix}-invalid-json`;
+    }
+    return `${prefix}-server-error`;
+}
+
+function logMetaFailure(meta: Extract<MetaResponse, { ok: false }>): void {
+    if (meta.httpStatus !== undefined) {
+        console.error(`[meta] ${meta.reason} (http ${meta.httpStatus})`);
+    } else {
+        console.error(`[meta] ${meta.reason}`);
+    }
+}
 
 export async function fetchMeta(): Promise<MetaResponse> {
     const appMetaResponse = await Api.fetch<unknown>('meta.json');
     if (appMetaResponse.status !== 'ok') {
-        console.error('Failed to fetch App meta');
-        return { ok: false, reason: 'app-meta-fetch-failed' };
+        const failed: Extract<MetaResponse, { ok: false }> = {
+            ok: false,
+            reason: mapFailureReason('app-meta', appMetaResponse),
+            httpStatus: appMetaResponse.httpStatus,
+        };
+        logMetaFailure(failed);
+        return failed;
     }
+
     const appMeta = parseAppMeta(appMetaResponse.data);
     if (!appMeta) {
-        console.error('Invalid App meta payload');
-        return { ok: false, reason: 'app-meta-invalid' };
+        const failed: Extract<MetaResponse, { ok: false }> = { ok: false, reason: 'app-meta-invalid' };
+        logMetaFailure(failed);
+        return failed;
     }
 
     const versionMetaResponse = await Api.fetch<unknown>(`${appMeta.latest}/meta.json`);
     if (versionMetaResponse.status !== 'ok') {
-        console.error('Failed to fetch Version meta');
-        return { ok: false, reason: 'version-meta-fetch-failed' };
+        const failed: Extract<MetaResponse, { ok: false }> = {
+            ok: false,
+            reason: mapFailureReason('version-meta', versionMetaResponse),
+            httpStatus: versionMetaResponse.httpStatus,
+        };
+        logMetaFailure(failed);
+        return failed;
     }
 
     const versionMeta = parseVersionMeta(versionMetaResponse.data);
     if (!versionMeta) {
-        console.error('Invalid Version meta payload');
-        return { ok: false, reason: 'version-meta-invalid' };
+        const failed: Extract<MetaResponse, { ok: false }> = { ok: false, reason: 'version-meta-invalid' };
+        logMetaFailure(failed);
+        return failed;
     }
 
     return { ok: true, appMeta, versionMeta };

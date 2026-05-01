@@ -1,4 +1,4 @@
-export type ResponseState = 'ok' | 'network-error' | 'server-error';
+export type ResponseState = 'ok' | 'network-error' | 'server-error' | 'invalid-json';
 export type ApiSuccessResponse<T> = {
     status: 'ok';
     data: T;
@@ -6,6 +6,7 @@ export type ApiSuccessResponse<T> = {
 
 export type ApiErrorResponse = {
     status: Exclude<ResponseState, 'ok'>;
+    httpStatus?: number;
 };
 
 export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;
@@ -24,14 +25,14 @@ class Api {
         }
 
         if (!response.ok) {
-            return { status: 'server-error' };
+            return { status: 'server-error', httpStatus: response.status };
         }
 
         try {
             const data = (await response.json()) as T;
             return { status: 'ok', data };
         } catch {
-            return { status: 'server-error' };
+            return { status: 'invalid-json', httpStatus: response.status };
         }
     }
 
