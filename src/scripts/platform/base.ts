@@ -3,6 +3,7 @@ import bus from '~/extensions/event';
 import { AppMeta, VersionMeta, parseAppMeta, parseVersionMeta } from '~/models';
 import { ApiErrorResponse } from '~/extensions/api';
 import { getElementByIdOrThrow, querySelectorOrThrow } from '~/extensions/dom';
+import { PLATFORM_DOM_CONFIG, PLATFORM_ELEMENT_IDS, SupportedPlatform } from '~/platform/config';
 
 export type MetaFailureReason =
     | 'app-meta-network-error'
@@ -84,13 +85,13 @@ export async function fetchMeta(): Promise<MetaResponse> {
     return { ok: true, appMeta, versionMeta };
 }
 
-export function displayVersion(platform: string): void {
-    getElementByIdOrThrow<HTMLElement>(`version-${platform}`).style.display = 'block';
-    getElementByIdOrThrow<HTMLElement>('version-wrapper').classList.add('expand');
+export function displayVersion(platform: SupportedPlatform): void {
+    getElementByIdOrThrow<HTMLElement>(PLATFORM_DOM_CONFIG[platform].versionSectionId).style.display = 'block';
+    getElementByIdOrThrow<HTMLElement>(PLATFORM_ELEMENT_IDS.versionWrapper).classList.add('expand');
 }
 
-export function updateChangelog(platform: string, versionMeta: VersionMeta): void {
-    const changelog = querySelectorOrThrow<HTMLUListElement>(`.changelog.${platform}`);
+export function updateChangelog(platform: SupportedPlatform, versionMeta: VersionMeta): void {
+    const changelog = querySelectorOrThrow<HTMLUListElement>(PLATFORM_DOM_CONFIG[platform].changelogSelector);
     for (const message of versionMeta.changelog) {
         const item = document.createElement('li');
         item.classList.add('item', 'i18n');

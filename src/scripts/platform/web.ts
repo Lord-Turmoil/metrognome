@@ -2,6 +2,7 @@ import { VersionMeta } from '~/models';
 import { PlatformModule } from '~/extensions/module';
 import { displayVersion, fetchMeta, updateChangelog } from '~/platform/base';
 import { getElementByIdOrThrow, querySelectorAll } from '~/extensions/dom';
+import { PLATFORM_ELEMENT_IDS } from '~/platform/config';
 
 class WebModule extends PlatformModule {
     protected async attach(): Promise<void> {
@@ -19,7 +20,7 @@ class WebModule extends PlatformModule {
     }
 
     private updateVersionText(version: string): void {
-        querySelectorAll<HTMLElement>('.version-text').forEach((element) => {
+        querySelectorAll<HTMLElement>(PLATFORM_ELEMENT_IDS.web.versionTextSelector).forEach((element) => {
             element.textContent = version;
         });
     }
@@ -30,17 +31,17 @@ class WebModule extends PlatformModule {
             return;
         }
 
-        getElementByIdOrThrow<HTMLButtonElement>('web-download-android').onclick = () => {
+        getElementByIdOrThrow<HTMLButtonElement>(PLATFORM_ELEMENT_IDS.web.downloadAndroid).onclick = () => {
             window.open(versionMeta.android, '_blank');
         };
 
         const appStoreUrl = import.meta.env.VITE_APP_STORE_URL;
         if (appStoreUrl) {
-            getElementByIdOrThrow<HTMLButtonElement>('web-download-ios').onclick = () => {
+            getElementByIdOrThrow<HTMLButtonElement>(PLATFORM_ELEMENT_IDS.web.downloadIos).onclick = () => {
                 window.open(appStoreUrl, '_blank');
             };
         } else {
-            getElementByIdOrThrow<HTMLButtonElement>('web-download-ios').style.display = 'none';
+            getElementByIdOrThrow<HTMLButtonElement>(PLATFORM_ELEMENT_IDS.web.downloadIos).style.display = 'none';
         }
     }
 }
