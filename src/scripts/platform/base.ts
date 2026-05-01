@@ -1,34 +1,54 @@
 import Api from '~/extensions/api';
 import bus from '~/extensions/event';
-import { AppMeta, VersionMeta } from '~/models';
+import { AppMeta, VersionMeta, parseAppMeta, parseVersionMeta } from '~/models';
 
-export interface MetaResponse {
-    error: boolean;
-    appMeta?: AppMeta;
-    versionMeta?: VersionMeta;
-}
+export type MetaFailureReason =
+    | 'app-meta-fetch-failed'
+    | 'app-meta-invalid'
+    | 'version-meta-fetch-failed'
+    | 'version-meta-invalid';
+
+export type MetaResponse =
+    | {
+          ok: true;
+          appMeta: AppMeta;
+          versionMeta: VersionMeta;
+      }
+    | {
+          ok: false;
+          reason: MetaFailureReason;
+      };
 
 export async function fetchMeta(): Promise<MetaResponse> {
-    let response = await Api.fetch('meta.json');
-    if (response.status !== 'ok') {
+    const appMetaResponse = await Api.fetch<unknown>('meta.json');
+    if (appMetaResponse.status !== 'ok') {
         console.error('Failed to fetch App meta');
-        return { error: true };
+        return { ok: false, reason: 'app-meta-fetch-failed' };
     }
-    const appMeta = response.data as AppMeta;
+    const appMeta = parseAppMeta(appMetaResponse.data);
+    if (!appMeta) {
+        console.error('Invalid App meta payload');
+        return { ok: false, reason: 'app-meta-invalid' };
+    }
 
-    response = await Api.fetch(`${appMeta.latest}/meta.json`);
-    if (response.status !== 'ok') {
+    const versionMetaResponse = await Api.fetch<unknown>(`${appMeta.latest}/meta.json`);
+    if (versionMetaResponse.status !== 'ok') {
         console.error('Failed to fetch Version meta');
-        return { error: true };
+        return { ok: false, reason: 'version-meta-fetch-failed' };
     }
-    const versionMeta = response.data as VersionMeta;
 
-    return { error: false, appMeta, versionMeta };
+    const versionMeta = parseVersionMeta(versionMetaResponse.data);
+    if (!versionMeta) {
+        console.error('Invalid Version meta payload');
+        return { ok: false, reason: 'version-meta-invalid' };
+    }
+
+    return { ok: true, appMeta, versionMeta };
 }
 
 export function displayVersion(platform: string): void {
-    document.getElementById(`version-${platform}`).style.display = 'block';
-    document.getElementById('version-wrapper').classList.add('expand');
+    document.getElementById(`version-${platform}`)!.style.display = 'block';
+    document.getElementById('version-wrapper')!.classList.add('expand');
 }
 
 export function updateChangelog(platform: string, versionMeta: VersionMeta): void {

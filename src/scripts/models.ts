@@ -14,3 +14,56 @@ export interface VersionMeta {
 }
 
 export const CURRENT_VERSION = '1.4.6';
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+    return typeof value === 'object' && value !== null;
+}
+
+function isStringRecord(value: unknown): value is ChangeLog {
+    if (!isRecord(value)) {
+        return false;
+    }
+    return Object.values(value).every((item) => typeof item === 'string');
+}
+
+export function isAppMeta(value: unknown): value is AppMeta {
+    if (!isRecord(value)) {
+        return false;
+    }
+
+    const latest = value.latest;
+    const versions = value.versions;
+    return typeof latest === 'string' && Array.isArray(versions) && versions.every((item) => typeof item === 'string');
+}
+
+export function parseAppMeta(value: unknown): AppMeta | null {
+    return isAppMeta(value) ? value : null;
+}
+
+export function isVersionMeta(value: unknown): value is VersionMeta {
+    if (!isRecord(value)) {
+        return false;
+    }
+
+    const date = value.date;
+    const changelog = value.changelog;
+    const android = value.android;
+
+    if (typeof date !== 'string') {
+        return false;
+    }
+
+    if (!Array.isArray(changelog) || !changelog.every((item) => isStringRecord(item))) {
+        return false;
+    }
+
+    if (android !== undefined && typeof android !== 'string') {
+        return false;
+    }
+
+    return true;
+}
+
+export function parseVersionMeta(value: unknown): VersionMeta | null {
+    return isVersionMeta(value) ? value : null;
+}
