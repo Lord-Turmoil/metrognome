@@ -42,10 +42,17 @@ public class MetronomeForegroundService extends Service {
     private static final int SAMPLE_RATE = 48000;
     private static final int BLOCK_FRAMES = 240; // 5 ms at 48 kHz
 
-    private static final double TICK_HZ = 1500.0;
-    private static final double TOK_HZ = 1000.0;
-    private static final double TAK_HZ = 750.0;
-    private static final double CLICK_DURATION_MS = 25.0;
+    // Match the Web Speaker exactly: same frequencies and same 40 ms duration.
+    private static final double TICK_HZ = 1600.0;
+    private static final double TOK_HZ = 800.0;
+    private static final double TAK_HZ = 600.0;
+    private static final double CLICK_DURATION_MS = 40.0;
+
+    private static final String WAVEFORM_SINE = "sine";
+    private static final String WAVEFORM_SQUARE = "square";
+    private static final String WAVEFORM_SAWTOOTH = "sawtooth";
+    private static final String WAVEFORM_TRIANGLE = "triangle";
+    private static final String DEFAULT_WAVEFORM = WAVEFORM_SQUARE;
 
     private final AtomicReference<PlaybackConfig> pendingConfig = new AtomicReference<>(null);
     private volatile boolean running = false;
@@ -54,6 +61,10 @@ public class MetronomeForegroundService extends Service {
     private AudioFocusRequest audioFocusRequest;
     private Thread audioThread;
 
+    // Cached click buffers for the currently active waveform. Regenerated
+    // whenever the waveform changes so the runtime cost stays in startup,
+    // not in the audio loop.
+    private String cachedWaveform = "";
     private short[] tickClick;
     private short[] tokClick;
     private short[] takClick;
@@ -62,9 +73,7 @@ public class MetronomeForegroundService extends Service {
     public void onCreate() {
         super.onCreate();
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        tickClick = generateClick(TICK_HZ, CLICK_DURATION_MS, 0.95);
-        tokClick = generateClick(TOK_HZ, CLICK_DURATION_MS, 0.85);
-        takClick = generateClick(TAK_HZ, CLICK_DURATION_MS, 0.70);
+        ensureClickCache(DEFAULT_WAVEFORM);
         createNotificationChannel();
     }
 
@@ -184,6 +193,7 @@ public class MetronomeForegroundService extends Service {
             if (cfg == null) {
                 cfg = PlaybackConfig.defaults();
             }
+            ensureClickCache(cfg.waveform);
             double samplesPerNote = computeSamplesPerNote(cfg);
 
             long framesWritten = 0L;
@@ -201,6 +211,7 @@ public class MetronomeForegroundService extends Service {
                         || pending.beats != cfg.beats
                         || pending.subdivision.length != cfg.subdivision.length;
                     cfg = pending;
+                    ensureClickCache(cfg.waveform);
                     samplesPerNote = computeSamplesPerNote(cfg);
                     if (structureChanged) {
                         beatIdx = 0;
@@ -328,25 +339,71 @@ public class MetronomeForegroundService extends Service {
         return noteIdx == 0 ? tokClick : takClick;
     }
 
-    private static short[] generateClick(double freqHz, double durationMs, double amplitude) {
+    private void ensureClickCache(String waveform) {
+        String normalized = normalizeWaveform(waveform);
+        if (normalized.equals(cachedWaveform) && tickClick != null) {
+            return;
+        }
+        tickClick = generateClick(normalized, TICK_HZ, CLICK_DURATION_MS, 0.95);
+        tokClick = generateClick(normalized, TOK_HZ, CLICK_DURATION_MS, 0.85);
+        takClick = generateClick(normalized, TAK_HZ, CLICK_DURATION_MS, 0.70);
+        cachedWaveform = normalized;
+    }
+
+    private static String normalizeWaveform(String waveform) {
+        if (waveform == null) {
+            return DEFAULT_WAVEFORM;
+        }
+        switch (waveform) {
+            case WAVEFORM_SINE:
+            case WAVEFORM_SQUARE:
+            case WAVEFORM_SAWTOOTH:
+            case WAVEFORM_TRIANGLE:
+                return waveform;
+            default:
+                return DEFAULT_WAVEFORM;
+        }
+    }
+
+    private static short[] generateClick(String waveform, double freqHz, double durationMs, double amplitude) {
         int frames = (int) Math.round(SAMPLE_RATE * durationMs / 1000.0);
         short[] buf = new short[frames];
-        double tau = frames / 5.0;
-        double angularStep = 2.0 * Math.PI * freqHz / SAMPLE_RATE;
-        // Short attack ramp (~1 ms) to prevent click pops at envelope start
-        int attack = Math.max(1, SAMPLE_RATE / 1000);
+        double phaseStep = freqHz / SAMPLE_RATE;
+        // Short attack/release ramps (~1 ms) prevent the digital pop that
+        // Web's AudioContext smooths over implicitly. We do not apply an
+        // exponential decay so the timbre matches the Web oscillator.
+        int ramp = Math.max(1, SAMPLE_RATE / 1000);
         for (int i = 0; i < frames; i++) {
-            double envelope = Math.exp(-i / tau);
-            if (i < attack) {
-                envelope *= (double) i / attack;
+            double phase = (phaseStep * i) % 1.0;
+            double sample = waveformSample(waveform, phase);
+            double envelope = 1.0;
+            if (i < ramp) {
+                envelope = (double) i / ramp;
+            } else if (i > frames - ramp) {
+                envelope = (double) (frames - i) / ramp;
             }
-            double sample = Math.sin(angularStep * i) * envelope * amplitude;
-            int s = (int) Math.round(sample * 32767.0);
+            int s = (int) Math.round(sample * envelope * amplitude * 32767.0);
             if (s > Short.MAX_VALUE) s = Short.MAX_VALUE;
             else if (s < Short.MIN_VALUE) s = Short.MIN_VALUE;
             buf[i] = (short) s;
         }
         return buf;
+    }
+
+    private static double waveformSample(String waveform, double phase) {
+        switch (waveform) {
+            case WAVEFORM_SQUARE:
+                return phase < 0.5 ? 1.0 : -1.0;
+            case WAVEFORM_SAWTOOTH:
+                return 2.0 * phase - 1.0;
+            case WAVEFORM_TRIANGLE:
+                return phase < 0.5
+                    ? 4.0 * phase - 1.0
+                    : 3.0 - 4.0 * phase;
+            case WAVEFORM_SINE:
+            default:
+                return Math.sin(2.0 * Math.PI * phase);
+        }
     }
 
     private void createNotificationChannel() {
@@ -418,16 +475,18 @@ public class MetronomeForegroundService extends Service {
         final int beats;
         final boolean stressFirst;
         final int[] subdivision;
+        final String waveform;
 
-        PlaybackConfig(int bpm, int beats, boolean stressFirst, int[] subdivision) {
+        PlaybackConfig(int bpm, int beats, boolean stressFirst, int[] subdivision, String waveform) {
             this.bpm = bpm;
             this.beats = beats;
             this.stressFirst = stressFirst;
             this.subdivision = subdivision;
+            this.waveform = waveform;
         }
 
         static PlaybackConfig defaults() {
-            return new PlaybackConfig(60, 4, true, new int[] { 1 });
+            return new PlaybackConfig(60, 4, true, new int[] { 1 }, DEFAULT_WAVEFORM);
         }
 
         static PlaybackConfig fromIntent(Intent intent) {
@@ -444,7 +503,8 @@ public class MetronomeForegroundService extends Service {
             } else {
                 subdivision = new int[] { 1 };
             }
-            return new PlaybackConfig(bpm, beats, stressFirst, subdivision);
+            String waveform = normalizeWaveform(intent.getStringExtra(EXTRA_WAVEFORM));
+            return new PlaybackConfig(bpm, beats, stressFirst, subdivision, waveform);
         }
 
         private static int clamp(int value, int min, int max) {
