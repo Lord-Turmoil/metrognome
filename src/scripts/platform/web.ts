@@ -5,7 +5,7 @@ import { displayVersion, fetchMeta, updateChangelog } from '~/platform/base';
 class WebModule extends PlatformModule {
     protected async attach(): Promise<void> {
         const meta = await fetchMeta();
-        if (meta.error) {
+        if (!meta.ok) {
             return;
         }
 
@@ -23,17 +23,17 @@ class WebModule extends PlatformModule {
     }
 
     private updateDownloadLink(versionMeta: VersionMeta): void {
-        document.getElementById('web-download-android').onclick = () => {
+        document.getElementById('web-download-android')!.onclick = () => {
             window.open(versionMeta.android, '_blank');
         };
 
         const appStoreUrl = import.meta.env.VITE_APP_STORE_URL;
         if (appStoreUrl) {
-            document.getElementById('web-download-ios').onclick = () => {
+            document.getElementById('web-download-ios')!.onclick = () => {
                 window.open(appStoreUrl, '_blank');
             };
         } else {
-            document.getElementById('web-download-ios').style.display = 'none';
+            document.getElementById('web-download-ios')!.style.display = 'none';
         }
     }
 }
