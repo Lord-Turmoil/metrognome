@@ -8,12 +8,11 @@ declare global {
 export type Waveform = 'sine' | 'square' | 'sawtooth' | 'triangle';
 
 export class Speaker {
-    private audioCtx: AudioContext;
-    private volume: GainNode;
+    private audioCtx: AudioContext | null = null;
+    private volume: GainNode | null = null;
     private waveform: Waveform;
 
     constructor() {
-        this.createAudioContext();
         this.waveform = 'square'; // default waveform
     }
 
@@ -22,18 +21,23 @@ export class Speaker {
     }
 
     play(frequency: number): void {
+        this.ensureAudioContext();
+
         // On iOS, the AudioContext will most likely to be interrupted
         // when the App goes to background.
         this.resumeAudioContext();
 
-        let oscillator = this.audioCtx.createOscillator();
-        oscillator.connect(this.volume);
+        const audioCtx = this.audioCtx!;
+        const volume = this.volume!;
+
+        let oscillator = audioCtx.createOscillator();
+        oscillator.connect(volume);
 
         oscillator.type = this.waveform;
-        oscillator.frequency.setValueAtTime(frequency, this.audioCtx.currentTime);
+        oscillator.frequency.setValueAtTime(frequency, audioCtx.currentTime);
 
-        oscillator.start(this.audioCtx.currentTime);
-        oscillator.stop(this.audioCtx.currentTime + 0.04);
+        oscillator.start(audioCtx.currentTime);
+        oscillator.stop(audioCtx.currentTime + 0.04);
     }
 
     private createAudioContext(): void {
@@ -42,7 +46,18 @@ export class Speaker {
         this.volume.connect(this.audioCtx.destination);
     }
 
+    private ensureAudioContext(): void {
+        if (this.audioCtx === null || this.volume === null) {
+            this.createAudioContext();
+        }
+    }
+
     private resumeAudioContext(): void {
+        if (this.audioCtx === null) {
+            this.createAudioContext();
+            return;
+        }
+
         if (this.audioCtx.state === 'running') {
             return;
         }

@@ -19,6 +19,11 @@ import { Speaker } from '~/extensions/speaker';
 import { SupportedPlatform, PLATFORM_ELEMENT_IDS } from '~/platform/config';
 import { getElementByIdOrThrow } from '~/extensions/dom';
 
+const IONIC_PWA_SCRIPT_URLS = [
+    'https://tonys-studio-1308383348.cos.ap-beijing.myqcloud.com/apps/metrognome/static/ionicpwaelements.esm.js',
+    'https://tonys-studio-1308383348.cos.ap-beijing.myqcloud.com/apps/metrognome/static/ionicpwaelements.js',
+];
+
 function hideSplash(): void {
     const splash = document.getElementById('splash');
     if (splash) {
@@ -87,6 +92,25 @@ function attachPlatformModule(app: App, platform: string): void {
         });
 }
 
+function loadIonicPwaElementsDeferred(): void {
+    const injectScripts = () => {
+        IONIC_PWA_SCRIPT_URLS.forEach((url) => {
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.async = true;
+            script.src = url;
+            document.head.appendChild(script);
+        });
+    };
+
+    if ('requestIdleCallback' in window) {
+        (window as Window & { requestIdleCallback: (callback: () => void) => void }).requestIdleCallback(injectScripts);
+        return;
+    }
+
+    setTimeout(injectScripts, 0);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     SafeAreaController.injectCSSVariables();
 
@@ -99,6 +123,19 @@ document.addEventListener('DOMContentLoaded', () => {
     attachPlatformModule(app, platform);
 
     updateCopyright();
+
+    // Do not wait for full onload (fonts/images/remote scripts) before showing app UI.
+    hideSplash();
+    loadIonicPwaElementsDeferred();
+
+    window.onclick = async () => {
+        try {
+            await KeepAwake.keepAwake();
+            window.onclick = null;
+        } catch (error) {
+            // Ignore error
+        }
+    };
 
     if (platform === 'web') {
         const key = import.meta.env.VITE_CLARITY_KEY;
@@ -124,16 +161,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
-window.onload = () => {
-    hideSplash();
-
-    window.onclick = async () => {
-        try {
-            await KeepAwake.keepAwake();
-            window.onclick = null;
-        } catch (error) {
-            // Ignore error
-        }
-    };
-};
