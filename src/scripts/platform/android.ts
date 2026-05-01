@@ -1,14 +1,30 @@
 import { PlatformModule } from '~/extensions/module';
 import { CURRENT_VERSION, VersionMeta } from '~/models';
-import { displayVersion, fetchMeta, isNewerVersion, updateChangelog } from '~/platform/base';
+import {
+    displayVersion,
+    fetchMeta,
+    isNewerVersion,
+    showDisconnectedPlaceholder,
+    updateChangelog,
+} from '~/platform/base';
 import { getElementByIdOrThrow, querySelectorAll } from '~/extensions/dom';
 import { PLATFORM_ELEMENT_IDS } from '~/platform/config';
 
 class AndroidModule extends PlatformModule {
     protected async attach(): Promise<void> {
+        window.setTimeout(() => {
+            this.loadMetaInBackground().catch((error: unknown) => {
+                console.error('[platform:android] Metadata background task failed', error);
+                showDisconnectedPlaceholder('android');
+            });
+        }, 0);
+    }
+
+    private async loadMetaInBackground(): Promise<void> {
         const meta = await fetchMeta();
         if (!meta.ok) {
             console.warn(`[platform:android] Skip version update UI because ${meta.reason}`);
+            showDisconnectedPlaceholder('android');
             return;
         }
 

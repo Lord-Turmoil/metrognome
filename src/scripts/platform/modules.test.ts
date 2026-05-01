@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import Api from '~/extensions/api';
 import AndroidModule from '~/platform/android';
@@ -39,6 +39,12 @@ function setupIosDom(): void {
 
 describe('platform module rendering', () => {
     beforeEach(() => {
+        vi.useFakeTimers();
+        vi.restoreAllMocks();
+    });
+
+    afterEach(() => {
+        vi.useRealTimers();
         vi.restoreAllMocks();
     });
 
@@ -64,6 +70,7 @@ describe('platform module rendering', () => {
 
         const web = new WebModule();
         await (web as unknown as { attach: () => Promise<void> }).attach();
+        await vi.runAllTimersAsync();
 
         const versionText = document.querySelector('.version-text') as HTMLElement;
         const webSection = document.getElementById('version-web') as HTMLElement;
@@ -100,6 +107,7 @@ describe('platform module rendering', () => {
 
         const android = new AndroidModule();
         await (android as unknown as { attach: () => Promise<void> }).attach();
+        await vi.runAllTimersAsync();
 
         const updateBanner = document.getElementById('android-update') as HTMLElement;
         const latestBanner = document.getElementById('android-latest') as HTMLElement;
@@ -125,5 +133,27 @@ describe('platform module rendering', () => {
 
         expect(wrapper.style.display).toBe('none');
         expect(typeof title.onclick).toBe('function');
+    });
+
+    it('shows disconnected placeholder when web metadata fetch fails', async () => {
+        setupWebDom();
+
+        vi.spyOn(Api, 'fetch').mockResolvedValueOnce({
+            status: 'network-error',
+        });
+
+        const web = new WebModule();
+        await (web as unknown as { attach: () => Promise<void> }).attach();
+        await vi.runAllTimersAsync();
+
+        const wrapper = document.getElementById('version-wrapper') as HTMLElement;
+        const webSection = document.getElementById('version-web') as HTMLElement;
+        const placeholder = webSection.querySelector('[data-meta-placeholder="disconnected"]') as HTMLElement;
+        const downloadAndroid = document.getElementById('web-download-android') as HTMLButtonElement;
+
+        expect(wrapper.classList.contains('expand')).toBe(true);
+        expect(webSection.style.display).toBe('block');
+        expect(placeholder.textContent).toContain('Disconnected');
+        expect(downloadAndroid.disabled).toBe(true);
     });
 });

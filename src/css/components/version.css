@@ -25,3 +25,13 @@
     list-style: disc;
     list-style-position: inside;
 }
+
+.Version__placeholder {
+    margin-top: var(--size-s);
+    padding: var(--size-xs) var(--size-s);
+    border: 1px dashed #6a329f;
+    border-radius: 12px;
+    color: #6a329f;
+    background-color: rgba(255, 255, 255, 0.5);
+    font-size: var(--size-xs);
+}

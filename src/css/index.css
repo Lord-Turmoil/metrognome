@@ -70,7 +70,8 @@ button {
     align-items: center;
 }
 
-body {
+body,
+button {
     background-image: linear-gradient(315deg, #fdcbf1 0%, #fdcbf1 1%, #e6dee9 100%);
     font-family: 'Comic Sans MS', 'Comic Sans MS Fallback', sans-serif;
 }
