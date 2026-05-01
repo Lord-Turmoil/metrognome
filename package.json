@@ -25,6 +25,7 @@
         "@capacitor/android": "^8.3.1",
         "@capacitor/core": "^8.3.1",
         "@capacitor/ios": "^8.3.1",
+        "capacitor-metronome-background": "file:plugins/capacitor-metronome-background",
         "mitt": "^3.0.1"
     },
     "devDependencies": {

@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import Api from '~/extensions/api';
+import { CURRENT_VERSION } from '~/models';
 import AndroidModule from '~/platform/android';
 import IosModule from '~/platform/ios';
 import WebModule from '~/platform/web';
@@ -117,7 +118,7 @@ describe('platform module rendering', () => {
 
         expect(updateBanner.style.display).toBe('block');
         expect(latestBanner.style.display).toBe('none');
-        expect(currentVersion.textContent).toBe('1.4.6');
+        expect(currentVersion.textContent).toBe(CURRENT_VERSION);
         expect(latestVersion.textContent).toBe('1.5.0');
         expect(changelog.children.length).toBe(1);
     });

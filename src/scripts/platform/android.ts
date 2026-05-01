@@ -9,9 +9,12 @@ import {
 } from '~/platform/base';
 import { getElementByIdOrThrow, querySelectorAll } from '~/extensions/dom';
 import { PLATFORM_ELEMENT_IDS } from '~/platform/config';
+import { initializeAndroidNativePlayback } from '~/platform/android-native';
 
 class AndroidModule extends PlatformModule {
     protected async attach(): Promise<void> {
+        void initializeAndroidNativePlayback();
+
         window.setTimeout(() => {
             this.loadMetaInBackground().catch((error: unknown) => {
                 console.error('[platform:android] Metadata background task failed', error);
