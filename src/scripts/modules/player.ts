@@ -1,6 +1,12 @@
 import { Module } from '~/extensions/module';
 import bus, { PlayEvent } from '~/extensions/event';
 import { Speaker, Waveform } from '~/extensions/speaker';
+import {
+    canUseAndroidNativePlayback,
+    startAndroidNativePlayback,
+    stopAndroidNativePlayback,
+    updateAndroidNativePlayback,
+} from '~/platform/android-native';
 
 const TICK_FREQ = 1600;
 const TOK_FREQ = 800;
@@ -22,6 +28,9 @@ class Player extends Module {
     private beats: number = 4;
     private stressFirst: boolean = true;
     private subdivision: number[] = [1];
+    private currentWaveform: Waveform = 'square';
+
+    private playbackBackend: 'web' | 'native' = 'web';
 
     private intervalHandle: number = -1;
     private currentBeat: number = 0;
@@ -55,31 +64,63 @@ class Player extends Module {
 
     private onBpmChanged(bpm: number): void {
         this.bpm = bpm;
-        if (this.isPlaying()) {
+        if (!this.isPlaying()) {
+            return;
+        }
+        if (this.playbackBackend === 'native') {
+            void this.updateNativePlayback();
+            this.restartTickerOnly();
+        } else {
             bus.emit('toggle-play', { replay: true });
         }
     }
 
     private onBeatsChanged(beats: number): void {
         this.beats = beats;
-        if (this.isPlaying()) {
+        if (!this.isPlaying()) {
+            return;
+        }
+        if (this.playbackBackend === 'native') {
+            void this.updateNativePlayback();
+            this.resyncNativeFromBeatZero();
+        } else {
             bus.emit('toggle-play', { replay: true });
         }
     }
 
     private onStressChanged(stress: boolean): void {
         this.stressFirst = stress;
+
+        if (this.isPlaying() && this.playbackBackend === 'native') {
+            void this.updateNativePlayback();
+        }
     }
 
     private onSubdivisionChanged(subdivision: number[]): void {
+        const lengthChanged = subdivision.length !== this.subdivision.length;
         this.subdivision = subdivision;
-        if (this.isPlaying()) {
+        if (!this.isPlaying()) {
+            return;
+        }
+        if (this.playbackBackend === 'native') {
+            void this.updateNativePlayback();
+            if (lengthChanged) {
+                this.resyncNativeFromBeatZero();
+            } else {
+                this.restartTickerOnly();
+            }
+        } else {
             bus.emit('toggle-play', { replay: true });
         }
     }
 
     private onWaveformChanged(waveform: Waveform): void {
+        this.currentWaveform = waveform;
         this.speaker.setWaveform(waveform);
+
+        if (this.isPlaying() && this.playbackBackend === 'native') {
+            void this.updateNativePlayback();
+        }
     }
 
     private onTogglePlay(event: PlayEvent): void {
@@ -114,6 +155,11 @@ class Player extends Module {
         this.currentBeat = 0;
         this.currentNote = 0;
 
+        this.selectPlaybackBackend();
+        if (this.playbackBackend === 'native') {
+            void this.startNativePlayback();
+        }
+
         this.step();
         this.intervalHandle = setInterval(() => this.step(), delay);
     }
@@ -124,10 +170,12 @@ class Player extends Module {
 
     private step(): void {
         if (this.subdivision[this.currentNote] === 1) {
-            if (this.isFirstBeat()) {
-                this.speaker.play(this.stressFirst ? TICK_FREQ : TOK_FREQ);
-            } else {
-                this.speaker.play(this.isFirstNote() ? TOK_FREQ : TAK_FREQ);
+            if (this.playbackBackend === 'web') {
+                if (this.isFirstBeat()) {
+                    this.speaker.play(this.stressFirst ? TICK_FREQ : TOK_FREQ);
+                } else {
+                    this.speaker.play(this.isFirstNote() ? TOK_FREQ : TAK_FREQ);
+                }
             }
         }
 
@@ -152,11 +200,64 @@ class Player extends Module {
     }
 
     private stop(): void {
+        if (this.playbackBackend === 'native') {
+            void stopAndroidNativePlayback();
+        }
+
         if (this.intervalHandle !== -1) {
             clearInterval(this.intervalHandle);
             this.intervalHandle = -1;
             bus.emit('stop');
         }
+
+        this.playbackBackend = 'web';
+    }
+
+    private selectPlaybackBackend(): void {
+        this.playbackBackend = canUseAndroidNativePlayback() ? 'native' : 'web';
+    }
+
+    private buildNativePlaybackOptions() {
+        return {
+            bpm: this.bpm,
+            beats: this.beats,
+            stressFirst: this.stressFirst,
+            subdivision: this.subdivision,
+            waveform: this.currentWaveform,
+        };
+    }
+
+    private async startNativePlayback(): Promise<void> {
+        const started = await startAndroidNativePlayback(this.buildNativePlaybackOptions());
+        if (!started) {
+            this.playbackBackend = 'web';
+        }
+    }
+
+    private async updateNativePlayback(): Promise<void> {
+        const updated = await updateAndroidNativePlayback(this.buildNativePlaybackOptions());
+        if (!updated) {
+            this.playbackBackend = 'web';
+        }
+    }
+
+    private restartTickerOnly(): void {
+        if (this.intervalHandle !== -1) {
+            clearInterval(this.intervalHandle);
+        }
+        const delay = 60000.0 / (this.bpm * this.subdivision.length);
+        this.intervalHandle = setInterval(() => this.step(), delay);
+    }
+
+    private resyncNativeFromBeatZero(): void {
+        // Native side resets to beat 0; reset JS visual state and fire the
+        // first step immediately so the dot highlights in sync with the
+        // upcoming native click instead of waiting a full beat period.
+        this.currentBeat = 0;
+        this.currentNote = 0;
+        bus.emit('play');
+        this.step();
+        this.restartTickerOnly();
     }
 
     private updateDisplay(): void {
