@@ -50,6 +50,14 @@ npx capacitor-assets generate --android
 npx cap open android
 ```
 
+After that, may manually add the following permissions to `AndroidManifest.xml`:
+
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+<uses-permission android:name="android.permission.WAKE_LOCK" />
+```
+
 ### iOS
 
 > See [iOS Requirements](https://capacitorjs.com/docs/getting-started/environment-setup#ios-requirements) for iOS development environment setup.
