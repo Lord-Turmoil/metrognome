@@ -1,6 +1,7 @@
 import { PlatformModule } from '~/extensions/module';
 import { CURRENT_VERSION, VersionMeta } from '~/models';
 import { displayVersion, fetchMeta, isNewerVersion, updateChangelog } from '~/platform/base';
+import { getElementByIdOrThrow, querySelectorAll } from '~/extensions/dom';
 
 class AndroidModule extends PlatformModule {
     protected async attach(): Promise<void> {
@@ -15,24 +16,24 @@ class AndroidModule extends PlatformModule {
         if (isNewerVersion(CURRENT_VERSION, meta.appMeta.latest)) {
             updateChangelog('android', meta.versionMeta);
             this.updateDownloadLink(meta.versionMeta);
-            document.getElementById('android-update')!.style.display = 'block';
+            getElementByIdOrThrow<HTMLElement>('android-update').style.display = 'block';
         } else {
-            document.getElementById('android-latest')!.style.display = 'block';
+            getElementByIdOrThrow<HTMLElement>('android-latest').style.display = 'block';
         }
 
         displayVersion('android');
 
-        document.getElementById('title')!.onclick = () => {
+        getElementByIdOrThrow<HTMLHeadingElement>('title').onclick = () => {
             window.open(import.meta.env.VITE_WEB_URL || '#', '_blank');
         };
     }
 
     private updateVersionText(version: string): void {
-        document.querySelectorAll('.version-text-current').forEach((element) => {
-            element.innerHTML = CURRENT_VERSION;
+        querySelectorAll<HTMLElement>('.version-text-current').forEach((element) => {
+            element.textContent = CURRENT_VERSION;
         });
-        document.querySelectorAll('.version-text-latest').forEach((element) => {
-            element.innerHTML = version;
+        querySelectorAll<HTMLElement>('.version-text-latest').forEach((element) => {
+            element.textContent = version;
         });
     }
 
@@ -42,7 +43,7 @@ class AndroidModule extends PlatformModule {
             return;
         }
 
-        document.getElementById('android-download-update')!.onclick = () => {
+        getElementByIdOrThrow<HTMLButtonElement>('android-download-update').onclick = () => {
             window.open(versionMeta.android, '_blank');
         };
     }

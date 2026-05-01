@@ -2,6 +2,7 @@ import Api from '~/extensions/api';
 import bus from '~/extensions/event';
 import { AppMeta, VersionMeta, parseAppMeta, parseVersionMeta } from '~/models';
 import { ApiErrorResponse } from '~/extensions/api';
+import { getElementByIdOrThrow, querySelectorOrThrow } from '~/extensions/dom';
 
 export type MetaFailureReason =
     | 'app-meta-network-error'
@@ -84,12 +85,12 @@ export async function fetchMeta(): Promise<MetaResponse> {
 }
 
 export function displayVersion(platform: string): void {
-    document.getElementById(`version-${platform}`)!.style.display = 'block';
-    document.getElementById('version-wrapper')!.classList.add('expand');
+    getElementByIdOrThrow<HTMLElement>(`version-${platform}`).style.display = 'block';
+    getElementByIdOrThrow<HTMLElement>('version-wrapper').classList.add('expand');
 }
 
 export function updateChangelog(platform: string, versionMeta: VersionMeta): void {
-    const changelog = document.querySelector(`.changelog.${platform}`) as HTMLUListElement;
+    const changelog = querySelectorOrThrow<HTMLUListElement>(`.changelog.${platform}`);
     for (const message of versionMeta.changelog) {
         const item = document.createElement('li');
         item.classList.add('item', 'i18n');

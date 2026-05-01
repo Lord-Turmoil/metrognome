@@ -1,6 +1,7 @@
 import { VersionMeta } from '~/models';
 import { PlatformModule } from '~/extensions/module';
 import { displayVersion, fetchMeta, updateChangelog } from '~/platform/base';
+import { getElementByIdOrThrow, querySelectorAll } from '~/extensions/dom';
 
 class WebModule extends PlatformModule {
     protected async attach(): Promise<void> {
@@ -18,8 +19,8 @@ class WebModule extends PlatformModule {
     }
 
     private updateVersionText(version: string): void {
-        document.querySelectorAll('.version-text').forEach((element) => {
-            element.innerHTML = version;
+        querySelectorAll<HTMLElement>('.version-text').forEach((element) => {
+            element.textContent = version;
         });
     }
 
@@ -29,17 +30,17 @@ class WebModule extends PlatformModule {
             return;
         }
 
-        document.getElementById('web-download-android')!.onclick = () => {
+        getElementByIdOrThrow<HTMLButtonElement>('web-download-android').onclick = () => {
             window.open(versionMeta.android, '_blank');
         };
 
         const appStoreUrl = import.meta.env.VITE_APP_STORE_URL;
         if (appStoreUrl) {
-            document.getElementById('web-download-ios')!.onclick = () => {
+            getElementByIdOrThrow<HTMLButtonElement>('web-download-ios').onclick = () => {
                 window.open(appStoreUrl, '_blank');
             };
         } else {
-            document.getElementById('web-download-ios')!.style.display = 'none';
+            getElementByIdOrThrow<HTMLButtonElement>('web-download-ios').style.display = 'none';
         }
     }
 }
