@@ -6,6 +6,9 @@
 }
 
 .Play__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: calc(var(--size-l) * 3);
     height: calc(var(--size-l) * 3);
     border-radius: 50%;
