@@ -36,6 +36,15 @@ VITE_WEB_URL=https://metrognome.top
 VITE_CLARITY_KEY=your-clarity-key (optional)
 ```
 
+First of all, run `npm install` in the root directory to install dependencies.
+
+There is a local plugin to handle native background service for metronome. You need to build the plugin before building the app. To build the plugin, run the following command:
+
+```bash
+cd plugins/capacitor-metronome-background
+npm run build
+```
+
 ### Web
 
 Standard [Vite](https://vite.dev/) project.

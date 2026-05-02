@@ -14,7 +14,7 @@
         "build": "vite build",
         "test": "vitest run",
         "test:watch": "vitest",
-        "format": "prettier --config .prettierrc *.ts src/**/*.ts --write",
+        "format": "prettier --config .prettierrc *.ts src/**/*.ts plugins/**/src/*.ts --write",
         "sync": "npm run build && cap sync",
         "version": "python scripts/bump_version.py",
         "deploy": "npm run build && pwsh deploy.ps1"
