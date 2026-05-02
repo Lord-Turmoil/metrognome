@@ -13,6 +13,22 @@
     <meta name="author" content="Tony's Studio">
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="manifest" href="./src/manifest.json" />
+    <link rel="preload" as="image" href="imgs/logo.png">
+    <style>
+        #splash {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #splash img {
+            max-width: 50vw;
+            max-height: 50vh;
+        }
+    </style>
     <link rel="stylesheet" href="./src/css/index.css" />
     <link rel="stylesheet" href="./src/css/color.css">
     <link rel="stylesheet" href="./src/css/components/beats.css">
@@ -20,7 +36,6 @@
     <link rel="stylesheet" href="./src/css/components/footer.css">
     <link rel="stylesheet" href="./src/css/components/header.css">
     <link rel="stylesheet" href="./src/css/components/play.css">
-    <link rel="stylesheet" href="./src/css/components/splash.css">
     <link rel="stylesheet" href="./src/css/components/subdivision.css">
     <link rel="stylesheet" href="./src/css/components/version.css">
     <link rel="stylesheet" href="./src/css/components/sound.css">
