@@ -2,11 +2,11 @@ import { Module } from '~/extensions/module';
 import bus, { PlayEvent } from '~/extensions/event';
 import { Speaker, Waveform } from '~/extensions/speaker';
 import {
-    canUseAndroidNativePlayback,
-    startAndroidNativePlayback,
-    stopAndroidNativePlayback,
-    updateAndroidNativePlayback,
-} from '~/platform/android-native';
+    canUseNativePlayback,
+    startNativePlayback,
+    stopNativePlayback,
+    updateNativePlayback,
+} from '~/platform/native';
 
 const TICK_FREQ = 1600;
 const TOK_FREQ = 800;
@@ -201,7 +201,7 @@ class Player extends Module {
 
     private stop(): void {
         if (this.playbackBackend === 'native') {
-            void stopAndroidNativePlayback();
+            void stopNativePlayback();
         }
 
         if (this.intervalHandle !== -1) {
@@ -214,7 +214,7 @@ class Player extends Module {
     }
 
     private selectPlaybackBackend(): void {
-        this.playbackBackend = canUseAndroidNativePlayback() ? 'native' : 'web';
+        this.playbackBackend = canUseNativePlayback() ? 'native' : 'web';
     }
 
     private buildNativePlaybackOptions() {
@@ -228,14 +228,14 @@ class Player extends Module {
     }
 
     private async startNativePlayback(): Promise<void> {
-        const started = await startAndroidNativePlayback(this.buildNativePlaybackOptions());
+        const started = await startNativePlayback(this.buildNativePlaybackOptions());
         if (!started) {
             this.playbackBackend = 'web';
         }
     }
 
     private async updateNativePlayback(): Promise<void> {
-        const updated = await updateAndroidNativePlayback(this.buildNativePlaybackOptions());
+        const updated = await updateNativePlayback(this.buildNativePlaybackOptions());
         if (!updated) {
             this.playbackBackend = 'web';
         }

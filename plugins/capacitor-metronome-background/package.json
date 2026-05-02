@@ -1,7 +1,7 @@
 {
     "name": "capacitor-metronome-background",
     "version": "0.0.1",
-    "description": "Local Capacitor plugin for native Android background metronome playback",
+    "description": "Local Capacitor plugin for native background metronome playback",
     "main": "dist/cjs/index.js",
     "module": "dist/esm/index.js",
     "types": "dist/esm/index.d.ts",
@@ -9,7 +9,9 @@
         "android/src/main/",
         "android/build.gradle",
         "dist/",
-        "src/"
+        "ios/Sources",
+        "src/",
+        "CapacitorMetronomeBackground.podspec"
     ],
     "scripts": {
         "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json"
@@ -21,6 +23,9 @@
     "capacitor": {
         "android": {
             "src": "android"
+        },
+        "ios": {
+            "src": "ios"
         }
     }
 }
