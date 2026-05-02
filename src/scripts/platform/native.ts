@@ -10,10 +10,7 @@ import {
     stopIosNativePlayback,
     updateIosNativePlayback,
 } from '~/platform/ios-native';
-import type {
-    MetronomeBackgroundStartOptions,
-    MetronomeBackgroundUpdateOptions,
-} from 'capacitor-metronome-background';
+import type { MetronomeBackgroundStartOptions, MetronomeBackgroundUpdateOptions } from 'capacitor-metronome-background';
 
 /**
  * Unified facade over the per-platform native playback backends.

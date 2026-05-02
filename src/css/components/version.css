@@ -18,12 +18,15 @@
 }
 
 .changelog.messages {
-    margin: 8px 0;
+    margin: 8px auto;
+    max-width: min(90%, 480px);
+    text-align: left;
 }
 
 .changelog.messages li {
     list-style: disc;
-    list-style-position: inside;
+    list-style-position: outside;
+    margin-left: 1.25em;
 }
 
 .Version__placeholder {

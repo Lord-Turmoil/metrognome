@@ -1,12 +1,7 @@
 import { Module } from '~/extensions/module';
 import bus, { PlayEvent } from '~/extensions/event';
 import { Speaker, Waveform } from '~/extensions/speaker';
-import {
-    canUseNativePlayback,
-    startNativePlayback,
-    stopNativePlayback,
-    updateNativePlayback,
-} from '~/platform/native';
+import { canUseNativePlayback, startNativePlayback, stopNativePlayback, updateNativePlayback } from '~/platform/native';
 
 const TICK_FREQ = 1600;
 const TOK_FREQ = 800;
