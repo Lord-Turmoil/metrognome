@@ -1,0 +1,22 @@
+{
+    "version": "1.4.6",
+    "date": "2025-10-01",
+    "changelog": [
+        {
+            "en": "Fixed the bug where the app does not play sound waking up from the background",
+            "zh": "修复应用从后台唤醒时不播放声音的 Bug",
+            "ru": "Исправлена ошибка, из-за которой приложение не воспроизводит звук при пробуждении из фона"
+        },
+        {
+            "en": "Fix font issue",
+            "zh": "修复字体问题",
+            "ru": "Исправлена проблема со шрифтами"
+        },
+        {
+            "en": "Fix layout problem on multiple devices",
+            "zh": "修复多设备布局问题",
+            "ru": "Исправлена проблема с макетом на нескольких устройствах"
+        }
+    ],
+    "android": "https://tonys-studio-1308383348.cos.ap-beijing.myqcloud.com/apps/metrognome/1.4.6/metrognome-1.4.6.apk"
+}

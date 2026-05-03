@@ -1,0 +1,17 @@
+{
+    "version": "1.4.7",
+    "date": "2026-05-01",
+    "changelog": [
+        {
+            "en": "Optimized startup performance",
+            "zh": "优化启动性能",
+            "ru": "Оптимизирован запуск"
+        },
+        {
+            "en": "Updated dependencies to newer versions",
+            "zh": "更新依赖到较新版本",
+            "ru": "Обновлены зависимости до более новых версий"
+        }
+    ],
+    "android": "https://tonys-studio-1308383348.cos.ap-beijing.myqcloud.com/apps/metrognome/1.4.7/metrognome-1.4.7.apk"
+}

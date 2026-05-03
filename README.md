@@ -2,7 +2,7 @@
 
 # Metrognome
 
-Copyright &copy; Tony's Studio 2022 - 2025 
+Copyright &copy; Tony's Studio 2022 - 2026
 
 -----
 
@@ -28,22 +28,27 @@ This project aims to provide a minimalist metronome for musicians without any un
 
 Metrognome is developed with [Capacitor](https://capacitorjs.com/) using native HTML, CSS, and JavaScript. See the official [Capacitor documentation](https://capacitorjs.com/docs) for more information.
 
-Before build, you need to create `.env` or `.env.production` file to set certain environment variables. It should include `VITE_BASE_URL` and `VITE_WEB_URL`. And if you use [Microsoft Clarity](https://clarity.microsoft.com/) for analytics, you can also add `VITE_CLARITY_KEY` here.
-
-```
-VITE_BASE_URL=https://static/meta/file/endpoint
-VITE_WEB_URL=https://metrognome.top
-VITE_CLARITY_KEY=your-clarity-key (optional)
-```
-
-First of all, run `npm install` in the root directory to install dependencies.
-
-There is a local plugin to handle native background service for metronome. You need to build the plugin before building the app. To build the plugin, run the following command:
+First of all, run `npm install` in the root directory to install dependencies. There is a local plugin [capacitor-metronome-background](plugins/capacitor-metronome-background) to handle native background service for metronome. You need to build the plugin before building the app. To build the plugin, run the following command:
 
 ```bash
+# build the plugin
 cd plugins/capacitor-metronome-background
 npm run build
+cd ../..
+
+# build the app
+npm run build
+
+# sync the app with native platforms
+npm run sync
 ```
+
+For production, you can set several environment variables to configure the app:
+
+- `VITE_BASE_URL`: The base URL for the meta files and Android APK. It should point to a static file hosting service serving contents in the [publish/](publish/) directory.
+- `VITE_WEB_URL`: The URL of the Web App.
+- `VITE_APP_STORE_URL`: The URL of the app on the iOS App Store.
+- `VITE_CLARITY_KEY`: The key for [Microsoft Clarity](https://clarity.microsoft.com/). This is optional and only used for web analytics.
 
 ### Web
 
@@ -78,3 +83,5 @@ npx cap add ios
 npx capacitor-assets generate --ios
 npx cap open ios
 ```
+
+After that, it requires UIBackground Modes capability to be enabled in Xcode with the "Audio, AirPlay, and Picture in Picture" option checked.

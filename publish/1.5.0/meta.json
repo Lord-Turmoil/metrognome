@@ -1,0 +1,22 @@
+{
+    "version": "1.5.0",
+    "date": "2026-05-02",
+    "changelog": [
+        {
+            "en": "Support background playback, finally!",
+            "zh": "终于支持后台播放了！",
+            "ru": "Наконец-то появилась поддержка фонового воспроизведения!"
+        },
+        {
+            "en": "Optmized audio playback for better performance and stability",
+            "zh": "优化了音频播放的性能和稳定性",
+            "ru": "Оптимизировано воспроизведение звука для лучшей производительности и стабильности"
+        },
+        {
+            "en": "Thank you for your patience and support",
+            "zh": "感谢大家的耐心等待和支持",
+            "ru": "Спасибо за ваше терпение и поддержку"
+        }
+    ],
+    "android": "https://tonys-studio-1308383348.cos.ap-beijing.myqcloud.com/apps/metrognome/1.5.0/metrognome-1.5.0.apk"
+}

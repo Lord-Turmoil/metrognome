@@ -1,0 +1,17 @@
+{
+    "version": "1.4.4",
+    "date": "2025-09-27",
+    "changelog": [
+        {
+            "en": "Add support for iOS",
+            "zh": "添加对 iOS 的支持",
+            "ru": "Добавлена поддержка iOS"
+        },
+        {
+            "en": "Adjust layout for compatibility",
+            "zh": "调整应用布局以提升兼容性",
+            "ru": "Настройка макета для совместимости"
+        }
+    ],
+    "android": "https://tonys-studio-1308383348.cos.ap-beijing.myqcloud.com/apps/metrognome/1.4.4/metrognome-1.4.4.apk"
+}

@@ -1,0 +1,12 @@
+{
+    "version": "1.3.0",
+    "date": "2025-08-19",
+    "changelog": [
+        {
+            "en": "Using refactored codebase with TypeScript",
+            "zh": "使用重构后的 TypeScript 代码库",
+            "ru": "Использование рефакторинга кода с TypeScript"
+        }
+    ],
+    "android": "https://tonys-studio-1308383348.cos.ap-beijing.myqcloud.com/apps/metrognome/1.3.0/metrognome-1.3.0.apk"
+}
