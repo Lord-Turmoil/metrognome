@@ -36,6 +36,11 @@ final class MetronomeAudioEngine {
     private let engine = AVAudioEngine()
     private var sourceNode: AVAudioSourceNode!
 
+    /// Called from the realtime render thread on every beat boundary
+    /// (first sub-note of a beat). Callers must trampoline to a safe
+    /// queue before doing any non-realtime-safe work.
+    var onBeat: ((Int) -> Void)?
+
     // Mutated only by main/plugin thread (under `lock`).
     private var lock = os_unfair_lock_s()
     private var pending: Config? = nil
@@ -182,6 +187,12 @@ final class MetronomeAudioEngine {
             let offset = Int(Int64(startFrame) - blockStart)
             if noteIdx < current.subdivision.count, current.subdivision[noteIdx] == 1 {
                 voices.append(Voice(data: pickClick(), pos: 0, offset: offset))
+            }
+            // Beat boundary: fire on the first sub-note of each beat,
+            // unconditional (matches web Player.step which emits beat
+            // regardless of whether subdivision[0] is muted).
+            if noteIdx == 0 {
+                onBeat?(beatIdx)
             }
             noteIdx += 1
             if noteIdx >= subLen {
