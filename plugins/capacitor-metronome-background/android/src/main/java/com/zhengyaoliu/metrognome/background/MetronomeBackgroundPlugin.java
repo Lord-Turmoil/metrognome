@@ -15,6 +15,22 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 @CapacitorPlugin(name = "MetronomeBackground")
 public class MetronomeBackgroundPlugin extends Plugin {
 
+    @Override
+    public void load() {
+        super.load();
+        MetronomeForegroundService.setBeatListener(beatIndex -> {
+            JSObject payload = new JSObject();
+            payload.put("beatIndex", beatIndex);
+            notifyListeners("beat", payload);
+        });
+    }
+
+    @Override
+    protected void handleOnDestroy() {
+        MetronomeForegroundService.clearBeatListener();
+        super.handleOnDestroy();
+    }
+
     @PluginMethod
     public void initialize(PluginCall call) {
         JSObject result = new JSObject();
