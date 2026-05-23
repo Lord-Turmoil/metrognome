@@ -37,27 +37,11 @@ public class MetronomeBackgroundPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func startPlayback(_ call: CAPPluginCall) {
-        do {
-            let config = try parseConfig(call: call)
-            try engine.start(config: config)
-            call.resolve()
-        } catch let error as ConfigError {
-            call.reject(error.message)
-        } catch {
-            call.reject("Failed to start native metronome playback: \(error.localizedDescription)")
-        }
+        runWithConfig(call, operationLabel: "start") { try engine.start(config: $0) }
     }
 
     @objc func updatePlayback(_ call: CAPPluginCall) {
-        do {
-            let config = try parseConfig(call: call)
-            engine.update(config: config)
-            call.resolve()
-        } catch let error as ConfigError {
-            call.reject(error.message)
-        } catch {
-            call.reject("Failed to update native metronome playback: \(error.localizedDescription)")
-        }
+        runWithConfig(call, operationLabel: "update") { engine.update(config: $0) }
     }
 
     @objc func stopPlayback(_ call: CAPPluginCall) {
@@ -68,6 +52,22 @@ public class MetronomeBackgroundPlugin: CAPPlugin, CAPBridgedPlugin {
     // MARK: - Helpers
 
     private struct ConfigError: Error { let message: String }
+
+    private func runWithConfig(
+        _ call: CAPPluginCall,
+        operationLabel: String,
+        action: (MetronomeAudioEngine.Config) throws -> Void
+    ) {
+        do {
+            let config = try parseConfig(call: call)
+            try action(config)
+            call.resolve()
+        } catch let error as ConfigError {
+            call.reject(error.message)
+        } catch {
+            call.reject("Failed to \(operationLabel) native metronome playback: \(error.localizedDescription)")
+        }
+    }
 
     private func parseConfig(call: CAPPluginCall) throws -> MetronomeAudioEngine.Config {
         let bpm = call.getInt("bpm") ?? 60
