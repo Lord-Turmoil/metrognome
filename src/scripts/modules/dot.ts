@@ -1,10 +1,10 @@
-import bus from '~/extensions/event';
+import bus, { BeatEvent } from '~/extensions/event';
 import { Module } from '~/extensions/module';
 
 class DotModule extends Module {
     private dotList: HTMLUListElement = undefined!;
     private beats: number = 0;
-    private currentBeat: number = 0;
+    private currentBeat: number = -1;
 
     mount(): void {
         this.dotList = document.getElementById('dot-list') as HTMLUListElement;
@@ -17,21 +17,37 @@ class DotModule extends Module {
 
     private onBeatsChanged(beats: number): void {
         this.beats = beats;
-        this.currentBeat = 0;
+        this.currentBeat = -1;
 
         this.initializeDots();
     }
 
     private onPlay(): void {
+        this.clearActive();
         this.currentBeat = -1;
     }
 
     private onStop(): void {
-        this.dotList.children[this.currentBeat].classList.remove('active');
+        this.clearActive();
     }
 
-    private onBeat(): void {
-        this.step();
+    private onBeat(event: BeatEvent): void {
+        this.clearActive();
+        this.currentBeat = event.beatIndex;
+        const dot = this.dotList.children[this.currentBeat];
+        if (dot) {
+            dot.classList.add('active');
+        }
+    }
+
+    private clearActive(): void {
+        if (this.currentBeat < 0) {
+            return;
+        }
+        const dot = this.dotList.children[this.currentBeat];
+        if (dot) {
+            dot.classList.remove('active');
+        }
     }
 
     private initializeDots(): void {
@@ -41,14 +57,6 @@ class DotModule extends Module {
             dot.classList.add('dot', 'grey-green-grad');
             this.dotList.appendChild(dot);
         }
-    }
-
-    private step(): void {
-        if (this.currentBeat != -1) {
-            this.dotList.children[this.currentBeat].classList.remove('active');
-        }
-        this.currentBeat = (this.currentBeat + 1) % this.beats;
-        this.dotList.children[this.currentBeat].classList.add('active');
     }
 }
 
