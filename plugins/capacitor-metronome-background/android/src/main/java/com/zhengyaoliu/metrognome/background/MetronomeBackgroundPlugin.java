@@ -12,7 +12,7 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 
-@CapacitorPlugin(name = "MetronomeBackground")
+@CapacitorPlugin(name = "MetronomeBackground", events = { "beat" })
 public class MetronomeBackgroundPlugin extends Plugin {
 
     @Override
