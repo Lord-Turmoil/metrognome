@@ -175,7 +175,7 @@ class Player extends Module {
         }
 
         if (this.isFirstNote()) {
-            bus.emit('beat');
+            bus.emit('beat', { beatIndex: this.currentBeat });
         }
 
         if (++this.currentNote >= this.subdivision.length) {

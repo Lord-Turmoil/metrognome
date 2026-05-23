@@ -26,7 +26,7 @@ type Events = {
     play: void;
     stop: void;
 
-    beat: void;
+    beat: BeatEvent;
 
     switch: Mode;
     tap: void;
@@ -44,6 +44,10 @@ export type ChangeBeatsEvent = {
 
 export type PlayEvent = {
     replay: boolean;
+};
+
+export type BeatEvent = {
+    beatIndex: number;
 };
 
 export type Mode = 'play' | 'tap';
