@@ -1,23 +1,9 @@
 import type { PluginListenerHandle } from '@capacitor/core';
-import type { MetronomeBackgroundStartOptions, MetronomeBackgroundUpdateOptions } from 'capacitor-metronome-background';
+import type { MetronomeBackgroundStartOptions } from 'capacitor-metronome-background';
 
 import { Speaker } from '~/extensions/speaker';
-import {
-    addAndroidBeatListener,
-    androidPlaybackEngine,
-    canUseAndroidNativePlayback,
-    startAndroidNativePlayback,
-    stopAndroidNativePlayback,
-    updateAndroidNativePlayback,
-} from '~/platform/android-native';
-import {
-    addIosBeatListener,
-    canUseIosNativePlayback,
-    iosPlaybackEngine,
-    startIosNativePlayback,
-    stopIosNativePlayback,
-    updateIosNativePlayback,
-} from '~/platform/ios-native';
+import { androidPlaybackEngine } from '~/platform/android-native';
+import { iosPlaybackEngine } from '~/platform/ios-native';
 import { createWebPlaybackEngine } from '~/platform/web-native';
 
 export type PlaybackOptions = MetronomeBackgroundStartOptions;
@@ -60,47 +46,4 @@ export function selectPlaybackEngine(): PlaybackEngine {
         throw new Error('Web playback engine not configured; call configurePlaybackEngines() first.');
     }
     return webEngine;
-}
-
-// --- legacy free-function facade (still used by Player; removed in the next commit) ---
-
-export function canUseNativePlayback(): boolean {
-    return canUseAndroidNativePlayback() || canUseIosNativePlayback();
-}
-
-export async function startNativePlayback(options: MetronomeBackgroundStartOptions): Promise<boolean> {
-    if (canUseAndroidNativePlayback()) {
-        return startAndroidNativePlayback(options);
-    }
-    if (canUseIosNativePlayback()) {
-        return startIosNativePlayback(options);
-    }
-    return false;
-}
-
-export async function updateNativePlayback(options: MetronomeBackgroundUpdateOptions): Promise<boolean> {
-    if (canUseAndroidNativePlayback()) {
-        return updateAndroidNativePlayback(options);
-    }
-    if (canUseIosNativePlayback()) {
-        return updateIosNativePlayback(options);
-    }
-    return false;
-}
-
-export async function stopNativePlayback(): Promise<boolean> {
-    const results = await Promise.all([stopAndroidNativePlayback(), stopIosNativePlayback()]);
-    return results.some((ok) => ok);
-}
-
-export async function addNativeBeatListener(
-    handler: (beatIndex: number) => void
-): Promise<PluginListenerHandle | null> {
-    if (canUseAndroidNativePlayback()) {
-        return addAndroidBeatListener(handler);
-    }
-    if (canUseIosNativePlayback()) {
-        return addIosBeatListener(handler);
-    }
-    return null;
 }
