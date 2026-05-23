@@ -1,10 +1,13 @@
+import type { PluginListenerHandle } from '@capacitor/core';
 import {
+    addAndroidBeatListener,
     canUseAndroidNativePlayback,
     startAndroidNativePlayback,
     stopAndroidNativePlayback,
     updateAndroidNativePlayback,
 } from '~/platform/android-native';
 import {
+    addIosBeatListener,
     canUseIosNativePlayback,
     startIosNativePlayback,
     stopIosNativePlayback,
@@ -46,4 +49,16 @@ export async function stopNativePlayback(): Promise<boolean> {
     // Stop both - whichever was active will succeed; the other no-ops.
     const results = await Promise.all([stopAndroidNativePlayback(), stopIosNativePlayback()]);
     return results.some((ok) => ok);
+}
+
+export async function addNativeBeatListener(
+    handler: (beatIndex: number) => void
+): Promise<PluginListenerHandle | null> {
+    if (canUseAndroidNativePlayback()) {
+        return addAndroidBeatListener(handler);
+    }
+    if (canUseIosNativePlayback()) {
+        return addIosBeatListener(handler);
+    }
+    return null;
 }
