@@ -1,4 +1,5 @@
 import { Capacitor } from '@capacitor/core';
+import type { PluginListenerHandle } from '@capacitor/core';
 import {
     MetronomeBackground,
     MetronomeBackgroundStartOptions,
@@ -73,5 +74,20 @@ export async function stopAndroidNativePlayback(): Promise<boolean> {
     } catch (error) {
         console.warn('[android-native] Failed to stop native playback', error);
         return false;
+    }
+}
+
+export async function addAndroidBeatListener(
+    handler: (beatIndex: number) => void
+): Promise<PluginListenerHandle | null> {
+    if (!canUseAndroidNativePlayback()) {
+        return null;
+    }
+
+    try {
+        return await MetronomeBackground.addListener('beat', (event) => handler(event.beatIndex));
+    } catch (error) {
+        console.warn('[android-native] Failed to add beat listener', error);
+        return null;
     }
 }
