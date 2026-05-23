@@ -1,6 +1,10 @@
 import type { PluginListenerHandle } from '@capacitor/core';
+import type { MetronomeBackgroundStartOptions, MetronomeBackgroundUpdateOptions } from 'capacitor-metronome-background';
+
+import { Speaker } from '~/extensions/speaker';
 import {
     addAndroidBeatListener,
+    androidPlaybackEngine,
     canUseAndroidNativePlayback,
     startAndroidNativePlayback,
     stopAndroidNativePlayback,
@@ -9,18 +13,57 @@ import {
 import {
     addIosBeatListener,
     canUseIosNativePlayback,
+    iosPlaybackEngine,
     startIosNativePlayback,
     stopIosNativePlayback,
     updateIosNativePlayback,
 } from '~/platform/ios-native';
-import type { MetronomeBackgroundStartOptions, MetronomeBackgroundUpdateOptions } from 'capacitor-metronome-background';
+import { createWebPlaybackEngine } from '~/platform/web-native';
+
+export type PlaybackOptions = MetronomeBackgroundStartOptions;
 
 /**
- * Unified facade over the per-platform native playback backends.
- * Player code stays platform-agnostic: it asks for availability, then
- * delegates start/update/stop. Each call returns false on failure so the
- * caller can transparently fall back to the Web Audio backend.
+ * Unified contract every platform-specific playback backend implements.
+ * The Player drives this interface without knowing whether it's talking to
+ * the web Audio API, the Android foreground service, or the iOS audio engine.
  */
+export interface PlaybackEngine {
+    canUse(): boolean;
+    start(options: PlaybackOptions): Promise<boolean>;
+    update(options: PlaybackOptions): Promise<boolean>;
+    stop(): Promise<boolean>;
+    addBeatListener(handler: (beatIndex: number) => void): Promise<PluginListenerHandle | null>;
+}
+
+let webEngine: PlaybackEngine | null = null;
+
+/**
+ * Bind the shared Speaker into the web playback engine. Must be called once
+ * during app startup, before any `selectPlaybackEngine()` consumer plays.
+ */
+export function configurePlaybackEngines(speaker: Speaker): void {
+    webEngine = createWebPlaybackEngine(speaker);
+}
+
+/**
+ * Return the first available engine in platform-preference order:
+ * Android → iOS → web (universal fallback).
+ */
+export function selectPlaybackEngine(): PlaybackEngine {
+    if (androidPlaybackEngine.canUse()) {
+        return androidPlaybackEngine;
+    }
+    if (iosPlaybackEngine.canUse()) {
+        return iosPlaybackEngine;
+    }
+    if (!webEngine) {
+        throw new Error('Web playback engine not configured; call configurePlaybackEngines() first.');
+    }
+    return webEngine;
+}
+
+// --- legacy free-function facade (still used by Player; removed in the next commit) ---
+
 export function canUseNativePlayback(): boolean {
     return canUseAndroidNativePlayback() || canUseIosNativePlayback();
 }
@@ -46,7 +89,6 @@ export async function updateNativePlayback(options: MetronomeBackgroundUpdateOpt
 }
 
 export async function stopNativePlayback(): Promise<boolean> {
-    // Stop both - whichever was active will succeed; the other no-ops.
     const results = await Promise.all([stopAndroidNativePlayback(), stopIosNativePlayback()]);
     return results.some((ok) => ok);
 }
