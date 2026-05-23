@@ -15,6 +15,15 @@ public class MetronomeBackgroundPlugin: CAPPlugin, CAPBridgedPlugin {
 
     private let engine = MetronomeAudioEngine()
 
+    override public func load() {
+        super.load()
+        engine.onBeat = { [weak self] beatIndex in
+            DispatchQueue.main.async {
+                self?.notifyListeners("beat", data: ["beatIndex": beatIndex])
+            }
+        }
+    }
+
     @objc func initialize(_ call: CAPPluginCall) {
         call.resolve(["available": true])
     }
