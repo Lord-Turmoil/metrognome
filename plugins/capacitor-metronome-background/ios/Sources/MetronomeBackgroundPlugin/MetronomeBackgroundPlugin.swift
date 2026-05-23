@@ -11,6 +11,10 @@ public class MetronomeBackgroundPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "startPlayback", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "updatePlayback", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "stopPlayback", returnType: CAPPluginReturnPromise),
+        // CAPBridgedPlugin requires every JS-callable method to be enumerated
+        // here, including the inherited listener machinery from CAPPlugin.
+        CAPPluginMethod(name: "addListener", returnType: CAPPluginReturnCallback),
+        CAPPluginMethod(name: "removeAllListeners", returnType: CAPPluginReturnNone),
     ]
 
     private let engine = MetronomeAudioEngine()
