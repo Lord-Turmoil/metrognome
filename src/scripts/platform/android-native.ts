@@ -6,6 +6,8 @@ import {
     MetronomeBackgroundUpdateOptions,
 } from 'capacitor-metronome-background';
 
+import type { PlaybackEngine, PlaybackOptions } from '~/platform/native';
+
 let initialized = false;
 let nativeReady = false;
 
@@ -91,3 +93,11 @@ export async function addAndroidBeatListener(
         return null;
     }
 }
+
+export const androidPlaybackEngine: PlaybackEngine = {
+    canUse: canUseAndroidNativePlayback,
+    start: (options: PlaybackOptions) => startAndroidNativePlayback(options),
+    update: (options: PlaybackOptions) => updateAndroidNativePlayback(options),
+    stop: stopAndroidNativePlayback,
+    addBeatListener: addAndroidBeatListener,
+};
