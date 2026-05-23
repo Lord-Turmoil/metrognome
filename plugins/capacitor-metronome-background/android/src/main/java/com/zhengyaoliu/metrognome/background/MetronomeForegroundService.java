@@ -20,40 +20,43 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class MetronomeForegroundService extends Service {
-    public static final String ACTION_START = "com.zhengyaoliu.metrognome.background.action.START";
-    public static final String ACTION_UPDATE = "com.zhengyaoliu.metrognome.background.action.UPDATE";
-    public static final String ACTION_STOP = "com.zhengyaoliu.metrognome.background.action.STOP";
+    // --- Beat listener bridge -----------------------------------------------
+    // The plugin owns the listener instance (set in load(), cleared in
+    // handleOnDestroy()), so a strong static reference is correct here -
+    // the plugin's lifecycle keeps it alive, and clearBeatListener() drops
+    // it when the activity tears down.
 
     public interface BeatListener {
         void onBeat(int beatIndex);
     }
 
-    private static final AtomicReference<WeakReference<BeatListener>> beatListenerRef = new AtomicReference<>(null);
+    private static volatile BeatListener beatListener;
 
     public static void setBeatListener(BeatListener listener) {
-        beatListenerRef.set(listener == null ? null : new WeakReference<>(listener));
+        beatListener = listener;
     }
 
     public static void clearBeatListener() {
-        beatListenerRef.set(null);
+        beatListener = null;
     }
 
     private static void notifyBeat(int beatIndex) {
-        WeakReference<BeatListener> ref = beatListenerRef.get();
-        if (ref == null) {
-            return;
-        }
-        BeatListener listener = ref.get();
+        BeatListener listener = beatListener;
         if (listener != null) {
             listener.onBeat(beatIndex);
         }
     }
+
+    // --- Service intent contract -------------------------------------------
+
+    public static final String ACTION_START = "com.zhengyaoliu.metrognome.background.action.START";
+    public static final String ACTION_UPDATE = "com.zhengyaoliu.metrognome.background.action.UPDATE";
+    public static final String ACTION_STOP = "com.zhengyaoliu.metrognome.background.action.STOP";
 
     public static final String EXTRA_BPM = "bpm";
     public static final String EXTRA_BEATS = "beats";
