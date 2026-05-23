@@ -2,18 +2,8 @@ import type { PluginListenerHandle } from '@capacitor/core';
 
 import { Module } from '~/extensions/module';
 import bus, { PlayEvent } from '~/extensions/event';
-import { Speaker, Waveform } from '~/extensions/speaker';
-import {
-    addNativeBeatListener,
-    canUseNativePlayback,
-    startNativePlayback,
-    stopNativePlayback,
-    updateNativePlayback,
-} from '~/platform/native';
-
-const TICK_FREQ = 1600;
-const TOK_FREQ = 800;
-const TAK_FREQ = 600;
+import { Waveform } from '~/extensions/speaker';
+import { PlaybackEngine, PlaybackOptions, selectPlaybackEngine } from '~/platform/native';
 
 /**
  * {
@@ -25,30 +15,19 @@ const TAK_FREQ = 600;
  * }
  */
 class Player extends Module {
-    private speaker: Speaker;
-
     private bpm: number = 60;
     private beats: number = 4;
     private stressFirst: boolean = true;
     private subdivision: number[] = [1];
     private currentWaveform: Waveform = 'square';
 
-    private playbackBackend: 'web' | 'native' = 'web';
     private playing: boolean = false;
-
-    private intervalHandle: number = -1;
-    private currentBeat: number = 0;
-    private currentNote: number = 0;
-    private nativeBeatHandle: PluginListenerHandle | null = null;
+    private engine: PlaybackEngine | null = null;
+    private beatHandle: PluginListenerHandle | null = null;
 
     private playButton: HTMLButtonElement = undefined!;
     private playText: HTMLSpanElement = undefined!;
     private stopText: HTMLSpanElement = undefined!;
-
-    constructor(speaker: Speaker) {
-        super();
-        this.speaker = speaker;
-    }
 
     mount(): void {
         this.playButton = document.getElementById('play') as HTMLButtonElement;
@@ -69,63 +48,28 @@ class Player extends Module {
 
     private onBpmChanged(bpm: number): void {
         this.bpm = bpm;
-        if (!this.isPlaying()) {
-            return;
-        }
-        if (this.playbackBackend === 'native') {
-            void this.updateNativePlayback();
-        } else {
-            bus.emit('toggle-play', { replay: true });
-        }
+        this.pushUpdate();
     }
 
     private onBeatsChanged(beats: number): void {
         this.beats = beats;
-        if (!this.isPlaying()) {
-            return;
-        }
-        if (this.playbackBackend === 'native') {
-            void this.updateNativePlayback();
-            // Native engine resets beatIdx=0 on structural change; reset the
-            // visual dot so it stays blank until the next native beat event.
-            bus.emit('play');
-        } else {
-            bus.emit('toggle-play', { replay: true });
-        }
+        this.pushUpdate({ structural: true });
     }
 
     private onStressChanged(stress: boolean): void {
         this.stressFirst = stress;
-
-        if (this.isPlaying() && this.playbackBackend === 'native') {
-            void this.updateNativePlayback();
-        }
+        this.pushUpdate();
     }
 
     private onSubdivisionChanged(subdivision: number[]): void {
-        const lengthChanged = subdivision.length !== this.subdivision.length;
+        const structural = subdivision.length !== this.subdivision.length;
         this.subdivision = subdivision;
-        if (!this.isPlaying()) {
-            return;
-        }
-        if (this.playbackBackend === 'native') {
-            void this.updateNativePlayback();
-            if (lengthChanged) {
-                // Structural change on the native side resets beatIdx=0.
-                bus.emit('play');
-            }
-        } else {
-            bus.emit('toggle-play', { replay: true });
-        }
+        this.pushUpdate({ structural });
     }
 
     private onWaveformChanged(waveform: Waveform): void {
         this.currentWaveform = waveform;
-        this.speaker.setWaveform(waveform);
-
-        if (this.isPlaying() && this.playbackBackend === 'native') {
-            void this.updateNativePlayback();
-        }
+        this.pushUpdate();
     }
 
     private onTogglePlay(event: PlayEvent): void {
@@ -152,79 +96,79 @@ class Player extends Module {
         }
     }
 
-    private play(): void {
-        // play event should be emitted before beat event
-        bus.emit('play');
-
-        this.currentBeat = 0;
-        this.currentNote = 0;
-        this.playing = true;
-
-        this.selectPlaybackBackend();
-        if (this.playbackBackend === 'native') {
-            void this.startNativeFlow();
-        } else {
-            this.startWebTicker();
-        }
-    }
-
     private isPlaying(): boolean {
         return this.playing;
     }
 
-    private step(): void {
-        if (this.subdivision[this.currentNote] === 1) {
-            if (this.playbackBackend === 'web') {
-                if (this.isFirstBeat()) {
-                    this.speaker.play(this.stressFirst ? TICK_FREQ : TOK_FREQ);
-                } else {
-                    this.speaker.play(this.isFirstNote() ? TOK_FREQ : TAK_FREQ);
-                }
-            }
-        }
-
-        if (this.isFirstNote()) {
-            bus.emit('beat', { beatIndex: this.currentBeat });
-        }
-
-        if (++this.currentNote >= this.subdivision.length) {
-            this.currentNote = 0;
-            if (++this.currentBeat >= this.beats) {
-                this.currentBeat = 0;
-            }
-        }
+    private play(): void {
+        // play event must precede any beat event so DotModule clears first.
+        bus.emit('play');
+        this.playing = true;
+        this.engine = selectPlaybackEngine();
+        void this.startEngine();
     }
 
-    private isFirstBeat(): boolean {
-        return this.currentBeat === 0 && this.currentNote === 0;
-    }
+    private async startEngine(): Promise<void> {
+        const engine = this.engine;
+        if (!engine) {
+            return;
+        }
 
-    private isFirstNote(): boolean {
-        return this.currentNote === 0;
+        // Register the listener first to avoid missing the first beat event
+        // in the round-trip window before start() resolves.
+        this.beatHandle = await engine.addBeatListener((beatIndex) => {
+            if (this.playing && this.engine === engine) {
+                bus.emit('beat', { beatIndex });
+            }
+        });
+
+        if (!this.playing || this.engine !== engine) {
+            await this.beatHandle?.remove();
+            this.beatHandle = null;
+            return;
+        }
+
+        const started = await engine.start(this.buildOptions());
+
+        if (!this.playing || this.engine !== engine) {
+            await this.beatHandle?.remove();
+            this.beatHandle = null;
+            if (started) {
+                await engine.stop();
+            }
+        }
     }
 
     private stop(): void {
         this.playing = false;
+        const engine = this.engine;
+        const handle = this.beatHandle;
+        this.engine = null;
+        this.beatHandle = null;
 
-        if (this.playbackBackend === 'native') {
-            void stopNativePlayback();
-            if (this.nativeBeatHandle) {
-                void this.nativeBeatHandle.remove();
-                this.nativeBeatHandle = null;
-            }
+        if (handle) {
+            void handle.remove();
+        }
+        if (engine) {
+            void engine.stop();
         }
 
-        this.stopWebTicker();
-
         bus.emit('stop');
-        this.playbackBackend = 'web';
     }
 
-    private selectPlaybackBackend(): void {
-        this.playbackBackend = canUseNativePlayback() ? 'native' : 'web';
+    private pushUpdate(opts: { structural?: boolean } = {}): void {
+        if (!this.playing || !this.engine) {
+            return;
+        }
+        if (opts.structural) {
+            // Engines reset to beat 0 on structural changes; clear the dot
+            // so it stays blank until the next beat event arrives.
+            bus.emit('play');
+        }
+        void this.engine.update(this.buildOptions());
     }
 
-    private buildNativePlaybackOptions() {
+    private buildOptions(): PlaybackOptions {
         return {
             bpm: this.bpm,
             beats: this.beats,
@@ -232,70 +176,6 @@ class Player extends Module {
             subdivision: this.subdivision,
             waveform: this.currentWaveform,
         };
-    }
-
-    private async startNativeFlow(): Promise<void> {
-        // Register the JS listener before starting native playback so the
-        // first beat event isn't missed in the round-trip window.
-        this.nativeBeatHandle = await addNativeBeatListener((beatIndex) => {
-            if (this.playing && this.playbackBackend === 'native') {
-                bus.emit('beat', { beatIndex });
-            }
-        });
-
-        if (!this.playing) {
-            // Stopped before native start was issued.
-            await this.nativeBeatHandle?.remove();
-            this.nativeBeatHandle = null;
-            return;
-        }
-
-        const started = await startNativePlayback(this.buildNativePlaybackOptions());
-
-        if (!this.playing) {
-            // Stopped during the start round-trip; tear down whatever happened.
-            await this.nativeBeatHandle?.remove();
-            this.nativeBeatHandle = null;
-            if (started) {
-                await stopNativePlayback();
-            }
-            return;
-        }
-
-        if (!started) {
-            // Native failed to start; fall back to the JS ticker.
-            await this.nativeBeatHandle?.remove();
-            this.nativeBeatHandle = null;
-            this.playbackBackend = 'web';
-            this.startWebTicker();
-        }
-    }
-
-    private async updateNativePlayback(): Promise<void> {
-        const updated = await updateNativePlayback(this.buildNativePlaybackOptions());
-        if (!updated && this.playing) {
-            // Native update failed; fall back to the JS ticker.
-            if (this.nativeBeatHandle) {
-                await this.nativeBeatHandle.remove();
-                this.nativeBeatHandle = null;
-            }
-            this.playbackBackend = 'web';
-            this.startWebTicker();
-        }
-    }
-
-    private startWebTicker(): void {
-        this.stopWebTicker();
-        const delay = 60000.0 / (this.bpm * this.subdivision.length);
-        this.step();
-        this.intervalHandle = setInterval(() => this.step(), delay);
-    }
-
-    private stopWebTicker(): void {
-        if (this.intervalHandle !== -1) {
-            clearInterval(this.intervalHandle);
-            this.intervalHandle = -1;
-        }
     }
 
     private updateDisplay(): void {

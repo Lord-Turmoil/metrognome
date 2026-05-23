@@ -31,11 +31,11 @@ export async function initializeAndroidNativePlayback(): Promise<void> {
     }
 }
 
-export function canUseAndroidNativePlayback(): boolean {
+function canUseAndroidNativePlayback(): boolean {
     return isAndroidPlatform() && nativeReady;
 }
 
-export async function startAndroidNativePlayback(options: MetronomeBackgroundStartOptions): Promise<boolean> {
+async function startAndroidNativePlayback(options: MetronomeBackgroundStartOptions): Promise<boolean> {
     if (!canUseAndroidNativePlayback()) {
         return false;
     }
@@ -50,7 +50,7 @@ export async function startAndroidNativePlayback(options: MetronomeBackgroundSta
     }
 }
 
-export async function updateAndroidNativePlayback(options: MetronomeBackgroundUpdateOptions): Promise<boolean> {
+async function updateAndroidNativePlayback(options: MetronomeBackgroundUpdateOptions): Promise<boolean> {
     if (!canUseAndroidNativePlayback()) {
         return false;
     }
@@ -65,7 +65,7 @@ export async function updateAndroidNativePlayback(options: MetronomeBackgroundUp
     }
 }
 
-export async function stopAndroidNativePlayback(): Promise<boolean> {
+async function stopAndroidNativePlayback(): Promise<boolean> {
     if (!isAndroidPlatform()) {
         return false;
     }
@@ -79,7 +79,7 @@ export async function stopAndroidNativePlayback(): Promise<boolean> {
     }
 }
 
-export async function addAndroidBeatListener(
+async function addAndroidBeatListener(
     handler: (beatIndex: number) => void
 ): Promise<PluginListenerHandle | null> {
     if (!canUseAndroidNativePlayback()) {

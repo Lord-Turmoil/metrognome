@@ -16,6 +16,7 @@ import SubdivisionModule from '~/modules/subdivision';
 import { App } from '~/extensions/module';
 import type { Module } from '~/extensions/module';
 import { Speaker } from '~/extensions/speaker';
+import { configurePlaybackEngines } from '~/platform/native';
 import { SupportedPlatform, PLATFORM_ELEMENT_IDS } from '~/platform/config';
 import { getElementByIdOrThrow } from '~/extensions/dom';
 
@@ -56,9 +57,10 @@ function displayBadge(platform: string): void {
 
 function launch(): App {
     const speaker = new Speaker();
+    configurePlaybackEngines(speaker);
     return new Metrognome()
         .load(new LanguageManager())
-        .load(new Player(speaker))
+        .load(new Player())
         .load(new TapModule(speaker))
         .load(new DotModule())
         .load(new BpmModule())
