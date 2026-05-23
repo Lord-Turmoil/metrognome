@@ -1,7 +1,15 @@
+import type { PluginListenerHandle } from '@capacitor/core';
+
 import { Module } from '~/extensions/module';
 import bus, { PlayEvent } from '~/extensions/event';
 import { Speaker, Waveform } from '~/extensions/speaker';
-import { canUseNativePlayback, startNativePlayback, stopNativePlayback, updateNativePlayback } from '~/platform/native';
+import {
+    addNativeBeatListener,
+    canUseNativePlayback,
+    startNativePlayback,
+    stopNativePlayback,
+    updateNativePlayback,
+} from '~/platform/native';
 
 const TICK_FREQ = 1600;
 const TOK_FREQ = 800;
@@ -26,10 +34,12 @@ class Player extends Module {
     private currentWaveform: Waveform = 'square';
 
     private playbackBackend: 'web' | 'native' = 'web';
+    private playing: boolean = false;
 
     private intervalHandle: number = -1;
     private currentBeat: number = 0;
     private currentNote: number = 0;
+    private nativeBeatHandle: PluginListenerHandle | null = null;
 
     private playButton: HTMLButtonElement = undefined!;
     private playText: HTMLSpanElement = undefined!;
@@ -64,7 +74,6 @@ class Player extends Module {
         }
         if (this.playbackBackend === 'native') {
             void this.updateNativePlayback();
-            this.restartTickerOnly();
         } else {
             bus.emit('toggle-play', { replay: true });
         }
@@ -77,7 +86,9 @@ class Player extends Module {
         }
         if (this.playbackBackend === 'native') {
             void this.updateNativePlayback();
-            this.resyncNativeFromBeatZero();
+            // Native engine resets beatIdx=0 on structural change; reset the
+            // visual dot so it stays blank until the next native beat event.
+            bus.emit('play');
         } else {
             bus.emit('toggle-play', { replay: true });
         }
@@ -100,9 +111,8 @@ class Player extends Module {
         if (this.playbackBackend === 'native') {
             void this.updateNativePlayback();
             if (lengthChanged) {
-                this.resyncNativeFromBeatZero();
-            } else {
-                this.restartTickerOnly();
+                // Structural change on the native side resets beatIdx=0.
+                bus.emit('play');
             }
         } else {
             bus.emit('toggle-play', { replay: true });
@@ -146,21 +156,20 @@ class Player extends Module {
         // play event should be emitted before beat event
         bus.emit('play');
 
-        const delay = 60000.0 / (this.bpm * this.subdivision.length);
         this.currentBeat = 0;
         this.currentNote = 0;
+        this.playing = true;
 
         this.selectPlaybackBackend();
         if (this.playbackBackend === 'native') {
-            void this.startNativePlayback();
+            void this.startNativeFlow();
+        } else {
+            this.startWebTicker();
         }
-
-        this.step();
-        this.intervalHandle = setInterval(() => this.step(), delay);
     }
 
     private isPlaying(): boolean {
-        return this.intervalHandle !== -1;
+        return this.playing;
     }
 
     private step(): void {
@@ -195,16 +204,19 @@ class Player extends Module {
     }
 
     private stop(): void {
+        this.playing = false;
+
         if (this.playbackBackend === 'native') {
             void stopNativePlayback();
+            if (this.nativeBeatHandle) {
+                void this.nativeBeatHandle.remove();
+                this.nativeBeatHandle = null;
+            }
         }
 
-        if (this.intervalHandle !== -1) {
-            clearInterval(this.intervalHandle);
-            this.intervalHandle = -1;
-            bus.emit('stop');
-        }
+        this.stopWebTicker();
 
+        bus.emit('stop');
         this.playbackBackend = 'web';
     }
 
@@ -222,37 +234,68 @@ class Player extends Module {
         };
     }
 
-    private async startNativePlayback(): Promise<void> {
+    private async startNativeFlow(): Promise<void> {
+        // Register the JS listener before starting native playback so the
+        // first beat event isn't missed in the round-trip window.
+        this.nativeBeatHandle = await addNativeBeatListener((beatIndex) => {
+            if (this.playing && this.playbackBackend === 'native') {
+                bus.emit('beat', { beatIndex });
+            }
+        });
+
+        if (!this.playing) {
+            // Stopped before native start was issued.
+            await this.nativeBeatHandle?.remove();
+            this.nativeBeatHandle = null;
+            return;
+        }
+
         const started = await startNativePlayback(this.buildNativePlaybackOptions());
+
+        if (!this.playing) {
+            // Stopped during the start round-trip; tear down whatever happened.
+            await this.nativeBeatHandle?.remove();
+            this.nativeBeatHandle = null;
+            if (started) {
+                await stopNativePlayback();
+            }
+            return;
+        }
+
         if (!started) {
+            // Native failed to start; fall back to the JS ticker.
+            await this.nativeBeatHandle?.remove();
+            this.nativeBeatHandle = null;
             this.playbackBackend = 'web';
+            this.startWebTicker();
         }
     }
 
     private async updateNativePlayback(): Promise<void> {
         const updated = await updateNativePlayback(this.buildNativePlaybackOptions());
-        if (!updated) {
+        if (!updated && this.playing) {
+            // Native update failed; fall back to the JS ticker.
+            if (this.nativeBeatHandle) {
+                await this.nativeBeatHandle.remove();
+                this.nativeBeatHandle = null;
+            }
             this.playbackBackend = 'web';
+            this.startWebTicker();
         }
     }
 
-    private restartTickerOnly(): void {
-        if (this.intervalHandle !== -1) {
-            clearInterval(this.intervalHandle);
-        }
+    private startWebTicker(): void {
+        this.stopWebTicker();
         const delay = 60000.0 / (this.bpm * this.subdivision.length);
+        this.step();
         this.intervalHandle = setInterval(() => this.step(), delay);
     }
 
-    private resyncNativeFromBeatZero(): void {
-        // Native side resets to beat 0; reset JS visual state and fire the
-        // first step immediately so the dot highlights in sync with the
-        // upcoming native click instead of waiting a full beat period.
-        this.currentBeat = 0;
-        this.currentNote = 0;
-        bus.emit('play');
-        this.step();
-        this.restartTickerOnly();
+    private stopWebTicker(): void {
+        if (this.intervalHandle !== -1) {
+            clearInterval(this.intervalHandle);
+            this.intervalHandle = -1;
+        }
     }
 
     private updateDisplay(): void {
