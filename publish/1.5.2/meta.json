@@ -1,0 +1,17 @@
+{
+    "version": "1.5.2",
+    "date": "2026-05-24",
+    "changelog": [
+        {
+            "en": "Fixed beat indicator sync with audio playback",
+            "zh": "修复节拍指示与音频播放的同步",
+            "ru": "Исправлена синхронизация индикатора долей с воспроизведением звука"
+        },
+        {
+            "en": "Improved background playback engine",
+            "zh": "优化了后台播放引擎",
+            "ru": "Улучшен движок фонового воспроизведения"
+        }
+    ],
+    "android": "https://tonys-studio-1308383348.cos.ap-beijing.myqcloud.com/apps/metrognome/1.5.2/metrognome-1.5.2.apk"
+}
