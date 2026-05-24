@@ -35,4 +35,7 @@ export const PLATFORM_ELEMENT_IDS = {
         versionCurrentSelector: '.version-text-current',
         versionLatestSelector: '.version-text-latest',
     },
+    ios: {
+        versionTextSelector: '.VersionIos .version-text',
+    },
 } as const;

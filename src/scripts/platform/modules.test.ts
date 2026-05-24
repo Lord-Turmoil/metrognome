@@ -33,7 +33,12 @@ function setupAndroidDom(): void {
 
 function setupIosDom(): void {
     document.body.innerHTML = `
-        <div id="version-wrapper" style="display:block"></div>
+        <div id="version-wrapper" class="expandable"></div>
+        <div id="version-ios" style="display:none">
+            <div class="VersionIos">
+                <span class="version-text"></span>
+            </div>
+        </div>
         <h1 id="title"></h1>
     `;
 }
@@ -123,16 +128,20 @@ describe('platform module rendering', () => {
         expect(changelog.children.length).toBe(1);
     });
 
-    it('hides version wrapper on ios attach', async () => {
+    it('shows current version on ios attach', async () => {
         setupIosDom();
 
         const ios = new IosModule();
         await (ios as unknown as { attach: () => Promise<void> }).attach();
 
         const wrapper = document.getElementById('version-wrapper') as HTMLElement;
+        const iosSection = document.getElementById('version-ios') as HTMLElement;
+        const versionText = document.querySelector('.VersionIos .version-text') as HTMLElement;
         const title = document.getElementById('title') as HTMLElement;
 
-        expect(wrapper.style.display).toBe('none');
+        expect(wrapper.classList.contains('expand')).toBe(true);
+        expect(iosSection.style.display).toBe('block');
+        expect(versionText.textContent).toBe(CURRENT_VERSION);
         expect(typeof title.onclick).toBe('function');
     });
 
