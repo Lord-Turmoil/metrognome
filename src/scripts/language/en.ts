@@ -15,8 +15,9 @@ const EN_DICT = {
     'version.web.download.android': 'Download Android App',
     'version.web.download.ios': 'Download iOS App',
     'version.android.download.update': 'Download Update',
-    'version.android.latest': 'You are using the latest version 🎉',
+    'version.android.latest': 'You are using the latest version! 🎉',
     'version.android.update': 'New version available',
+    'version.ios.thanks': 'Thanks for your support! 🎉',
 };
 
 export default EN_DICT;

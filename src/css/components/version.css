@@ -29,6 +29,11 @@
     margin-left: 1.25em;
 }
 
+.VersionIos__thanks {
+    margin-top: var(--size-s);
+    text-align: center;
+}
+
 .Version__placeholder {
     margin-top: var(--size-s);
     padding: var(--size-xs) var(--size-s);

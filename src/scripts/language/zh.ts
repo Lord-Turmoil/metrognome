@@ -15,8 +15,9 @@ const ZH_DICT = {
     'version.web.download.android': '下载 Android 应用',
     'version.web.download.ios': '下载 iOS 应用',
     'version.android.download.update': '下载更新',
-    'version.android.latest': '当前是最新版本 🎉',
+    'version.android.latest': '当前是最新版本！🎉',
     'version.android.update': '有新版本可用',
+    'version.ios.thanks': '感谢您的支持！🎉',
 };
 
 export default ZH_DICT;
