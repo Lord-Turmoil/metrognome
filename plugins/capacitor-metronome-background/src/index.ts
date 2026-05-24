@@ -9,9 +9,10 @@ import type {
 } from './definitions';
 
 /**
- * Raw bridge surface exposed by Capacitor's registerPlugin. Kept module-
- * private so callers go through the curated MetronomeBackground facade
- * below and don't need to know the wire event name 'beat'.
+ * Raw bridge surface exposed by Capacitor's registerPlugin. The native
+ * plugins implement addBeatListener as a kept-alive callback method and
+ * pair it with removeBeatListener for teardown - we wrap the two-step
+ * pattern into a PluginListenerHandle in the facade below.
  */
 interface NativePlugin {
     initialize(): Promise<{ available: boolean }>;
@@ -19,11 +20,8 @@ interface NativePlugin {
     startPlayback(options: MetronomeBackgroundStartOptions): Promise<void>;
     updatePlayback(options: MetronomeBackgroundUpdateOptions): Promise<void>;
     stopPlayback(): Promise<void>;
-    addListener(
-        eventName: 'beat',
-        listener: (event: MetronomeBeatEvent) => void
-    ): Promise<PluginListenerHandle> & PluginListenerHandle;
-    removeAllListeners(): Promise<void>;
+    addBeatListener(listener: (event: MetronomeBeatEvent) => void): Promise<string>;
+    removeBeatListener(options: { callbackId: string }): Promise<void>;
 }
 
 const native = registerPlugin<NativePlugin>('MetronomeBackground');
@@ -34,8 +32,14 @@ export const MetronomeBackground: MetronomeBackgroundPlugin = {
     startPlayback: (options) => native.startPlayback(options),
     updatePlayback: (options) => native.updatePlayback(options),
     stopPlayback: () => native.stopPlayback(),
-    addBeatListener: (listener) => native.addListener('beat', listener),
-    removeAllListeners: () => native.removeAllListeners(),
+    addBeatListener: async (listener): Promise<PluginListenerHandle> => {
+        const callbackId = await native.addBeatListener(listener);
+        return {
+            remove: async () => {
+                await native.removeBeatListener({ callbackId });
+            },
+        };
+    },
 };
 
 export * from './definitions';
