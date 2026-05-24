@@ -87,7 +87,7 @@ async function addAndroidBeatListener(
     }
 
     try {
-        return await MetronomeBackground.addListener('beat', (event) => handler(event.beatIndex));
+        return await MetronomeBackground.addBeatListener((event) => handler(event.beatIndex));
     } catch (error) {
         console.warn('[android-native] Failed to add beat listener', error);
         return null;
