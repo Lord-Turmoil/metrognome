@@ -12,23 +12,51 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 
-@CapacitorPlugin(name = "MetronomeBackground", events = { "beat" })
+@CapacitorPlugin(name = "MetronomeBackground")
 public class MetronomeBackgroundPlugin extends Plugin {
+
+    private PluginCall savedBeatCall;
 
     @Override
     public void load() {
         super.load();
         MetronomeForegroundService.setBeatListener(beatIndex -> {
+            PluginCall call = savedBeatCall;
+            if (call == null) {
+                return;
+            }
             JSObject payload = new JSObject();
             payload.put("beatIndex", beatIndex);
-            notifyListeners("beat", payload);
+            call.resolve(payload);
         });
     }
 
     @Override
     protected void handleOnDestroy() {
         MetronomeForegroundService.clearBeatListener();
+        if (savedBeatCall != null) {
+            bridge.releaseCall(savedBeatCall);
+            savedBeatCall = null;
+        }
         super.handleOnDestroy();
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
+    public void addBeatListener(PluginCall call) {
+        if (savedBeatCall != null) {
+            bridge.releaseCall(savedBeatCall);
+        }
+        call.setKeepAlive(true);
+        savedBeatCall = call;
+    }
+
+    @PluginMethod
+    public void removeBeatListener(PluginCall call) {
+        if (savedBeatCall != null) {
+            bridge.releaseCall(savedBeatCall);
+            savedBeatCall = null;
+        }
+        call.resolve();
     }
 
     @PluginMethod
