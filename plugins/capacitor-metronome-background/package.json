@@ -1,6 +1,6 @@
 {
     "name": "capacitor-metronome-background",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Local Capacitor plugin for native background metronome playback",
     "main": "dist/cjs/index.js",
     "module": "dist/esm/index.js",
