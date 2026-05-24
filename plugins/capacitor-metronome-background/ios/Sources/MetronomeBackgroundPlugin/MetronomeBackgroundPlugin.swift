@@ -11,21 +11,36 @@ public class MetronomeBackgroundPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "startPlayback", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "updatePlayback", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "stopPlayback", returnType: CAPPluginReturnPromise),
-        // CAPBridgedPlugin requires every JS-callable method to be enumerated
-        // here, including the inherited listener machinery from CAPPlugin.
-        CAPPluginMethod(name: "addListener", returnType: CAPPluginReturnCallback),
-        CAPPluginMethod(name: "removeAllListeners", returnType: CAPPluginReturnNone),
+        CAPPluginMethod(name: "addBeatListener", returnType: CAPPluginReturnCallback),
+        CAPPluginMethod(name: "removeBeatListener", returnType: CAPPluginReturnPromise),
     ]
 
     private let engine = MetronomeAudioEngine()
+    private var savedBeatCall: CAPPluginCall?
 
     override public func load() {
         super.load()
         engine.onBeat = { [weak self] beatIndex in
             DispatchQueue.main.async {
-                self?.notifyListeners("beat", data: ["beatIndex": beatIndex])
+                self?.savedBeatCall?.resolve(["beatIndex": beatIndex])
             }
         }
+    }
+
+    @objc func addBeatListener(_ call: CAPPluginCall) {
+        if let previous = savedBeatCall {
+            bridge?.releaseCall(previous)
+        }
+        call.keepAlive = true
+        savedBeatCall = call
+    }
+
+    @objc func removeBeatListener(_ call: CAPPluginCall) {
+        if let previous = savedBeatCall {
+            bridge?.releaseCall(previous)
+            savedBeatCall = nil
+        }
+        call.resolve()
     }
 
     @objc func initialize(_ call: CAPPluginCall) {
