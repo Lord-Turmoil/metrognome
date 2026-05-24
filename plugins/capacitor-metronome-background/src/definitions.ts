@@ -17,11 +17,10 @@ export interface MetronomeBeatEvent {
 /**
  * Curated public surface for the native metronome background plugin.
  *
- * The native code emits `notifyListeners("beat", ...)` on every beat
- * boundary; rather than expose Capacitor's generic `addListener` overload
- * and force callers to know the wire event name, this interface presents
- * a named `addBeatListener` instead. The underlying bridge subscription is
- * an implementation detail of the wrapper in `index.ts`.
+ * The plugin exposes a single domain event (one beat per beat boundary)
+ * through `addBeatListener`. Subscribing returns a `PluginListenerHandle`
+ * whose `remove()` tears down the native callback - no generic listener
+ * API leaks to consumers.
  */
 export interface MetronomeBackgroundPlugin {
     initialize(): Promise<{ available: boolean }>;
@@ -30,5 +29,4 @@ export interface MetronomeBackgroundPlugin {
     updatePlayback(options: MetronomeBackgroundUpdateOptions): Promise<void>;
     stopPlayback(): Promise<void>;
     addBeatListener(listener: (event: MetronomeBeatEvent) => void): Promise<PluginListenerHandle>;
-    removeAllListeners(): Promise<void>;
 }
