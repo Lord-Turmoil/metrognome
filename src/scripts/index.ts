@@ -12,6 +12,7 @@ import TapModule from '~/modules/tap';
 import BeatsModule from '~/modules/beats';
 import SoundModule from '~/modules/sound';
 import SubdivisionModule from '~/modules/subdivision';
+import FocusModule from '~/modules/focus';
 
 import { App } from '~/extensions/module';
 import type { Module } from '~/extensions/module';
@@ -66,7 +67,8 @@ function launch(): App {
         .load(new BpmModule())
         .load(new BeatsModule())
         .load(new SubdivisionModule())
-        .load(new SoundModule());
+        .load(new SoundModule())
+        .load(new FocusModule());
 }
 
 type PlatformModuleImport = {

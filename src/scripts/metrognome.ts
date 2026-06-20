@@ -64,6 +64,10 @@ class Metrognome extends App {
         this.addEventListener('switch', 'click', () => {
             this.toggleMode();
         });
+
+        this.addEventListener('focus', 'click', () => {
+            bus.emit('toggle-focus');
+        });
     }
 
     private addEventListener(id: string, event: string, callback: () => void): void {

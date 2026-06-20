@@ -62,7 +62,7 @@
 
         <div class="Main">
             <!-- BPM -->
-            <div class="Section">
+            <div class="Section focus">
                 <div class="BPM">
                     <h2 class="i18n" data-i18n="bpm.title"></h2>
                     <input type="number" id="bpm" placeholder="30 ~ 240" value="60">
@@ -102,10 +102,13 @@
             </div>
 
             <!-- Play button -->
-            <hr class="divider">
-            <div class="Section">
+            <hr class="divider focus">
+            <div class="Section focus">
                 <div class="Play">
-                    <div class="Play__switch flex-center decoy"></div>
+                    <div id="focus" class="Play__switch shadow-light flex-center real purple-grad">
+                        <img id="focus-expand" src="imgs/control/focus-expand.svg" alt="change">
+                        <img id="focus-shrink" src="imgs/control/focus-shrink.svg" alt="change" style="display: none">
+                    </div>
                     <button id="play" class="Play__button shadow-light green-red-grad">
                         <span id="play-play" class="i18n" data-i18n="play.play"></span>
                         <span id="play-stop" class="i18n" data-i18n="play.stop"></span>
