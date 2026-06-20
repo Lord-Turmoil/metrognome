@@ -30,6 +30,8 @@ type Events = {
 
     switch: Mode;
     tap: void;
+
+    'toggle-focus': void;
 };
 
 export type ChangeBpmEvent = {

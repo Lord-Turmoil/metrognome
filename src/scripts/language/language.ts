@@ -39,7 +39,10 @@ class LanguageManager extends Module {
      * Update all the text in the page.
      */
     private updateDisplayLanguage(): void {
-        document.body.className = this.supportedLanguages[this.currentLanguage];
+        for (let lang in this.supportedLanguages) {
+            document.body.classList.remove(lang);
+        }
+        document.body.classList.add(this.supportedLanguages[this.currentLanguage]);
 
         document.querySelectorAll('[data-i18n]').forEach((element) => {
             const key = element.getAttribute('data-i18n');
