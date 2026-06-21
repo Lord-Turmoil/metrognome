@@ -34,7 +34,7 @@ function hideSplash(): void {
 
     const app = document.getElementById('app');
     if (app) {
-        app.style.display = 'block';
+        app.style.removeProperty('display');
     }
 }
 

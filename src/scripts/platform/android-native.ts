@@ -11,7 +11,7 @@ import type { PlaybackEngine, PlaybackOptions } from '~/platform/native';
 let initialized = false;
 let nativeReady = false;
 
-function isAndroidPlatform(): boolean {
+export function isAndroidPlatform(): boolean {
     return Capacitor.getPlatform() === 'android';
 }
 
@@ -79,9 +79,7 @@ async function stopAndroidNativePlayback(): Promise<boolean> {
     }
 }
 
-async function addAndroidBeatListener(
-    handler: (beatIndex: number) => void
-): Promise<PluginListenerHandle | null> {
+async function addAndroidBeatListener(handler: (beatIndex: number) => void): Promise<PluginListenerHandle | null> {
     if (!canUseAndroidNativePlayback()) {
         return null;
     }

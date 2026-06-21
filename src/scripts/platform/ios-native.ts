@@ -11,7 +11,7 @@ import type { PlaybackEngine, PlaybackOptions } from '~/platform/native';
 let initialized = false;
 let nativeReady = false;
 
-function isIosPlatform(): boolean {
+export function isIosPlatform(): boolean {
     return Capacitor.getPlatform() === 'ios';
 }
 
@@ -79,9 +79,7 @@ async function stopIosNativePlayback(): Promise<boolean> {
     }
 }
 
-async function addIosBeatListener(
-    handler: (beatIndex: number) => void
-): Promise<PluginListenerHandle | null> {
+async function addIosBeatListener(handler: (beatIndex: number) => void): Promise<PluginListenerHandle | null> {
     if (!canUseIosNativePlayback()) {
         return null;
     }

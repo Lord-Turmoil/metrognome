@@ -1,7 +1,8 @@
 @font-face {
     font-family: 'Comic Sans MS Fallback';
     src: url('../../public/fonts/ComicSansMS.eot');
-    src: url('../../public/fonts/ComicSansMS.eot?#iefix') format('embedded-opentype'),
+    src:
+        url('../../public/fonts/ComicSansMS.eot?#iefix') format('embedded-opentype'),
         url('../../public/fonts/ComicSansMS.woff2') format('woff2'),
         url('../../public/fonts/ComicSansMS.woff') format('woff'),
         url('../../public/fonts/ComicSansMS.ttf') format('truetype'),
@@ -35,7 +36,7 @@ li {
 
 .clearfix:before,
 .clearfix::after {
-    content: "";
+    content: '';
     display: table;
 }
 
@@ -93,6 +94,7 @@ input {
 #app.web {
     padding-top: 16px;
     padding-bottom: 16px;
+    box-sizing: border-box;
 }
 
 .Main {
@@ -145,4 +147,19 @@ hr.divider {
 
 .expandable.expand {
     max-height: 500px;
+}
+
+body.focused {
+    height: 100vh;
+}
+
+body.focused main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+body.focused main > div.Header > .non-focus,
+body.focused main > div.Main > .non-focus {
+    display: none;
 }
