@@ -56,12 +56,16 @@ class Metrognome extends App {
         this.addEventListener('play', 'click', () => {
             bus.emit('toggle-play', { replay: false });
         });
-        document.addEventListener("keydown", function (e) {
-            if (e.code === "Space") {
-                bus.emit('toggle-play', { replay: false });
-                e.preventDefault();
-            }
-        }, false);
+        document.addEventListener(
+            'keydown',
+            function (e) {
+                if (e.code === 'Space') {
+                    bus.emit('toggle-play', { replay: false });
+                    e.preventDefault();
+                }
+            },
+            false
+        );
 
         this.addEventListener('tap', 'click', () => {
             bus.emit('tap');

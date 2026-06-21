@@ -1,4 +1,4 @@
-import type { PluginListenerHandle } from '@capacitor/core';
+import { Capacitor, type PluginListenerHandle } from '@capacitor/core';
 
 import { Speaker, Waveform } from '~/extensions/speaker';
 import type { PlaybackEngine, PlaybackOptions } from '~/platform/native';
@@ -8,6 +8,10 @@ const TOK_FREQ = 800;
 const TAK_FREQ = 600;
 
 type Listener = (beatIndex: number) => void;
+
+export function isWebPlatform(): boolean {
+    return Capacitor.getPlatform() === 'web';
+}
 
 /**
  * Web Audio playback engine. Mirrors the interface of the Android and iOS
@@ -50,8 +54,7 @@ class WebPlaybackEngine implements PlaybackEngine {
 
     async update(options: PlaybackOptions): Promise<boolean> {
         const structural =
-            this.running &&
-            (options.beats !== this.beats || options.subdivision.length !== this.subdivision.length);
+            this.running && (options.beats !== this.beats || options.subdivision.length !== this.subdivision.length);
         this.applyOptions(options);
         if (!this.running) {
             return true;
