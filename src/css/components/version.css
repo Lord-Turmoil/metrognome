@@ -17,6 +17,13 @@
     border-radius: 1000px;
 }
 
+.VersionWeb__downloads button.disabled,
+.VersionAndroid__downloads button.disabled,
+.VersioniOS__downloads button.disabled {
+    background-image: linear-gradient(135deg, #d7d2cc, #bec7ce);
+    cursor: not-allowed;
+}
+
 .changelog.messages {
     margin: 8px auto;
     max-width: min(90%, 480px);

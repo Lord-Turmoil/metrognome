@@ -1,6 +1,12 @@
-import { VersionMeta } from '~/models';
+import { CURRENT_VERSION, PRERELEASE_VERSION, VersionMeta } from '~/models';
 import { PlatformModule } from '~/extensions/module';
-import { displayVersion, fetchMeta, showDisconnectedPlaceholder, updateChangelog } from '~/platform/base';
+import {
+    displayVersion,
+    fetchMeta,
+    isNewerVersion,
+    showDisconnectedPlaceholder,
+    updateChangelog,
+} from '~/platform/base';
 import { getElementByIdOrThrow, querySelectorAll } from '~/extensions/dom';
 import { PLATFORM_ELEMENT_IDS } from '~/platform/config';
 
@@ -15,6 +21,8 @@ class WebModule extends PlatformModule {
     }
 
     private async loadMetaInBackground(): Promise<void> {
+        this.updateVersionText(CURRENT_VERSION, PRERELEASE_VERSION);
+
         const meta = await fetchMeta();
         if (!meta.ok) {
             console.warn(`[platform:web] Skip version update UI because ${meta.reason}`);
@@ -22,16 +30,20 @@ class WebModule extends PlatformModule {
             return;
         }
 
-        this.updateVersionText(meta.appMeta.latest);
+        this.updateVersionText(meta.appMeta.latest, PRERELEASE_VERSION);
         this.updateDownloadLink(meta.versionMeta);
 
         updateChangelog('web', meta.versionMeta);
         displayVersion('web');
     }
 
-    private updateVersionText(version: string): void {
+    private updateVersionText(version: string, prerelease: string): void {
         querySelectorAll<HTMLElement>(PLATFORM_ELEMENT_IDS.web.versionTextSelector).forEach((element) => {
-            element.textContent = version;
+            if (isNewerVersion(version, prerelease)) {
+                element.textContent = `${version} (${prerelease})`;
+            } else {
+                element.textContent = version;
+            }
         });
     }
 

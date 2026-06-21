@@ -110,12 +110,12 @@ export function showDisconnectedPlaceholder(platform: MetaDisplayPlatform): void
     placeholder.textContent = DISCONNECTED_PLACEHOLDER_TEXT;
 
     if (platform === 'web') {
-        document.getElementById(PLATFORM_ELEMENT_IDS.web.downloadAndroid)?.setAttribute('disabled', 'true');
-        document.getElementById(PLATFORM_ELEMENT_IDS.web.downloadIos)?.setAttribute('disabled', 'true');
+        document.getElementById(PLATFORM_ELEMENT_IDS.web.downloadAndroid)?.classList.add('disabled');
+        document.getElementById(PLATFORM_ELEMENT_IDS.web.downloadIos)?.classList.add('disabled');
     } else {
         document.getElementById(PLATFORM_ELEMENT_IDS.android.updateBanner)?.setAttribute('style', 'display: none');
         document.getElementById(PLATFORM_ELEMENT_IDS.android.latestBanner)?.setAttribute('style', 'display: none');
-        document.getElementById(PLATFORM_ELEMENT_IDS.android.downloadUpdate)?.setAttribute('disabled', 'true');
+        document.getElementById(PLATFORM_ELEMENT_IDS.android.downloadUpdate)?.classList.add('disabled');
     }
 }
 
@@ -133,19 +133,47 @@ export function updateChangelog(platform: SupportedPlatform, versionMeta: Versio
     bus.emit('update-language');
 }
 
-export function isNewerVersion(current: string, latest: string): boolean {
-    const currentParts = current.split('.').map(Number);
-    const latestParts = latest.split('.').map(Number);
+interface VersionParts {
+    major: number;
+    minor: number;
+    patch: number;
+}
 
-    for (let i = 0; i < Math.max(currentParts.length, latestParts.length); i++) {
-        const currentPart = currentParts[i] || 0;
-        const latestPart = latestParts[i] || 0;
-
-        if (latestPart > currentPart) {
-            return true;
-        } else if (latestPart < currentPart) {
-            return false;
-        }
+function parseVersion(version: string): VersionParts {
+    let parts = version.split('.').map(Number);
+    if (parts.length < 3) {
+        parts = parts.fill(0, parts.length, 2);
     }
-    return false;
+    return { major: parts[0], minor: parts[1], patch: parts[2] };
+}
+
+function formatVersion(version: VersionParts): string {
+    return `${version.major}.${version.minor}.${version.patch}`;
+}
+
+/**
+ * Compare two versions.
+ *
+ * @param current base version
+ * @param latest version to compare
+ * @returns true if latest is larger than current
+ */
+function compareVersionParts(current: VersionParts, latest: VersionParts): number {
+    if (current.major != latest.major) {
+        return current.major - latest.major;
+    } else if (current.minor != latest.minor) {
+        return current.minor - latest.minor;
+    } else {
+        return current.patch - latest.patch;
+    }
+}
+
+export function isNewerVersion(current: string, latest: string): boolean {
+    return compareVersionParts(parseVersion(current), parseVersion(latest)) < 0;
+}
+
+export function getLatestVersion(version: string, ...versions: string[]): string {
+    versions.push(version);
+    versions.sort((a, b) => compareVersionParts(parseVersion(b), parseVersion(a)));
+    return versions[0];
 }
