@@ -14,6 +14,7 @@ export interface VersionMeta {
 }
 
 export const CURRENT_VERSION = '1.5.2';
+export const PRERELEASE_VERSION = '1.6.0';
 
 function isRecord(value: unknown): value is Record<string, unknown> {
     return typeof value === 'object' && value !== null;

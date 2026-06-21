@@ -139,6 +139,10 @@ hr.divider {
     transform: scale(1.05);
 }
 
+.shadow-light.disabled:hover {
+    transform: scale(1);
+}
+
 .expandable {
     overflow-y: hidden;
     max-height: 0;
