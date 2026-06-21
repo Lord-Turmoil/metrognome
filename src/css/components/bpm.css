@@ -15,7 +15,7 @@
 
 .BPM__controls .controls .item button {
     padding: var(--size-xxs);
-    border-radius: 50%
+    border-radius: 50%;
 }
 
 .BPM__controls .controls .item button img {
@@ -47,5 +47,5 @@
 
 #bpm {
     width: 80%;
-    font-size: var(--size-xxl)
+    font-size: var(--size-xxl);
 }

@@ -1,31 +1,31 @@
 .orange-grad {
-    background-image: linear-gradient(135deg, #FCCF31 10%, #F55555 100%);
+    background-image: linear-gradient(135deg, #fccf31 10%, #f55555 100%);
 }
 
 .purple-grad {
-    background-image: linear-gradient(135deg, #EE9AE5 10%, #5961F9 100%);
+    background-image: linear-gradient(135deg, #ee9ae5 10%, #5961f9 100%);
 }
 
 .yello-grad {
-    background-image: linear-gradient(135deg, #FDEB71 10%, #F8D800 100%);
+    background-image: linear-gradient(135deg, #fdeb71 10%, #f8d800 100%);
 }
 
 .blue-grad {
-    background-image: linear-gradient(135deg, #2AFADF 10%, #4C83FF 100%);
+    background-image: linear-gradient(135deg, #2afadf 10%, #4c83ff 100%);
 }
 
 .green-red-grad {
     background-size: 200% 200%;
     background-repeat: no-repeat;
-    background-image: linear-gradient(135deg, #FFF720 5%, #3CD500 45%, #FFB199 55%, #FF0844 95%);
+    background-image: linear-gradient(135deg, #fff720 5%, #3cd500 45%, #ffb199 55%, #ff0844 95%);
 }
 
 .grey-green-grad {
     background-size: 200% 200%;
     background-repeat: no-repeat;
-    background-image: linear-gradient(135deg, #a7a6cb 5%, #8989ba 45%, #FFF720 55%, #3CD500 95%);
+    background-image: linear-gradient(135deg, #a7a6cb 5%, #8989ba 45%, #fff720 55%, #3cd500 95%);
 }
 
 .green-grad {
-    background-image: linear-gradient(135deg, #FFF720 5%, #3CD500 95%);
+    background-image: linear-gradient(135deg, #fff720 5%, #3cd500 95%);
 }

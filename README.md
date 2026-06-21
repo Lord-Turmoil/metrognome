@@ -4,7 +4,7 @@
 
 Copyright &copy; Tony's Studio 2022 - 2026
 
------
+---
 
 [![Build](https://github.com/Lord-Turmoil/metrognome/actions/workflows/static.yml/badge.svg?branch=main)](https://github.com/Lord-Turmoil/metrognome/actions/workflows/static.yml)
 

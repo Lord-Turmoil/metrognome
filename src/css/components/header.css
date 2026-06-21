@@ -16,15 +16,15 @@
 }
 
 .Header__badge.web {
-    background-image: linear-gradient(135deg, #FFF720 5%, #3CD500 95%);
+    background-image: linear-gradient(135deg, #fff720 5%, #3cd500 95%);
 }
 
 .Header__badge.android {
-    background-image: linear-gradient(135deg, #FCCF31 10%, #F55555 100%);
+    background-image: linear-gradient(135deg, #fccf31 10%, #f55555 100%);
 }
 
 .Header__badge.ios {
-    background-image: linear-gradient(135deg, #EE9AE5 10%, #5961F9 100%);
+    background-image: linear-gradient(135deg, #ee9ae5 10%, #5961f9 100%);
 }
 
 #title {
@@ -45,12 +45,12 @@
     height: calc(var(--size-xs) * 3);
     line-height: calc(var(--size-xs) * 2);
     font-size: var(--size-xs);
-    animation: scroll 25.0s linear infinite;
+    animation: scroll 25s linear infinite;
 }
 
 @media (max-width: 768px) {
     .Header__slogan .marquee {
-        animation: scroll 15.0s linear infinite;
+        animation: scroll 15s linear infinite;
     }
 }
 
