@@ -1,6 +1,6 @@
 #beats {
     width: 40%;
-    font-size: var(--size-xl)
+    font-size: var(--size-xl);
 }
 
 .Beat__controls {
@@ -37,4 +37,3 @@
 #stress.no {
     background-position: 100% 100%;
 }
-

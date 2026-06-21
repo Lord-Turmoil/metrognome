@@ -1,0 +1,10 @@
+.vscode/
+.github/
+.claude/
+
+node_modules/
+
+public/
+publish/
+
+tsconfig.json

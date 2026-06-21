@@ -1,14 +1,14 @@
 {
-  "appId": "com.zhengyaoliu.metrognome",
-  "appName": "Metrognome",
-  "webDir": "dist",
-  "plugins": {
-    "SplashScreen": {
-      "launchAutoHide": true
+    "appId": "com.zhengyaoliu.metrognome",
+    "appName": "Metrognome",
+    "webDir": "dist",
+    "plugins": {
+        "SplashScreen": {
+            "launchAutoHide": true
+        }
+    },
+    "server": {
+        "hostname": "metrognome.zhengyaoliu.com",
+        "androidScheme": "https"
     }
-  },
-  "server": {
-    "hostname": "metrognome.zhengyaoliu.com",
-    "androidScheme": "https"
-  }
 }
