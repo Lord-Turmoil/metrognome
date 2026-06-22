@@ -18,6 +18,9 @@ class WebModule extends PlatformModule {
                 showDisconnectedPlaceholder('web');
             });
         }, 0);
+
+        document.getElementById('keyboard-hr')?.style.removeProperty('display');
+        document.getElementById('keyboard-div')?.style.removeProperty('display');
     }
 
     private async loadMetaInBackground(): Promise<void> {

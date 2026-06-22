@@ -38,8 +38,10 @@
         <link rel="stylesheet" href="./src/css/components/header.css" />
         <link rel="stylesheet" href="./src/css/components/play.css" />
         <link rel="stylesheet" href="./src/css/components/subdivision.css" />
+        <link rel="stylesheet" href="./src/css/components/keyboard.css" />
         <link rel="stylesheet" href="./src/css/components/version.css" />
         <link rel="stylesheet" href="./src/css/components/sound.css" />
+        <link rel="stylesheet" href="./node_modules/keyboard-css/dist/css/main.min.css" />
     </head>
 
     <body>
@@ -189,6 +191,32 @@
                                 <img src="imgs/control/wave-triangle.svg" alt="Triangle" />
                             </li>
                         </ul>
+                    </div>
+                </div>
+
+                <!-- Keyboard -->
+                <hr id="keyboard-hr" class="divider non-focus" style="display: none" />
+                <div id="keyboard-div" class="Section non-focus" style="display: none">
+                    <div class="Keyboard">
+                        <h2 class="i18n" data-i18n="keyboard.title"></h2>
+                        <table class="Keyboard__table">
+                            <tr>
+                                <td colspan="2"><kbd class="kbc-button">Space</kbd></td>
+                                <td colspan="2"><span class="i18n" data-i18n="keyboard.key-space"></span></td>
+                            </tr>
+                            <tr>
+                                <td><kbd class="kbc-button">&#x2192;</kbd></td>
+                                <td><span class="i18n" data-i18n="keyboard.key-right"></span></td>
+                                <td><kbd class="kbc-button">&#x2191;</kbd></td>
+                                <td><span class="i18n" data-i18n="keyboard.key-up"></span></td>
+                            </tr>
+                            <tr>
+                                <td><kbd class="kbc-button">&#8592;</kbd></td>
+                                <td><span class="i18n" data-i18n="keyboard.key-left"></span></td>
+                                <td><kbd class="kbc-button">&#x2193;</kbd></td>
+                                <td><span class="i18n" data-i18n="keyboard.key-down"></span></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
 

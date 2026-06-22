@@ -27,6 +27,7 @@
         "@capacitor/core": "^8.3.4",
         "@capacitor/ios": "^8.3.4",
         "capacitor-metronome-background": "file:plugins/capacitor-metronome-background",
+        "keyboard-css": "^1.2.4",
         "mitt": "^3.0.1"
     },
     "devDependencies": {
