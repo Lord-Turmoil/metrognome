@@ -72,7 +72,8 @@ button {
 }
 
 body {
-    background-image: linear-gradient(315deg, #fdcbf1 0%, #fdcbf1 1%, #e6dee9 100%);
+    /* background-image: linear-gradient(315deg, #fdcbf1 0%, #fdcbf1 1%, #e6dee9 100%); */
+    background: #fdcbf1;
 }
 
 body,
@@ -161,9 +162,16 @@ body.focused main {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    box-sizing: border-box;
 }
 
 body.focused main > div.Header > .non-focus,
 body.focused main > div.Main > .non-focus {
     display: none;
+}
+
+body.focused main > div.Main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }

@@ -47,7 +47,7 @@ class FocusModule extends Module {
                 document.documentElement.requestFullscreen();
             }
         } else {
-            if (document.exitFullscreen) {
+            if (document.fullscreenElement) {
                 document.exitFullscreen();
             }
         }
