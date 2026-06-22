@@ -1,6 +1,16 @@
 import { App } from '~/extensions/module';
 import bus, { Mode } from '~/extensions/event';
 
+interface KeyAction {
+    key: string;
+    code: string;
+    action: () => void;
+}
+
+function createAction(key: string, code: string, action: () => void): KeyAction {
+    return { key, code, action };
+}
+
 class Metrognome extends App {
     private mode: Mode = 'play';
 
@@ -56,16 +66,6 @@ class Metrognome extends App {
         this.addEventListener('play', 'click', () => {
             bus.emit('toggle-play', { replay: false });
         });
-        document.addEventListener(
-            'keydown',
-            function (e) {
-                if (e.code === 'Space') {
-                    bus.emit('toggle-play', { replay: false });
-                    e.preventDefault();
-                }
-            },
-            false
-        );
 
         this.addEventListener('tap', 'click', () => {
             bus.emit('tap');
@@ -77,6 +77,34 @@ class Metrognome extends App {
 
         this.addEventListener('focus', 'click', () => {
             bus.emit('toggle-focus');
+        });
+
+        const actions: KeyAction[] = [
+            createAction(' ', 'Space', () => {
+                bus.emit('toggle-play', { replay: false });
+            }),
+            createAction('ArrowRight', 'ArrowRight', () => {
+                bus.emit('change-bpm', { action: 'increase', value: 1 });
+            }),
+            createAction('ArrowUp', 'ArrowUp', () => {
+                bus.emit('change-bpm', { action: 'increase', value: 5 });
+            }),
+            createAction('ArrowLeft', 'ArrowLeft', () => {
+                bus.emit('change-bpm', { action: 'decrease', value: 1 });
+            }),
+            createAction('ArrowDown', 'ArrowDown', () => {
+                bus.emit('change-bpm', { action: 'decrease', value: 5 });
+            }),
+        ];
+
+        document.addEventListener('keydown', function (e) {
+            for (let action of actions) {
+                if (e.key === action.key || e.code === action.code) {
+                    action.action();
+                    e.preventDefault();
+                    break;
+                }
+            }
         });
     }
 

@@ -3,7 +3,7 @@ import { Module } from '~/extensions/module';
 import bus, { ChangeBpmEvent } from '~/extensions/event';
 
 const MIN_BPM = 1;
-const MAX_BPM = 320;
+const MAX_BPM = 1024;
 const DEFAULT_BPM = 60;
 
 class BpmModule extends Module {
@@ -20,6 +20,8 @@ class BpmModule extends Module {
         bus.on('update-bpm', this.onUpdateBpm.bind(this));
 
         bus.emit('bpm-changed', this.bpm);
+
+        this.input.setAttribute('placeholder', `${MIN_BPM} ~ ${MAX_BPM}`);
     }
 
     private onChangeBpm(event: ChangeBpmEvent): void {
