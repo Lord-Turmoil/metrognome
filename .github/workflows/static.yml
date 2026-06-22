@@ -42,12 +42,12 @@ jobs:
         env:
           VITE_BASE_URL: ${{ vars.VITE_BASE_URL }}
           VITE_WEB_URL: ${{ vars.VITE_WEB_URL }}
+          VITE_APP_STORE_URL: ${{ vars.VITE_APP_STORE_URL }}
         run: |
           cd plugins\capacitor-metronome-background
           npm run build
-          cd ../..
-          npm run build
-          python scripts/post_build.py
+          cd ..\..
+          npm run build:github
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
