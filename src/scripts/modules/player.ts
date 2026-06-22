@@ -41,7 +41,7 @@ class Player extends Module {
         bus.on('waveform-changed', this.onWaveformChanged.bind(this));
 
         bus.on('toggle-play', this.onTogglePlay.bind(this));
-        bus.on('switch', this.onSwitch.bind(this));
+        bus.on('toggle-mode', this.onToggleMode.bind(this));
 
         this.updateDisplay();
     }
@@ -89,7 +89,7 @@ class Player extends Module {
         }
     }
 
-    private onSwitch(): void {
+    private onToggleMode(): void {
         if (this.isPlaying()) {
             this.stop();
             this.updateDisplay();

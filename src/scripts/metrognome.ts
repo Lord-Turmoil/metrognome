@@ -2,13 +2,17 @@ import { App } from '~/extensions/module';
 import bus, { Mode } from '~/extensions/event';
 
 interface KeyAction {
-    key: string;
+    keys: string[];
     code: string;
     action: () => void;
 }
 
-function createAction(key: string, code: string, action: () => void): KeyAction {
-    return { key, code, action };
+function createAction(key: string | string[], code: string, action: () => void): KeyAction {
+    if (key instanceof Array) {
+        return { keys: key, code, action };
+    } else {
+        return { keys: [key], code: code, action: action };
+    }
 }
 
 class Metrognome extends App {
@@ -16,10 +20,6 @@ class Metrognome extends App {
 
     constructor() {
         super();
-
-        this.addEventListener('language', 'click', () => {
-            bus.emit('change-language');
-        });
 
         this.addEventListener('bpm-decrease-5', 'click', () => {
             bus.emit('change-bpm', { action: 'decrease', value: 5 });
@@ -71,41 +71,73 @@ class Metrognome extends App {
             bus.emit('tap');
         });
 
-        this.addEventListener('switch', 'click', () => {
-            this.toggleMode();
+        this.addEventListener('mode', 'click', () => {
+            bus.emit('toggle-mode');
         });
 
         this.addEventListener('focus', 'click', () => {
             bus.emit('toggle-focus');
         });
 
+        this.addEventListener('language', 'click', () => {
+            bus.emit('toggle-language');
+        });
+
         const actions: KeyAction[] = [
             createAction(' ', 'Space', () => {
-                bus.emit('toggle-play', { replay: false });
+                if (this.mode === 'play') {
+                    bus.emit('toggle-play', { replay: false });
+                } else if (this.mode === 'tap') {
+                    bus.emit('tap');
+                }
             }),
-            createAction('ArrowRight', 'ArrowRight', () => {
+
+            createAction('ArrowUp', 'ArrowUp', () => {
                 bus.emit('change-bpm', { action: 'increase', value: 1 });
             }),
-            createAction('ArrowUp', 'ArrowUp', () => {
-                bus.emit('change-bpm', { action: 'increase', value: 5 });
-            }),
-            createAction('ArrowLeft', 'ArrowLeft', () => {
+            createAction('ArrowDown', 'ArrowDown', () => {
                 bus.emit('change-bpm', { action: 'decrease', value: 1 });
             }),
-            createAction('ArrowDown', 'ArrowDown', () => {
-                bus.emit('change-bpm', { action: 'decrease', value: 5 });
+            createAction('ArrowRight', 'ArrowRight', () => {
+                bus.emit('change-beats', { action: 'increase', value: 1 });
+            }),
+            createAction('ArrowLeft', 'ArrowLeft', () => {
+                bus.emit('change-beats', { action: 'decrease', value: 1 });
+            }),
+
+            createAction(['w', 'W'], 'KeyW', () => {
+                bus.emit('toggle-waveform');
+            }),
+            createAction(['s', 'S'], 'KeyS', () => {
+                bus.emit('toggle-subdivision');
+            }),
+            createAction(['b', 'B'], 'KeyB', () => {
+                bus.emit('toggle-stress');
+            }),
+
+            createAction(['f', 'F'], 'KeyF', () => {
+                bus.emit('toggle-focus');
+            }),
+            createAction(['m', 'M'], 'KeyM', () => {
+                bus.emit('toggle-mode');
+            }),
+
+            createAction(['t', 'T'], 'KeyT', () => {
+                bus.emit('toggle-language');
             }),
         ];
 
         document.addEventListener('keydown', function (e) {
             for (let action of actions) {
-                if (e.key === action.key || e.code === action.code) {
+                if (e.code === action.code || action.keys.includes(e.key)) {
                     action.action();
                     e.preventDefault();
                     break;
                 }
             }
         });
+
+        bus.on('toggle-mode', this.onToggleMode.bind(this));
     }
 
     private addEventListener(id: string, event: string, callback: () => void): void {
@@ -117,7 +149,7 @@ class Metrognome extends App {
         element.addEventListener(event, callback);
     }
 
-    private toggleMode(): void {
+    private onToggleMode(): void {
         if (this.mode === 'play') {
             document.getElementById('play')!.style.display = 'none';
             document.getElementById('tap')!.style.removeProperty('display');
@@ -127,7 +159,7 @@ class Metrognome extends App {
             document.getElementById('tap')!.style.display = 'none';
             this.mode = 'play';
         }
-        bus.emit('switch', this.mode);
+        bus.emit('change-mode', this.mode);
     }
 }
 

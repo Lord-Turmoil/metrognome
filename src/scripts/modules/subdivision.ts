@@ -31,6 +31,7 @@ class SubdivisionModule extends Module {
         this.subdivisionList[this.currentSubdivision].classList.add('active');
 
         bus.on('change-subdivision', this.onChangeSubdivision.bind(this));
+        bus.on('toggle-subdivision', this.onToggleSubdivision.bind(this));
 
         bus.emit('subdivision-changed', SUBDIVISION[this.currentSubdivision]);
     }
@@ -50,6 +51,11 @@ class SubdivisionModule extends Module {
         Storage.save('subdivision', this.currentSubdivision);
 
         bus.emit('subdivision-changed', SUBDIVISION[this.currentSubdivision]);
+    }
+
+    private onToggleSubdivision(): void {
+        const nextWaveform = (this.currentSubdivision + 1) % (MAX_SUBDIVISION + 1);
+        this.onChangeSubdivision(nextWaveform);
     }
 }
 

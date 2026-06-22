@@ -3,9 +3,8 @@ import mitt from 'mitt';
 import { Waveform } from '~/extensions/speaker';
 
 type Events = {
-    'change-language': void;
+    'toggle-language': void;
     'update-language': void;
-    'change-mode': void;
 
     'change-bpm': ChangeBpmEvent;
     'bpm-changed': number;
@@ -17,21 +16,24 @@ type Events = {
     'stress-changed': boolean;
 
     'change-subdivision': number;
+    'toggle-subdivision': void;
     'subdivision-changed': number[];
 
     'change-waveform': number;
+    'toggle-waveform': void;
     'waveform-changed': Waveform;
 
     'toggle-play': PlayEvent;
-    play: void;
-    stop: void;
 
-    beat: BeatEvent;
-
-    switch: Mode;
-    tap: void;
+    'toggle-mode': void;
+    'change-mode': Mode;
 
     'toggle-focus': void;
+
+    play: void;
+    stop: void;
+    beat: BeatEvent;
+    tap: void;
 };
 
 export type ChangeBpmEvent = {
@@ -41,7 +43,7 @@ export type ChangeBpmEvent = {
 
 export type ChangeBeatsEvent = {
     action: 'increase' | 'decrease' | 'set';
-    value: number;
+    value: number; // 'set' will ignore value
 };
 
 export type PlayEvent = {

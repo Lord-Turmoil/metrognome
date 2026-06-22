@@ -24,11 +24,11 @@ class LanguageManager extends Module {
 
         this.updateDisplayLanguage();
 
-        bus.on('change-language', this.onChangeLanguage.bind(this));
+        bus.on('toggle-language', this.onToggleLanguage.bind(this));
         bus.on('update-language', this.updateDisplayLanguage.bind(this));
     }
 
-    private onChangeLanguage(): void {
+    private onToggleLanguage(): void {
         this.currentLanguage = (this.currentLanguage + 1) % this.supportedLanguages.length;
 
         this.updateDisplayLanguage();

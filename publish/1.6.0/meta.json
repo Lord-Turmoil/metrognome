@@ -1,0 +1,17 @@
+{
+    "version": "1.6.0",
+    "date": "2026-07-13",
+    "changelog": [
+        {
+            "en": "Add focus mode",
+            "zh": "增加全屏模式",
+            "ru": "Добавить режим фокуса"
+        },
+        {
+            "en": "Add shortcuts for Web version",
+            "zh": "为网页版添加快捷键",
+            "ru": "Добавить поддержку горячих клавиш для Web-версии"
+        }
+    ],
+    "android": "https://tonys-studio-1308383348.cos.ap-beijing.myqcloud.com/apps/metrognome/1.6.0/metrognome-1.6.0.apk"
+}

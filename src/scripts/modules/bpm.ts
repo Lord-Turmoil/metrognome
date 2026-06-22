@@ -3,12 +3,25 @@ import { Module } from '~/extensions/module';
 import bus, { ChangeBpmEvent } from '~/extensions/event';
 
 const MIN_BPM = 1;
-const MAX_BPM = 1024;
+const MAX_BPM = 320;
 const DEFAULT_BPM = 60;
+const HOLD_THRESHOLD = 400;
+const HOLD_BASELINE = 800;
+
+interface HoldStatus {
+    action: string;
+    elapsed: number;
+    lastTimestamp: number;
+}
 
 class BpmModule extends Module {
     private bpm: number = DEFAULT_BPM;
     private input: HTMLInputElement = undefined!;
+    private holdStatus: HoldStatus = {
+        action: '',
+        elapsed: 0,
+        lastTimestamp: 0,
+    };
 
     mount(): void {
         this.bpm = Storage.loadInt('bpm', DEFAULT_BPM);
@@ -24,12 +37,41 @@ class BpmModule extends Module {
         this.input.setAttribute('placeholder', `${MIN_BPM} ~ ${MAX_BPM}`);
     }
 
+    private computeAmplifyFactor(action: string, timestamp: number): number {
+        if (action != 'increase' && action != 'decrease') {
+            return 1.0;
+        }
+
+        if (this.holdStatus.action != action) {
+            this.holdStatus.action = action;
+            this.holdStatus.lastTimestamp = timestamp;
+            this.holdStatus.elapsed = 0;
+            return 1.0;
+        }
+
+        if (timestamp - this.holdStatus.lastTimestamp > HOLD_THRESHOLD) {
+            this.holdStatus.lastTimestamp = timestamp;
+            this.holdStatus.elapsed = 0;
+            return 1.0;
+        }
+
+        this.holdStatus.elapsed += timestamp - this.holdStatus.lastTimestamp;
+        this.holdStatus.lastTimestamp = timestamp;
+
+        return Math.min(Math.max(1.0, Math.pow(this.holdStatus.elapsed / HOLD_BASELINE, 1.5)), 100);
+    }
+
     private onChangeBpm(event: ChangeBpmEvent): void {
         let bpm = this.bpm;
+        const currentTimestamp = Date.now();
+        const factor = this.computeAmplifyFactor(event.action, currentTimestamp);
+
+        console.log(factor);
+
         if (event.action === 'increase') {
-            bpm += event.value;
+            bpm = Math.ceil(bpm + event.value * factor);
         } else if (event.action === 'decrease') {
-            bpm -= event.value;
+            bpm = Math.floor(bpm - event.value * factor);
         } else if (event.action === 'set') {
             bpm = parseInt(this.input.value, 10);
             if (isNaN(bpm)) {

@@ -23,6 +23,7 @@ class SoundModule extends Module {
         this.waveformList[this.currentWaveform].classList.add('active');
 
         bus.on('change-waveform', this.onChangeWaveform.bind(this));
+        bus.on('toggle-waveform', this.onToggleWaveform.bind(this));
 
         bus.emit('waveform-changed', WAVEFORM[this.currentWaveform]);
     }
@@ -42,6 +43,11 @@ class SoundModule extends Module {
         Storage.save('waveform', this.currentWaveform);
 
         bus.emit('waveform-changed', WAVEFORM[this.currentWaveform]);
+    }
+
+    private onToggleWaveform(): void {
+        const nextWaveform = (this.currentWaveform + 1) % (MAX_WAVEFORM + 1);
+        this.onChangeWaveform(nextWaveform);
     }
 }
 

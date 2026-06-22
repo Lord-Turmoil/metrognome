@@ -18,7 +18,7 @@ class TapModule extends Module {
 
     mount() {
         bus.on('bpm-changed', this.onBpmChanged.bind(this));
-        bus.on('switch', this.onSwitch.bind(this));
+        bus.on('change-mode', this.onChangeMode.bind(this));
         bus.on('tap', this.onTap.bind(this));
     }
 
@@ -26,7 +26,7 @@ class TapModule extends Module {
         this.currentBpm = bpm;
     }
 
-    private onSwitch(mode: Mode): void {
+    private onChangeMode(mode: Mode): void {
         if (mode !== 'tap') {
             return;
         }

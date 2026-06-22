@@ -7,6 +7,12 @@ class FocusModule extends Module {
 
     mount(): void {
         bus.on('toggle-focus', this.onToggleFocus.bind(this));
+
+        document.addEventListener('fullscreenchange', (e) => {
+            if (!document.fullscreenElement) {
+                this.setFocus(false);
+            }
+        });
     }
 
     private onToggleFocus() {
