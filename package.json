@@ -1,6 +1,6 @@
 {
     "name": "metrognome",
-    "version": "1.5.2",
+    "version": "1.6.0",
     "description": "Clean and simple metronome app",
     "type": "module",
     "keywords": [

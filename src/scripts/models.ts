@@ -13,7 +13,7 @@ export interface VersionMeta {
     android?: string;
 }
 
-export const CURRENT_VERSION = '1.5.2';
+export const CURRENT_VERSION = '1.6.0';
 export const PRERELEASE_VERSION = '1.6.0';
 
 function isRecord(value: unknown): value is Record<string, unknown> {
