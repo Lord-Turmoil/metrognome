@@ -14,15 +14,12 @@
             "vite/client"
         ],
         "skipLibCheck": true,
-        "esModuleInterop": false,
-        "moduleResolution": "Node",
         "resolveJsonModule": true,
         "noEmit": true,
         "outDir": "build",
-        "baseUrl": ".",
         "paths": {
             "~/*": [
-                "src/scripts/*"
+                "./src/scripts/*"
             ]
         }
     }
