@@ -157,6 +157,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 y.parentNode?.insertBefore(t, y);
             })(window as unknown as Record<string, any>, document, 'clarity', 'script', key);
         }
+
+        // show ICP badge for web platform
+        const icpBadge = document.getElementById('icp');
+        if (icpBadge) {
+            icpBadge.style.display = 'block';
+        }
     }
 
     if (platform !== 'web') {
