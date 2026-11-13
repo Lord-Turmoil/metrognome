@@ -61,8 +61,8 @@ describe('platform module rendering', () => {
             .mockResolvedValueOnce({
                 status: 'ok',
                 data: {
-                    latest: '1.4.6',
-                    versions: ['1.4.6'],
+                    latest: CURRENT_VERSION,
+                    versions: [CURRENT_VERSION],
                 },
             })
             .mockResolvedValueOnce({
@@ -84,7 +84,7 @@ describe('platform module rendering', () => {
         const changelog = document.querySelector('.changelog.web') as HTMLUListElement;
         const androidDownloadButton = document.getElementById('web-download-android') as HTMLButtonElement;
 
-        expect(versionText.textContent).toBe('1.4.6');
+        expect(versionText.textContent).toBe(CURRENT_VERSION);
         expect(webSection.style.display).toBe('block');
         expect(wrapper.classList.contains('expand')).toBe(true);
         expect(changelog.children.length).toBe(1);
@@ -98,8 +98,8 @@ describe('platform module rendering', () => {
             .mockResolvedValueOnce({
                 status: 'ok',
                 data: {
-                    latest: '1.5.0',
-                    versions: ['1.5.0', '1.4.6'],
+                    latest: CURRENT_VERSION,
+                    versions: [CURRENT_VERSION],
                 },
             })
             .mockResolvedValueOnce({
@@ -124,7 +124,7 @@ describe('platform module rendering', () => {
         expect(updateBanner.style.display).toBe('block');
         expect(latestBanner.style.display).toBe('none');
         expect(currentVersion.textContent).toBe(CURRENT_VERSION);
-        expect(latestVersion.textContent).toBe('1.5.0');
+        expect(latestVersion.textContent).toBe(CURRENT_VERSION);
         expect(changelog.children.length).toBe(1);
     });
 
