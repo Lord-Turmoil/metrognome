@@ -110,12 +110,21 @@ export function showDisconnectedPlaceholder(platform: MetaDisplayPlatform): void
     placeholder.textContent = DISCONNECTED_PLACEHOLDER_TEXT;
 
     if (platform === 'web') {
-        document.getElementById(PLATFORM_ELEMENT_IDS.web.downloadAndroid)?.classList.add('disabled');
-        document.getElementById(PLATFORM_ELEMENT_IDS.web.downloadIos)?.classList.add('disabled');
+        for (const id of [PLATFORM_ELEMENT_IDS.web.downloadAndroid, PLATFORM_ELEMENT_IDS.web.downloadIos]) {
+            const button = document.getElementById(id);
+            button?.classList.add('disabled');
+            if (button instanceof HTMLButtonElement) {
+                button.disabled = true;
+            }
+        }
     } else {
         document.getElementById(PLATFORM_ELEMENT_IDS.android.updateBanner)?.setAttribute('style', 'display: none');
         document.getElementById(PLATFORM_ELEMENT_IDS.android.latestBanner)?.setAttribute('style', 'display: none');
-        document.getElementById(PLATFORM_ELEMENT_IDS.android.downloadUpdate)?.classList.add('disabled');
+        const button = document.getElementById(PLATFORM_ELEMENT_IDS.android.downloadUpdate);
+        button?.classList.add('disabled');
+        if (button instanceof HTMLButtonElement) {
+            button.disabled = true;
+        }
     }
 }
 
@@ -140,11 +149,12 @@ interface VersionParts {
 }
 
 function parseVersion(version: string): VersionParts {
-    let parts = version.split('.').map(Number);
-    if (parts.length < 3) {
-        parts = parts.fill(0, parts.length, 2);
-    }
-    return { major: parts[0], minor: parts[1], patch: parts[2] };
+    const parts = version.split('.').map(Number);
+    return {
+        major: parts[0] ?? 0,
+        minor: parts[1] ?? 0,
+        patch: parts[2] ?? 0,
+    };
 }
 
 function formatVersion(version: VersionParts): string {
