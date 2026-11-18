@@ -87,7 +87,7 @@ npx cap open ios
 After that, it requires UIBackground Modes capability to be enabled in Xcode with the "Audio, AirPlay, and Picture in Picture" option checked.
 
 > In case Xcode fails to upload the archive, here is a quick fix:
-> 
+>
 > ```
 > brew unlink rsync
 > ```
