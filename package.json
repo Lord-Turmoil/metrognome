@@ -21,24 +21,24 @@
         "deploy": "npm run build && pwsh deploy.ps1"
     },
     "dependencies": {
-        "@aashu-dubey/capacitor-statusbar-safe-area": "^4.0.0",
+        "@aashu-dubey/capacitor-statusbar-safe-area": "^5.0.0",
         "@capacitor-community/keep-awake": "^8.0.1",
-        "@capacitor/android": "^8.3.4",
-        "@capacitor/core": "^8.3.4",
-        "@capacitor/ios": "^8.3.4",
+        "@capacitor/android": "^8.0.0",
+        "@capacitor/core": "^8.0.0",
+        "@capacitor/ios": "^8.0.0",
         "capacitor-metronome-background": "file:plugins/capacitor-metronome-background",
         "keyboard-css": "^1.2.4",
         "mitt": "^3.0.1"
     },
     "devDependencies": {
-        "@capacitor/assets": "^3.0.5",
-        "@capacitor/cli": "^8.3.4",
+        "@capacitor/assets": "^4.0.0",
+        "@capacitor/cli": "^8.0.0",
         "jsdom": "^29.1.1",
-        "prettier": "^3.8.3",
+        "prettier": "^3.10.0",
         "typescript": "^7.0.2",
-        "vite": "^8.0.14",
+        "vite": "^8.3.8",
         "vite-plugin-html-minifier": "^1.0.5",
-        "vitest": "^4.1.7"
+        "vitest": "^5.1.0"
     },
     "author": "Tony S.",
     "license": "MIT",

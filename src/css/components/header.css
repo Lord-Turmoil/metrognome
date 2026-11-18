@@ -48,6 +48,17 @@
     animation: scroll 25s linear infinite;
 }
 
+/* testing */
+.Header__slogan.static {
+    text-align: center !important;
+}
+
+/* testing */
+.Header__slogan.static .marquee {
+    width: auto !important;
+    animation: none !important;
+}
+
 @media (max-width: 768px) {
     .Header__slogan .marquee {
         animation: scroll 15s linear infinite;
