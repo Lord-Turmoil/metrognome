@@ -5,6 +5,19 @@ import bus from '~/extensions/event';
 import Storage from '~/extensions/storage';
 import { Module } from '~/extensions/module';
 
+function getPreferredLanguages(): string[] {
+    let languages: string[] = [];
+    if (typeof navigator !== 'undefined' && navigator.languages) {
+        for (const lang of navigator.languages) {
+            let code = lang.split('-')[0].toLowerCase();
+            if (!languages.includes(code)) {
+                languages.push(code);
+            }
+        }
+    }
+    return languages;
+}
+
 class LanguageManager extends Module {
     private readonly dictionary: Map<string, Map<string, string>> = new Map([
         ['en', new Map<string, string>(Object.entries(EN_DICT))],
@@ -17,11 +30,17 @@ class LanguageManager extends Module {
     private currentLanguage: number = 0;
 
     mount(): void {
-        this.currentLanguage = Storage.loadInt('language', 0);
-        if (this.currentLanguage < 0 || this.currentLanguage >= this.supportedLanguages.length) {
-            this.currentLanguage = 0; // Default to the first language if out of bounds
-        }
+        let candidates = [Storage.loadString('language', '')];
+        candidates.push(...getPreferredLanguages());
 
+        this.currentLanguage = 0;
+        for (const candidate of candidates) {
+            const index = this.supportedLanguages.indexOf(candidate);
+            if (index !== -1) {
+                this.currentLanguage = index;
+                break;
+            }
+        }
         this.updateDisplayLanguage();
 
         bus.on('toggle-language', this.onToggleLanguage.bind(this));
@@ -32,13 +51,14 @@ class LanguageManager extends Module {
         this.currentLanguage = (this.currentLanguage + 1) % this.supportedLanguages.length;
 
         this.updateDisplayLanguage();
-        Storage.save('language', this.currentLanguage);
     }
 
     /**
      * Update all the text in the page.
      */
     private updateDisplayLanguage(): void {
+        Storage.save('language', this.supportedLanguages[this.currentLanguage]);
+
         for (let lang in this.supportedLanguages) {
             document.body.classList.remove(lang);
         }
